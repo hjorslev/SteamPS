@@ -30,7 +30,7 @@ Beware, the following arguments are already used:
     If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit"
 
 .EXAMPLE
-Update-SteamApp -GmaeName 'Arma 3' -SteamUserName 'user' -SteamPassword 'pass' -Path 'C:\Servers'
+Update-SteamApp -GameName 'Arma 3' -SteamUserName 'user' -SteamPassword 'pass' -Path 'C:\Servers'
     Because there are multiple hits when searching for Arma 3, the user will be promoted to select the right application.
 
 Update-SteamApp -AppID 376030 -Path 'C:\Servers'
