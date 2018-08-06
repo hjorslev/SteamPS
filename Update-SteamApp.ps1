@@ -84,6 +84,12 @@ function Update-SteamApp
     
     begin
     {
+        # PowerShell version 5 is required. We stop here if it isn't installed.
+        if (-not ($PSVersionTable.PSVersion.Major -ge 5))
+        {
+            Throw "PowerShell must be version 5 or higher. Your version is $($PSVersionTable.PSVersion.Major)."  
+        }
+
         $SteamCMDx64Location = 'C:\SteamCMD'
         $SteamCMDExecutable = "$($SteamCMDx64Location)\steamcmd.exe"
 
