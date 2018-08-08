@@ -77,7 +77,7 @@ function Update-SteamApp
         )]
         [Security.SecureString]$SteamPassword,
 
-        [string]$Path,
+        [System.IO.FileInfo]$Path,
 
         [string]$Arguments
     )
