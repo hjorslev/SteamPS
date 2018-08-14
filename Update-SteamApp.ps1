@@ -57,7 +57,7 @@ function Update-SteamApp
             ValueFromPipelineByPropertyName = $true,
             ParameterSetName = 'GameName'
         )]
-        [string]$GameName,
+        [string[]]$GameName,
 
         [Parameter(
             Position = 0,
@@ -67,15 +67,10 @@ function Update-SteamApp
         )]
         [int]$AppID,
 
-        [Parameter(
-            Mandatory = $false
-        )]
-        [string]$SteamUserName,
-        
-        [Parameter(
-            Mandatory = $false
-        )]
-        [Security.SecureString]$SteamPassword,
+        [ValidateNotNull()]
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.Credential()]
+        $Credential = [System.Management.Automation.PSCredential]::Empty,
 
         [System.IO.FileInfo]$Path,
 
@@ -93,6 +88,11 @@ function Update-SteamApp
         $SteamCMDx64Location = 'C:\SteamCMD'
         $SteamCMDExecutable = "$($SteamCMDx64Location)\steamcmd.exe"
 
+        # Make Secure.String to plain text string.
+        $SecureString = $Credential | Select-Object -ExpandProperty Password
+        $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecureString)            
+        $PlainPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)    
+
         # If SteamCMD is not located in the following path we install it.
         if (-not (Test-Path -Path $SteamCMDExecutable))
         {
@@ -102,6 +102,8 @@ function Update-SteamApp
                 Write-Verbose -Message 'Creating Temp directory.'
                 New-Item -Path 'C:\' -Name 'Temp' -ItemType Directory | Write-Verbose
             }
+
+            # Download SteamCMD.
             Invoke-WebRequest -Uri 'https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip' -OutFile "$($TempDirectory)\steamcmd.zip"
 
             # Create SteamCMD directory in C:\ if necessary.
@@ -112,7 +114,8 @@ function Update-SteamApp
                 Expand-Archive -Path "$($TempDirectory)\steamcmd.zip" -DestinationPath $SteamCMDx64Location
             }
 
-            Write-Host -Object 'Setting SteamCMD up for the first time. Please wait.' -NoNewline
+            # Doing some initial configuration of SteamCMD. The first time SteamCMD is launched it will need to do some updates.
+            Write-Host -Object 'Setting up SteamCMD for the first time. Please wait.' -NoNewline
             Start-Process -FilePath $SteamCMDExecutable -ArgumentList 'validate +quit' -WindowStyle Hidden
             do
             {
@@ -139,9 +142,9 @@ function Update-SteamApp
         function Use-SteamCMD
         {
             # If Steam username and Steam password are not empty we use them for logging in.
-            if ($null -ne $SteamUserName -and $null -ne $SteamPassword)
+            if ($null -ne $Credential)
             {
-                Start-Process -FilePath $SteamCMDExecutable -NoNewWindow -ArgumentList "+login $($SteamUserName) $($SteamPassword) +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit" -Wait
+                Start-Process -FilePath $SteamCMDExecutable -NoNewWindow -ArgumentList "+login $($Credential | Select-Object -ExpandProperty UserName) $($PlainPassword) +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit" -Wait
             }
             # If Steam username and Steam password are empty we use anonymous login.
             else
@@ -153,35 +156,52 @@ function Update-SteamApp
         # If game is found by searching for game name.
         if ($PSCmdlet.ParameterSetName -eq 'GameName')
         {
-            $SteamApps = $SteamApps | Where-Object -FilterScript {$PSItem.name -like "$($GameName)*"}
+            try
+            {
+                $SteamApps = $SteamApps | Where-Object -FilterScript {$PSItem.name -like "$($GameName)*"}
 
-            # If only one game is found when searching by game name.
-            if (($SteamApps | Measure-Object).Count -eq 1)
-            {
-                Write-Verbose -Message "Only one game found: $($SteamApps.name) / $($SteamApps.appid)."
-                # Put Steam AppID into variable $SteamAppID.
-                $SteamAppID = $SteamApps.appid
+                # If only one game is found when searching by game name.
+                if (($SteamApps | Measure-Object).Count -eq 1)
+                {
+                    Write-Verbose -Message "Only one game found: $($SteamApps.name) / $($SteamApps.appid)."
+                    # Put Steam AppID into variable $SteamAppID.
+                    $SteamAppID = $SteamApps.appid
+                }
+                # If more than one game is found the user is promted to select the exact game.
+                elseif (($SteamApps | Measure-Object).Count -ge 1)
+                {
+                    # An OutGridView is presented to the user where the exact AppID can be located. This variable contains the AppID selected in the Out-GridView.
+                    $SteamAppID = $SteamApps | Out-GridView -Title 'Select the game you wish to update or install.' -PassThru | Select-Object -ExpandProperty appid
+                    Write-Verbose -Message "$($SteamAppID) selected from Out-GridView."
+                }
+                
+                # Install selected Steam application if a SteamAppID has been selected.
+                if (-not ($null -eq $SteamAppID))
+                {
+                    Use-SteamCMD
+                }
             }
-            # If more than one game is found the user is promted to select the exact game.
-            elseif (($SteamApps | Measure-Object).Count -ge 1)
+            catch
             {
-                # An OutGridView is presented to the user where the exact AppID can be located. This variable contains the AppID selected in the Out-GridView.
-                $SteamAppID = $SteamApps | Out-GridView -Title 'Select the game you wish to update or install.' -PassThru | Select-Object -ExpandProperty appid
-                Write-Verbose -Message "$($SteamAppID) selected from Out-GridView."
+                Throw "$($GameName) couldn't be updated."
             }
-            
-            # Install selected Steam application.
-            Use-SteamCMD
-        }
+        } # ParameterSet GameName
 
         # If game is found by using a unique AppID.
         if ($PSCmdlet.ParameterSetName -eq 'AppID')
         {
-            $SteamAppID = $AppID
-            Write-Verbose -Message "The game with Steam AppID $($SteamAppID) is being updated. Please wait for SteamCMD to finish."
+            try
+            {
+                $SteamAppID = $AppID
+                Write-Verbose -Message "The game with Steam AppID $($SteamAppID) is being updated. Please wait for SteamCMD to finish."
 
-            # Install selected Steam application.
-            Use-SteamCMD
-        }
+                # Install selected Steam application.
+                Use-SteamCMD
+            }
+            catch
+            {
+                Throw "$($SteamAppID) coulnd't be updated."
+            }
+        } # ParameterSet AppID
     } # Process
 } # Cmdlet
