@@ -85,13 +85,13 @@ function Update-SteamApp
             Throw "PowerShell must be version 5 or higher. Your version is $($PSVersionTable.PSVersion.Major)."  
         }
 
-        $SteamCMDx64Location = 'C:\SteamCMD'
-        $SteamCMDExecutable = "$($SteamCMDx64Location)\steamcmd.exe"
-
         # Make Secure.String to plain text string.
         $SecureString = $Credential | Select-Object -ExpandProperty Password
         $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecureString)            
-        $PlainPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)    
+        $PlainPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
+
+        $SteamCMDx64Location = 'C:\SteamCMD'
+        $SteamCMDExecutable = "$($SteamCMDx64Location)\steamcmd.exe"    
 
         # If SteamCMD is not located in the following path we install it.
         if (-not (Test-Path -Path $SteamCMDExecutable))
@@ -128,9 +128,29 @@ function Update-SteamApp
         # We only retrieve all Steam apps ID and name if ParameterSetName is GameName.
         if ($PSCmdlet.ParameterSetName -eq 'GameName')
         {
-            Write-Verbose -Message 'Retrieving all Steam applications...'
             # Get most recent list with all Steam Apps ID and corresponding title and put it into a variable.
-            $SteamApps = Invoke-WebRequest -Uri 'https://api.steampowered.com/ISteamApps/GetAppList/v0001/' | Select-Object -ExpandProperty Content | ConvertFrom-Json
+            $SteamAppsJSON = 'C:\Temp\SteamApps.json'
+            function Get-SteamAppData
+            {
+                $SteamApps = Invoke-WebRequest -Uri 'https://api.steampowered.com/ISteamApps/GetAppList/v0001/' | Select-Object -ExpandProperty Content
+                $SteamApps | Out-File -FilePath $SteamAppsJSON
+                $SteamApps = $SteamApps | ConvertFrom-Json
+            }
+            if (-not (Test-Path -Path $SteamAppsJSON))
+            {
+                Get-SteamAppData
+                Write-Verbose -Message "$($SteamAppsJSON) was not found. Download newest version."
+            }
+            if (Test-Path -Path $SteamAppsJSON -OlderThan (Get-Date).AddDays(-7))
+            {
+                Write-Verbose -Message "$($SteamAppsJSON) is older than 7 days. Downloading the newest version..."
+                Get-SteamAppData
+            }
+            else
+            {
+                $SteamApps = Get-Content -Path $SteamAppsJSON | ConvertFrom-Json
+                Write-Verbose -Message "Using $($SteamAppsJSON) as a source since it has been updated within the last 7 days."
+            }
         
             # Access nested object app in apps in applist.
             $SteamApps = $SteamApps.applist.apps.app
