@@ -11,11 +11,8 @@ Enter the name of the app to make a wildcard search for the game.
 .PARAMETER AppID
 Enter the application ID you wish to install.
 
-.PARAMETER SteamUserName
-If the app requires login to install or update, enter your Steam username.
-
-.PARAMETER SteamPassword
-If the app requires login to install or update, enter your Steam password.
+.PARAMETER Credential
+If the app requires login to install or update, enter your Steam username and password.
 
 .PARAMETER Path
 Path to installation folder.
