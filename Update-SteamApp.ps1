@@ -166,13 +166,13 @@ function Update-SteamApp
             if ($null -ne $Credential.UserName)
             {
                 Write-Verbose -Message "Logging into Steam as $($Credential | Select-Object -ExpandProperty UserName)."
-                Start-Process -FilePath $SteamCMDExecutable -NoNewWindow -ArgumentList "+login $($Credential | Select-Object -ExpandProperty UserName) $($PlainPassword) +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit" -Wait
+                Start-Process -FilePath $SteamCMDExecutable -NoNewWindow -ArgumentList "+login $($Credential | Select-Object -ExpandProperty UserName) $($PlainPassword) +force_install_dir `"$($Path)`" +app_update $($SteamAppID) $($Arguments) validate +quit" -Wait
             }
             # If Steam username and Steam password are empty we use anonymous login.
             elseif ($null -eq $Credential.UserName)
             {
                 Write-Verbose -Message 'Using anonymous Steam login.'
-                Start-Process -FilePath $SteamCMDExecutable -NoNewWindow -ArgumentList "+login anonymous +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit" -Wait
+                Start-Process -FilePath $SteamCMDExecutable -NoNewWindow -ArgumentList "+login anonymous +force_install_dir `"$($Path)`" +app_update $($SteamAppID) $($Arguments) validate +quit" -Wait
             }
         }
 
