@@ -148,8 +148,9 @@ function Update-SteamApp
             }
             else
             {
-                $SteamApps = Get-Content -Path $SteamAppsJSON | ConvertFrom-Json
                 Write-Verbose -Message "Using $($SteamAppsJSON) as a source since it has been updated within the last 7 days."
+                Write-Progress -Activity 'Searching SteamApps.json. Please wait.' -PercentComplete 80
+                $SteamApps = Get-Content -Path $SteamAppsJSON | ConvertFrom-Json
             }
         
             # Access nested object app in apps in applist.
@@ -162,13 +163,13 @@ function Update-SteamApp
         function Use-SteamCMD
         {
             # If Steam username and Steam password are not empty we use them for logging in.
-            if ($null -ne $Credential)
+            if ($null -ne $Credential.UserName)
             {
                 Write-Verbose -Message "Logging into Steam as $($Credential | Select-Object -ExpandProperty UserName)."
                 Start-Process -FilePath $SteamCMDExecutable -NoNewWindow -ArgumentList "+login $($Credential | Select-Object -ExpandProperty UserName) $($PlainPassword) +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit" -Wait
             }
             # If Steam username and Steam password are empty we use anonymous login.
-            else
+            elseif ($null -eq $Credential.UserName)
             {
                 Write-Verbose -Message 'Using anonymous Steam login.'
                 Start-Process -FilePath $SteamCMDExecutable -NoNewWindow -ArgumentList "+login anonymous +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit" -Wait
@@ -222,7 +223,7 @@ function Update-SteamApp
             }
             catch
             {
-                Throw "$($SteamAppID) coulnd't be updated."
+                Throw "$($SteamAppID) couldn't be updated."
             }
         } # ParameterSet AppID
     } # Process
