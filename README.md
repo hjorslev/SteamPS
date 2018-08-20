@@ -19,9 +19,9 @@ $PSVersionTable.PSVersion
 ## Examples
 
 ```powershell
-# Because there are multiple hits when searching for Arma 3, the user will be promoted to select the right application.
-Update-SteamApp -GameName 'Arma 3' -SteamUserName 'user' -SteamPassword 'pass' -Path 'C:\Servers'
+# Add a game / server by searching for its name. Because there are multiple hits when searching for Arma 3, the user will be promoted to select the right application.
+Update-SteamApp -GameName 'Arma 3' -Credential Toby -Path 'C:\Servers\Arma3'
 
 # Here we use anonymous login because the particular application (ARK: Survival Evolved Dedicated Server) doesn't require login.
-Update-SteamApp -AppID 376030 -Path 'C:\Servers'
+Update-SteamApp -AppID 376030 -Path 'C:\Servers\Arma3'
 ```
