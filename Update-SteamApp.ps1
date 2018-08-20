@@ -83,9 +83,12 @@ function Update-SteamApp
         }
 
         # Make Secure.String to plain text string.
-        $SecureString = $Credential | Select-Object -ExpandProperty Password
-        $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecureString)            
-        $PlainPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
+        if ($null -eq $Credential)
+        {
+            $SecureString = $Credential | Select-Object -ExpandProperty Password
+            $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecureString)            
+            $PlainPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
+        }
 
         $SteamCMDx64Location = 'C:\SteamCMD'
         $SteamCMDExecutable = "$($SteamCMDx64Location)\steamcmd.exe"    
@@ -188,7 +191,7 @@ function Update-SteamApp
                 elseif (($SteamApps | Measure-Object).Count -ge 1)
                 {
                     # An OutGridView is presented to the user where the exact AppID can be located. This variable contains the AppID selected in the Out-GridView.
-                    $SteamAppID = $SteamApps | Out-GridView -Title 'Select the game you wish to update or install.' -PassThru | Select-Object -ExpandProperty appid
+                    $SteamAppID = $SteamApps | Out-GridView -Title 'Select the game you wish to update or install' -PassThru | Select-Object -ExpandProperty appid
                     Write-Verbose -Message "$($SteamAppID) selected from Out-GridView."
                 }
                 
