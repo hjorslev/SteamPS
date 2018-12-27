@@ -1,5 +1,5 @@
-$Name = 'First Last'
-$TemplatePowerShellModule = 'TemplatePowerShellModule'
+$Name = 'Frederik Hjorslev Poulsen'
+$TemplatePowerShellModule = 'SteamPS'
 
 # Line break for readability in AppVeyor console
 Write-Host -Object ''
@@ -8,11 +8,9 @@ Write-Host -Object ''
 # Environmental Variables Guide: https://www.appveyor.com/docs/environment-variables/
 if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
     Write-Warning -Message "Skipping version increment and publish for branch $env:APPVEYOR_REPO_BRANCH"
-}
-elseif ($env:APPVEYOR_PULL_REQUEST_NUMBER -gt 0) {
+} elseif ($env:APPVEYOR_PULL_REQUEST_NUMBER -gt 0) {
     Write-Warning -Message "Skipping version increment and publish for pull request #$env:APPVEYOR_PULL_REQUEST_NUMBER"
-}
-else {
+} else {
     # We're going to add 1 to the revision value since a new commit has been merged to Master
     # This means that the major / minor / build values will be consistent across GitHub and the Gallery
     Try {
@@ -39,8 +37,7 @@ else {
         (Get-Content -Path $manifestPath) -replace 'NewManifest', $TemplatePowerShellModule | Set-Content -Path $manifestPath
         (Get-Content -Path $manifestPath) -replace 'FunctionsToExport = ', 'FunctionsToExport = @(' | Set-Content -Path $manifestPath -Force
         (Get-Content -Path $manifestPath) -replace "$($functionList[-1])'", "$($functionList[-1])')" | Set-Content -Path $manifestPath -Force
-    }
-    catch {
+    } catch {
         throw $_
     }
 
@@ -67,8 +64,7 @@ else {
 
         Publish-Module @PM
         Write-Host "$TemplatePowerShellModule PowerShell Module version $newVersion published to the PowerShell Gallery." -ForegroundColor Cyan
-    }
-    Catch {
+    } Catch {
         # Sad panda; it broke
         Write-Warning "Publishing update $newVersion to the PowerShell Gallery failed."
         throw $_
@@ -86,8 +82,7 @@ else {
         git commit -s -m "Update version to $newVersion"
         git push origin master
         Write-Host "$TemplatePowerShellModule PowerShell Module version $newVersion published to GitHub." -ForegroundColor Cyan
-    }
-    Catch {
+    } Catch {
         # Sad panda; it broke
         Write-Warning "Publishing update $newVersion to GitHub failed."
         throw $_
