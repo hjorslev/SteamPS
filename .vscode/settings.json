@@ -1,0 +1,13 @@
+{
+    "editor.tabSize": 4,
+    "editor.autoIndent": true,
+    "editor.insertSpaces": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.renderWhitespace": "boundary",
+    "editor.wordWrap": "off",
+    "editor.detectIndentation": true,
+    "files.trimTrailingWhitespace": true,
+    "powershell.codeFormatting.preset": "OTBS",
+    "powershell.scriptAnalysis.settingsPath": ".\\PSScriptAnalyzerSettings.psd1",
+}
