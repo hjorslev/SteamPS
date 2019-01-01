@@ -75,11 +75,6 @@ function Update-SteamApp {
     )
 
     begin {
-        # PowerShell version 5 is required. We stop here if it isn't installed.
-        if (-not ($PSVersionTable.PSVersion.Major -ge 5)) {
-            Throw "PowerShell must be version 5 or higher. Your version is $($PSVersionTable.PSVersion.ToString())."
-        }
-
         # Make Secure.String to plain text string.
         if ($null -eq $Credential) {
             $SecureString = $Credential | Select-Object -ExpandProperty Password
