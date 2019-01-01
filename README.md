@@ -18,6 +18,22 @@ You can find your version of PowerShell by using
 $PSVersionTable.PSVersion
 ```
 
+## Installation
+
+The module is published in the [PowerShell Gallery](https://www.powershellgallery.com/packages/SteamPS).
+
+Run the following in an elevated prompt:
+
+```powershell
+Install-Module -Name SteamPS
+```
+
+You can also install the module for the current user without admin privileges:
+
+```powershell
+Install-Module -Name SteamPS -Scope CurrentUser
+```
+
 ## Examples
 
 ```powershell
