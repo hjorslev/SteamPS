@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This cmdlet utilize SteamCMD and eases the installation and updating of servers.
+This cmdlet utilizes SteamCMD and eases the installation and updating of servers.
 
 Install or update a Steam application using SteamCMD. If SteamCMD is missing, it will be installed first before installing any application.
 
