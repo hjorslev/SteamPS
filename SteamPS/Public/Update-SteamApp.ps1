@@ -94,7 +94,7 @@ function Update-SteamApp {
             }
 
             # Download SteamCMD.
-            Invoke-WebRequest -Uri 'https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip' -OutFile "$($TempDirectory)\steamcmd.zip"
+            Invoke-WebRequest -Uri 'https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip' -OutFile "$($TempDirectory)\steamcmd.zip" -UseBasicParsing
 
             # Create SteamCMD directory in C:\ if necessary.
             if (-not (Test-Path -Path $SteamCMDx64Location)) {
@@ -118,7 +118,7 @@ function Update-SteamApp {
             # Get most recent list with all Steam Apps ID and corresponding title and put it into a variable.
             $SteamAppsJSON = 'C:\Temp\SteamApps.json'
             function Get-SteamAppData {
-                $SteamApps = Invoke-WebRequest -Uri 'https://api.steampowered.com/ISteamApps/GetAppList/v0001/' | Select-Object -ExpandProperty Content
+                $SteamApps = Invoke-WebRequest -Uri 'https://api.steampowered.com/ISteamApps/GetAppList/v0001/' -UseBasicParsing | Select-Object -ExpandProperty Content
                 $SteamApps | Out-File -FilePath $SteamAppsJSON
                 $SteamApps = $SteamApps | ConvertFrom-Json
             }
