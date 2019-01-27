@@ -64,12 +64,12 @@ function Update-SteamApp {
         )]
         [int]$AppID,
 
+        [System.IO.FileInfo]$Path,
+
         [ValidateNotNull()]
         [System.Management.Automation.PSCredential]
         [System.Management.Automation.Credential()]
         $Credential = [System.Management.Automation.PSCredential]::Empty,
-
-        [System.IO.FileInfo]$Path,
 
         [string]$Arguments
     )
@@ -87,56 +87,16 @@ function Update-SteamApp {
 
         # If SteamCMD is not located in the following path we install it.
         if (-not (Test-Path -Path $SteamCMDExecutable)) {
-            $TempDirectory = 'C:\Temp'
-            if (-not (Test-Path -Path $TempDirectory)) {
-                Write-Verbose -Message 'Creating Temp directory.'
-                New-Item -Path 'C:\' -Name 'Temp' -ItemType Directory | Write-Verbose
-            }
-
-            # Download SteamCMD.
-            Invoke-WebRequest -Uri 'https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip' -OutFile "$($TempDirectory)\steamcmd.zip" -UseBasicParsing
-
-            # Create SteamCMD directory in C:\ if necessary.
-            if (-not (Test-Path -Path $SteamCMDx64Location)) {
-                Write-Verbose -Message 'Creating SteamCMD directory in C:\.'
-                New-Item -Path 'C:\' -Name 'SteamCMD' -ItemType Directory | Write-Verbose
-                Expand-Archive -Path "$($TempDirectory)\steamcmd.zip" -DestinationPath $SteamCMDx64Location
-            }
-
-            # Doing some initial configuration of SteamCMD. The first time SteamCMD is launched it will need to do some updates.
-            Write-Host -Object 'Setting up SteamCMD for the first time. Please wait.' -NoNewline
-            Start-Process -FilePath $SteamCMDExecutable -ArgumentList 'validate +quit' -WindowStyle Hidden
-            do {
-                Write-Host -Object "." -NoNewline
-                Start-Sleep -Seconds 3
-            }
-            until (-not (Get-Process -Name "*steamcmd*"))
+            Install-SteamCMD
         }
 
         # We only retrieve all Steam apps ID and name if ParameterSetName is GameName.
         if ($PSCmdlet.ParameterSetName -eq 'GameName') {
             # Get most recent list with all Steam Apps ID and corresponding title and put it into a variable.
-            $SteamAppsJSON = 'C:\Temp\SteamApps.json'
-            function Get-SteamAppData {
-                $SteamApps = Invoke-WebRequest -Uri 'https://api.steampowered.com/ISteamApps/GetAppList/v0001/' -UseBasicParsing | Select-Object -ExpandProperty Content
-                $SteamApps | Out-File -FilePath $SteamAppsJSON
-                $SteamApps = $SteamApps | ConvertFrom-Json
-            }
-            if (-not (Test-Path -Path $SteamAppsJSON)) {
-                Get-SteamAppData
-                Write-Verbose -Message "$($SteamAppsJSON) was not found. Download newest version."
-            }
-            if (Test-Path -Path $SteamAppsJSON -OlderThan (Get-Date).AddDays(-7)) {
-                Write-Verbose -Message "$($SteamAppsJSON) is older than 7 days. Downloading the newest version..."
-                Get-SteamAppData
-            } else {
-                Write-Verbose -Message "Using $($SteamAppsJSON) as a source since it has been updated within the last 7 days."
-                Write-Progress -Activity 'Searching SteamApps.json. Please wait.' -PercentComplete 80
-                $SteamApps = Get-Content -Path $SteamAppsJSON | ConvertFrom-Json
-            }
+            $SteamApps = (Invoke-WebRequest -Uri 'https://api.steampowered.com/ISteamApps/GetAppList/v0002/' -UseBasicParsing).Content | ConvertFrom-Json
 
             # Access nested object app in apps in applist.
-            $SteamApps = $SteamApps.applist.apps.app
+            $SteamApps = $SteamApps.applist.apps
         }
     } # Begin
 
@@ -161,7 +121,7 @@ function Update-SteamApp {
 
                 # If only one game is found when searching by game name.
                 if (($SteamApps | Measure-Object).Count -eq 1) {
-                    Write-Verbose -Message "Only one game found: $($SteamApps.name) / $($SteamApps.appid)."
+                    Write-Verbose -Message "Only one game found: $($SteamApps.appid) - $($SteamApps.name)."
                     # Put Steam AppID into variable $SteamAppID.
                     $SteamAppID = $SteamApps.appid
                 }
