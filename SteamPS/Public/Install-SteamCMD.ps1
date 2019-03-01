@@ -43,7 +43,7 @@ function Install-SteamCMD {
 
         # Doing some initial configuration of SteamCMD. The first time SteamCMD is launched it will need to do some updates.
         Write-Host -Object 'Setting up SteamCMD for the first time. Please wait.' -NoNewline
-        Start-Process -FilePath $SteamCMDExecutable -ArgumentList 'validate +quit' -WindowStyle Hidden
+        Start-Process -FilePath $InstallPath\steamcmd.exe -ArgumentList 'validate +quit' -WindowStyle Hidden
         do {
             Write-Host -Object "." -NoNewline
             Start-Sleep -Seconds 3
