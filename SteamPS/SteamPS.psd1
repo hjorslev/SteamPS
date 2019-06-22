@@ -1,5 +1,5 @@
 ﻿$Name = 'Frederik Hjorslev Poulsen'
-$SteamPSModule = 'SteamPSModule'
+$SteamPSModule = 'SteamPS'
 
 #
 # Module manifest for module 'SteamPS'

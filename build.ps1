@@ -1,5 +1,5 @@
 $Name = 'Frederik Hjorslev Poulsen'
-$SteamPSModule = 'SteamPSModule'
+$SteamPSModule = 'SteamPS'
 
 # Line break for readability in AppVeyor console
 Write-Host -Object ''
