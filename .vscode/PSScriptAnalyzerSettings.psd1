@@ -15,64 +15,13 @@
 
     # Analyze **only** the following rules. Use IncludeRules when you want
     # to invoke only a small subset of the default rules.
-    IncludeRules = @('PSAlignAssignmentStatement',
-        'PSAvoidUsingCmdletAliases',
-        'PSAvoidDefaultValueSwitchParameter',
-        'PSAvoidDefaultValueForMandatoryParameter',
-        'PSAvoidUsingEmptyCatchBlock',
-        'PSAvoidGlobalAliases',
-        'PSAvoidGlobalFunctions',
-        'PSAvoidGlobalVars',
-        'PSAvoidInvokingEmptyMembers',
-        'PSAvoidNullOrEmptyHelpMessageAttribute',
-        'PSAvoidUsingPositionalParameters',
-        'PSReservedCmdletChar',
-        'PSReservedParams',
-        'PSAvoidShouldContinueWithoutForce',
-        'PSAvoidUsingUserNameAndPassWordParams',
-        'PSAvoidUsingComputerNameHardcoded',
-        'PSAvoidUsingConvertToSecureStringWithPlainText',
-        'PSAvoidUsingDeprecatedManifestFields',
-        'PSAvoidUsingInvokeExpression',
-        'PSAvoidUsingPlainTextForPassword',
-        'PSAvoidUsingWMICmdlet',
-        ##'PSAvoidUsingWriteHost',
-        'PSMisleadingBacktick',
-        'PSMissingModuleManifestField',
-        'PSPlaceCloseBrace',
-        'PSPlaceOpenBrace',
-        'PSPossibleIncorrectComparisonWithNull',
-        'PSProvideCommentHelp',
-        'PSUseApprovedVerbs',
-        'PSUseBOMForUnicodeEncodedFile',
-        'PSUseCmdletCorrectly',
-        'PSUseCompatibleCmdlets',
-        'PSUseConsistentIndentation',
-        'PSUseConsistentWhitespace',
-        'PSUseDeclaredVarsMoreThanAssignments',
-        'PSUseLiteralInitializerForHashtable',
-        'PSUseOutputTypeCorrectly',
-        'PSUsePSCredentialType',
-        'PSShouldProcess', 
-        'PSUseShouldProcessForStateChangingFunctions',
-        'PSUseSingularNouns',
-        'PSUseSupportsShouldProcess',
-        'PSUseToExportFieldsInManifest',
-        'PSUseUTF8EncodingForHelpFile',
-        'PSDSCDscExamplesPresent',
-        'PSDSCDscTestsPresent',
-        'PSDSCReturnCorrectTypesForDSCFunctions',
-        'PSDSCUseIdenticalMandatoryParametersForDSC',
-        'PSDSCUseIdenticalParametersForDSC',
-        'PSDSCStandardDSCFunctionsInResource',
-        'PSDSCUseVerboseMessageInDSCResource')
 
     # Do not analyze the following rules. Use ExcludeRules when you have
     # commented out the IncludeRules settings above and want to include all
     # the default rules except for those you exclude below.
     # Note: if a rule is in both IncludeRules and ExcludeRules, the rule
     # will be excluded.
-    #ExcludeRules = @('PSAvoidUsingWriteHost')
+    ExcludeRules = @('PSAvoidUsingWriteHost', 'PSAvoidUsingComputerNameHardcoded')
 
     # You can use rule configuration to configure rules that support it:
     #Rules = @{
