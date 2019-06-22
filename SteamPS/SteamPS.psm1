@@ -1,4 +1,4 @@
-# using module .\TemplatePowerShellModule\Class\TemplatePowerShellModule.Class1.psm1
+﻿# using module .\TemplatePowerShellModule\Class\TemplatePowerShellModule.Class1.psm1
 # Above needs to remain the first line to import Classes
 # remove the comment when using classes
 
@@ -11,8 +11,7 @@ $Private = @( Get-ChildItem -Path $PSScriptRoot\Private\*.ps1 -Recurse -ErrorAct
 Foreach ($import in @($Public + $Private)) {
     Try {
         . $import.fullname
-    }
-    Catch {
+    } Catch {
         Write-Error -Message "Failed to import function $($import.fullname): $_"
     }
 }
