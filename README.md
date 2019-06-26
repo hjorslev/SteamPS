@@ -1,5 +1,7 @@
 ﻿# SteamPS
 
+[![Build status](https://ci.appveyor.com/api/projects/status/7d1g2wyju416jg4h?svg=true)](https://ci.appveyor.com/project/hjorslev/steamps)
+
 ## Introduction
 
 This cmdlet utilizes SteamCMD and eases the installation and updating of servers.
