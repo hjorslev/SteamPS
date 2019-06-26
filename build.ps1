@@ -56,7 +56,7 @@ if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
             Path         = ".\$SteamPSModule"
             NuGetApiKey  = $env:NuGetApiKey
             ErrorAction  = 'Stop'
-            Tags         = @('', '')
+            Tags         = @('Steam', 'SteamCMD')
             LicenseUri   = "https://github.com/$Name/$SteamPSModule/blob/master/LICENSE.md"
             ProjectUri   = "https://github.com/$Name/$SteamPSModule"
             ReleaseNotes = 'Initial release to the PowerShell Gallery'
