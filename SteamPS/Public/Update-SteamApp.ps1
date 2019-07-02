@@ -29,10 +29,12 @@ function Update-SteamApp {
 
     .EXAMPLE
     Update-SteamApp -GameName 'Arma 3' -Credential 'Toby' -Path 'C:\Servers\Arma3'
+
     Because there are multiple hits when searching for Arma 3, the user will be promoted to select the right application.
 
     .EXAMPLE
     Update-SteamApp -AppID 376030 -Path 'C:\Servers'
+
     Here we use anonymous login because the particular application (ARK: Survival Evolved Dedicated Server) doesn't require login.
 
     .NOTES
@@ -75,6 +77,8 @@ function Update-SteamApp {
     )
 
     begin {
+        $RegistryPath = 'HKLM:\SOFTWARE\SteamPS'
+
         # Make Secure.String to plain text string.
         if ($null -eq $Credential) {
             $SecureString = $Credential | Select-Object -ExpandProperty Password
@@ -82,12 +86,14 @@ function Update-SteamApp {
             $PlainPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
         }
 
-        $SteamCMDx64Location = 'C:\SteamCMD'
-        $SteamCMDExecutable = "$($SteamCMDx64Location)\steamcmd.exe"
+        $InstallPath = (Get-ItemProperty -Path $RegistryPath -Name InstallPath -ErrorAction SilentlyContinue).InstallPath
+        $SteamCMDExecutable = "$($InstallPath)\steamcmd.exe"
 
-        # If SteamCMD is not located in the following path we install it.
+        # Prompt the user to install it.
+        # ? I have tried calling Install-SteamCMD here, but it seems like it is
+        # ? only working if you call it manually.
         if (-not (Test-Path -Path $SteamCMDExecutable)) {
-            Install-SteamCMD
+            Throw 'Please install SteamCMD first by executing Install-SteamCMD.'
         }
 
         # We only retrieve all Steam apps ID and name if ParameterSetName is GameName.
@@ -117,7 +123,7 @@ function Update-SteamApp {
         # If game is found by searching for game name.
         if ($PSCmdlet.ParameterSetName -eq 'GameName') {
             try {
-                $SteamApps = $SteamApps | Where-Object -FilterScript {$PSItem.name -like "$($GameName)*"}
+                $SteamApps = $SteamApps | Where-Object -FilterScript { $PSItem.name -like "$($GameName)*" }
 
                 # If only one game is found when searching by game name.
                 if (($SteamApps | Measure-Object).Count -eq 1) {

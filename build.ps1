@@ -46,7 +46,6 @@ if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
     Import-Module -Name "$PSScriptRoot\$SteamPSModule" -Force
     New-MarkdownHelp -Module $SteamPSModule -OutputFolder '.\docs\' -Force
     New-ExternalHelp -Path '.\docs\' -OutputPath ".\$SteamPSModule\en-US\" -Force
-    . .\docs.ps1
     Write-Host -Object ''
 
     # Publish the new version to the PowerShell Gallery

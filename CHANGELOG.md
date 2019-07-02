@@ -2,9 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
+
+## [1.2.0] - 02/07-2019
+
+### Changed
+
+- Install-SteamCMD
+  - Set predefined install path to Program Files in system drive.
+  - Allow users to choose a custom install path of SteamCMD.
 
 ## [1.1.3] - 01/03-2019
+
+### Fixed
 
 - Install-SteamCMD
   - Fix Undefined Variable
