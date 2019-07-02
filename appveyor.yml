@@ -21,12 +21,12 @@ skip_commits:
 pull_requests:
   do_not_increment_build_number: true
 
-#Publish to PowerShell Gallery with this key
+# Publish to PowerShell Gallery with this key
 environment:
   NuGetApiKey:
     secure: 8YlpDDR3+ijAeAxFBSPqFgYIk+kehh0ypKPVa5yrmWCFdFoswFw1pZ/kZmOyMdjS
-#  GitHubKey:
-#    secure: {GITHUB_PERSONAL_ACCESS_TOKEN}
+  GitHubKey:
+    secure: N7+lKlNrQkJHEtEtl1CcwG9Q3GRLbH9kGD41NWfb0GbLsH9rHjMoIiCVkDF8jolr
 
 # Install NuGet to interact with the PowerShell Gallery
 install:
