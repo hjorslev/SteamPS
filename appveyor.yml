@@ -10,6 +10,11 @@ build: off
 # Version number
 version: 1.2.{build}
 
+# Only build the master branch
+branches:
+  only:
+    - master
+
 # Ignore testing a commit if only the README.md file changed
 # Or if various strings are found in the commit message: updated readme, update readme, update docs, update version, update appveyor
 skip_commits:
