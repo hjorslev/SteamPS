@@ -1,6 +1,8 @@
 ﻿# SteamPS
 
-[![Build status](https://ci.appveyor.com/api/projects/status/7d1g2wyju416jg4h?svg=true)](https://ci.appveyor.com/project/hjorslev/steamps)
+[![Build status](https://img.shields.io/appveyor/ci/hjorslev/SteamPS.svg?style=for-the-badge)](https://ci.appveyor.com/project/hjorslev/steamps)
+[![PowerShellGallery Version](https://img.shields.io/powershellgallery/v/SteamPS.svg?style=for-the-badge)](https://www.powershellgallery.com/packages/SteamPS)
+[![PowerShellGallery Downloads](https://img.shields.io/powershellgallery/dt/SteamPS.svg?style=for-the-badge)](https://www.powershellgallery.com/packages/SteamPS)
 
 ## Introduction
 
