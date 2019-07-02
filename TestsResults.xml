@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<test-results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nunit_schema_2.5.xsd" name="Pester" total="9" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2019-07-02" time="20:10:25">
+  <environment user="appveyor" machine-name="APPVYR-WIN" cwd="C:\projects\steamps" user-domain="APPVYR-WIN" platform="Microsoft Windows Server 2012 R2 Datacenter|C:\windows|\Device\Harddisk0\Partition5" nunit-version="2.5.8.0" os-version="6.3.9600" clr-version="4.0.30319.42000" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="TestFixture" name="Pester" executed="True" result="Success" success="True" time="0.6899" asserts="0" description="Pester">
+    <results>
+      <test-suite type="TestFixture" name="C:\projects\steamps\Tests\ModuleValidation.Tests.ps1" executed="True" result="Success" success="True" time="0.6899" asserts="0" description="C:\projects\steamps\Tests\ModuleValidation.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="General project validation: SteamPS" executed="True" result="Success" success="True" time="0.5972" asserts="0" description="General project validation: SteamPS">
+            <results>
+              <test-suite type="ParameterizedTest" name="General project validation: SteamPS.&lt;File&gt; should be valid powershell" executed="True" result="Success" success="True" time="0.1945" asserts="0" description="&lt;File&gt; should be valid powershell">
+                <results>
+                  <test-case description="C:\projects\steamps\.vscode\PSScriptAnalyzerSettings.psd1 should be valid powershell" name="General project validation: SteamPS.C:\projects\steamps\.vscode\PSScriptAnalyzerSettings.psd1 should be valid powershell" time="0.1297" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="C:\projects\steamps\SteamPS\Public\Install-SteamCMD.ps1 should be valid powershell" name="General project validation: SteamPS.C:\projects\steamps\SteamPS\Public\Install-SteamCMD.ps1 should be valid powershell" time="0.0063" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="C:\projects\steamps\SteamPS\Public\Update-SteamApp.ps1 should be valid powershell" name="General project validation: SteamPS.C:\projects\steamps\SteamPS\Public\Update-SteamApp.ps1 should be valid powershell" time="0.0168" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="C:\projects\steamps\SteamPS\SteamPS.psd1 should be valid powershell" name="General project validation: SteamPS.C:\projects\steamps\SteamPS\SteamPS.psd1 should be valid powershell" time="0.0065" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="C:\projects\steamps\SteamPS\SteamPS.psm1 should be valid powershell" name="General project validation: SteamPS.C:\projects\steamps\SteamPS\SteamPS.psm1 should be valid powershell" time="0.0052" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="C:\projects\steamps\Tests\ModuleValidation.Tests.ps1 should be valid powershell" name="General project validation: SteamPS.C:\projects\steamps\Tests\ModuleValidation.Tests.ps1 should be valid powershell" time="0.0054" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="C:\projects\steamps\build.ps1 should be valid powershell" name="General project validation: SteamPS.C:\projects\steamps\build.ps1 should be valid powershell" time="0.0074" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="C:\projects\steamps\install.ps1 should be valid powershell" name="General project validation: SteamPS.C:\projects\steamps\install.ps1 should be valid powershell" time="0.0172" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-case description="'SteamPS' can import cleanly" name="General project validation: SteamPS.'SteamPS' can import cleanly" time="0.0452" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>
