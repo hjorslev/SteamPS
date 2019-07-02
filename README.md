@@ -8,15 +8,16 @@
 
 This cmdlet utilizes SteamCMD and eases the installation and updating of servers.
 
-Install or update a Steam application using SteamCMD. If SteamCMD is missing, it will be installed first before installing any application.
-
-You can either search for the application by name or enter the specific Application ID.
+Install or update a Steam application using SteamCMD.
+You can either enter the specific Application ID or search for the application
+by name. If there are multiple hits on the name, an Out-GridView will be presented
+letting you choose the right application to install.
 
 ## Requirements
 
 PowerShell 5.0
 
-You can find your version of PowerShell by using
+You can find your version of PowerShell by using:
 
 ```powershell
 $PSVersionTable.PSVersion
@@ -26,15 +27,24 @@ $PSVersionTable.PSVersion
 
 The module is published in the [PowerShell Gallery](https://www.powershellgallery.com/packages/SteamPS).
 
-Run the following in an elevated prompt:
+1. Run the following in an elevated prompt:
 
 ```powershell
 Install-Module -Name SteamPS
 ```
 
+2. Install SteamCMD
+
+```powershell
+Install-SteamCMD
+```
+
+By using the parameter -InstallPath you can specify an install location of SteamCMD.
+
+
 ## Examples
 
-The cmdlets must be executed with administrative privileges.
+The cmdlets must be executed from an elevated prompt.
 
 ```powershell
 # Add a game / server by searching for its name. Because there are multiple hits when searching for Arma 3, the user will be promoted to select the right application.
