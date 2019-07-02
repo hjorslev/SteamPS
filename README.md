@@ -30,13 +30,9 @@ Run the following in an elevated prompt:
 Install-Module -Name SteamPS
 ```
 
-You can also install the module for the current user without admin privileges:
-
-```powershell
-Install-Module -Name SteamPS -Scope CurrentUser
-```
-
 ## Examples
+
+The cmdlets must be executed with administrative privileges.
 
 ```powershell
 # Add a game / server by searching for its name. Because there are multiple hits when searching for Arma 3, the user will be promoted to select the right application.
