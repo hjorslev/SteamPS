@@ -52,13 +52,9 @@ if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
     Try {
         # Build a splat containing the required details and make sure to Stop for errors which will trigger the catch
         $PM = @{
-            Path         = ".\$SteamPSModule"
-            NuGetApiKey  = $env:NuGetApiKey
-            ErrorAction  = 'Stop'
-            Tags         = @('Steam', 'SteamCMD')
-            LicenseUri   = "https://github.com/$Name/$SteamPSModule/blob/master/LICENSE.md"
-            ProjectUri   = "https://github.com/$Name/$SteamPSModule"
-            ReleaseNotes = 'Initial release to the PowerShell Gallery'
+            Path        = ".\$SteamPSModule"
+            NuGetApiKey = $env:NuGetApiKey
+            ErrorAction = 'Stop'
         }
 
         Publish-Module @PM
