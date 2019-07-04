@@ -12,7 +12,7 @@
     RootModule        = 'SteamPS.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '1.2.0'
+    ModuleVersion     = '1.2.1'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -30,7 +30,9 @@
     Copyright         = '(c) 2019 Frederik Hjorslev Poulsen. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description       = 'Module that utilizes SteamCMD as a wrapper for PowerShell.'
+    Description       = 'Module that utilizes SteamCMD as a wrapper for PowerShell.
+
+    For suggestions/support, please visit: https://github.com/hjorslev/SteamPS'
 
     # Minimum version of the Windows PowerShell engine required by this module
     PowerShellVersion = '5.0'
