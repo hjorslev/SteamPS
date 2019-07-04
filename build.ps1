@@ -45,7 +45,7 @@ if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
     Write-Host "Building new function documentation" -ForegroundColor Yellow
     Import-Module -Name "$PSScriptRoot\$SteamPSModule" -Force
     New-MarkdownHelp -Module $SteamPSModule -OutputFolder '.\docs\' -Force
-    New-ExternalHelp -Path '.\docs\' -OutputPath ".\$SteamPSModule\en-US\" -Force
+    New-ExternalHelp -Path '.\docs\' -OutputPath ".\docs\en-US\" -Force
     Write-Host -Object ''
 
     # Publish the new version to the PowerShell Gallery
