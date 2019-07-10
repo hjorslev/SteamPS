@@ -31,22 +31,22 @@ Describe "General project validation: $($ModuleName)" {
     }
 
     Context 'Manifest' {
-        It 'Should contains RootModule' { $ModuleInformation.RootModule | Should not BeNullOrEmpty }
-        It 'Should contains Author' { $ModuleInformation.Author | Should not BeNullOrEmpty }
-        It 'Should contains Company Name' { $ModuleInformation.CompanyName | Should not BeNullOrEmpty }
-        It 'Should contains Description' { $ModuleInformation.Description | Should not BeNullOrEmpty }
-        It 'Should contains Copyright' { $ModuleInformation.Copyright | Should not BeNullOrEmpty }
-        It 'Should contains License' { $ModuleInformation.PrivateData.PSData.LicenseURI | Should not BeNullOrEmpty }
-        It 'Should contains a Project Link' { $ModuleInformation.PrivateData.PSData.ProjectURI | Should not BeNullOrEmpty }
-        It 'Should contain Tags (For the PSGallery)' { $ModuleInformation.Tags.count | Should not BeNullOrEmpty }
+        It 'Should contains RootModule' { $ModuleInformation.RootModule | Should -Not -BeNullOrEmpty }
+        It 'Should contains Author' { $ModuleInformation.Author | Should -Not -BeNullOrEmpty }
+        It 'Should contains Company Name' { $ModuleInformation.CompanyName | Should -Not -BeNullOrEmpty }
+        It 'Should contains Description' { $ModuleInformation.Description | Should -Not -BeNullOrEmpty }
+        It 'Should contains Copyright' { $ModuleInformation.Copyright | Should -Not -BeNullOrEmpty }
+        It 'Should contains License' { $ModuleInformation.PrivateData.PSData.LicenseURI | Should -Not -BeNullOrEmpty }
+        It 'Should contains a Project Link' { $ModuleInformation.PrivateData.PSData.ProjectURI | Should -Not -BeNullOrEmpty }
+        It 'Should contain Tags (For the PSGallery)' { $ModuleInformation.Tags.Count | Should -Not -BeNullOrEmpty }
 
-        It "Should have equal number of Function Exported and the Public PS1 files found ($($ExportedFunctions.Count) and $($PublicFiles.count))" {
-            $ExportedFunctions.count -eq $publicFiles.count | Should -Be $true }
+        It "Should have equal number of Function Exported and the Public PS1 files found ($($ExportedFunctions.Count) and $($PublicFiles.Count))" {
+            $ExportedFunctions.Count -eq $PublicFiles.Count | Should -Be $true }
 
         It "Compare the missing function" {
-            if (-not($ExportedFunctions.count -eq $publicFiles.Count)) {
-                $Commandompare = Compare-Object -ReferenceObject $ExportedFunctions -DifferenceObject $publicFiles.basename
-                $Commandompare.inputobject -join ',' | Should BeNullOrEmpty
+            if (-not ($ExportedFunctions.Count -eq $PublicFiles.Count)) {
+                $Commandompare = Compare-Object -ReferenceObject $ExportedFunctions -DifferenceObject $PublicFiles.BaseName
+                $Commandompare.InputObject -join ',' | Should -BeNullOrEmpty
             }
         }
     }
