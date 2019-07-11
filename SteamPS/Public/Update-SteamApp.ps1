@@ -49,23 +49,20 @@ function Update-SteamApp {
     https://hjorslev.github.io/SteamPS/Update-SteamApp.html
 
     #>
-    [CmdletBinding(
-        SupportsShouldProcess = $true,
+    [CmdletBinding(SupportsShouldProcess = $true,
         ConfirmImpact = 'Medium'
     )]
     param
     (
 
-        [Parameter(
-            Position = 0,
+        [Parameter(Position = 0,
             Mandatory = $true,
             ValueFromPipelineByPropertyName = $true,
             ParameterSetName = 'GameName'
         )]
         [string[]]$GameName,
 
-        [Parameter(
-            Position = 0,
+        [Parameter(Position = 0,
             Mandatory = $true,
             ValueFromPipelineByPropertyName = $true,
             ParameterSetName = 'AppID'
