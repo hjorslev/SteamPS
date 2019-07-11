@@ -7,7 +7,6 @@
     Get server information about Steam game servers from Rust Server Info (RSI).
     Servers must be added at https://api.rust-servers.info/ prior to using this app.
 
-
     .PARAMETER ServerID
     Enter server ID from Rust Server Info. A list of all servers can be found at
     https://rust-servers.info/all-servers.html - ID is located in the URL e.g.
