@@ -51,7 +51,7 @@
     # ProcessorArchitecture = ''
 
     # Modules that must be imported into the global environment prior to importing this module
-    # RequiredModules = @()
+    # RequiredModules   = @(@{ModuleName = 'PSCache'; GUID = 'c2c9a310-a305-402d-8110-5684124ed41d'; ModuleVersion = '0.1.0'; })
 
     # Assemblies that must be loaded prior to importing this module
     # RequiredAssemblies = @()

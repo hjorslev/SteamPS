@@ -6,7 +6,7 @@ function Update-SteamApp {
     .DESCRIPTION
     Install or update a Steam application using SteamCMD. If SteamCMD is missing, it will be installed first. You can either search for the application by name or enter the specific Application ID.
 
-    .PARAMETER GameName
+    .PARAMETER ApplicationName
     Enter the name of the app to make a wildcard search for the game.
 
     .PARAMETER AppID
@@ -31,7 +31,7 @@ function Update-SteamApp {
     The Force parameter allows the user to skip the "Should Continue" box.
 
     .EXAMPLE
-    Update-SteamApp -GameName 'Arma 3' -Credential 'Toby' -Path 'C:\Servers\Arma3'
+    Update-SteamApp -ApplicationName 'Arma 3' -Credential 'Toby' -Path 'C:\Servers\Arma3'
 
     Because there are multiple hits when searching for Arma 3, the user will be promoted to select the right application.
 
@@ -58,9 +58,10 @@ function Update-SteamApp {
         [Parameter(Position = 0,
             Mandatory = $true,
             ValueFromPipelineByPropertyName = $true,
-            ParameterSetName = 'GameName'
+            ParameterSetName = 'ApplicationName'
         )]
-        [string[]]$GameName,
+        [Alias('GameName')]
+        [string]$ApplicationName,
 
         [Parameter(Position = 0,
             Mandatory = $true,
@@ -100,15 +101,6 @@ function Update-SteamApp {
         if (-not (Test-Path -Path $SteamCMDExecutable)) {
             Throw 'Please install SteamCMD first by executing Install-SteamCMD.'
         }
-
-        # We only retrieve all Steam apps ID and name if ParameterSetName is GameName.
-        if ($PSCmdlet.ParameterSetName -eq 'GameName') {
-            # Get most recent list with all Steam Apps ID and corresponding title and put it into a variable.
-            $SteamApps = (Invoke-WebRequest -Uri 'https://api.steampowered.com/ISteamApps/GetAppList/v0002/' -UseBasicParsing).Content | ConvertFrom-Json
-
-            # Access nested object app in apps in applist.
-            $SteamApps = $SteamApps.applist.apps
-        }
     } # Begin
 
     process {
@@ -126,23 +118,9 @@ function Update-SteamApp {
         }
 
         # If game is found by searching for game name.
-        if ($PSCmdlet.ParameterSetName -eq 'GameName') {
+        if ($PSCmdlet.ParameterSetName -eq 'ApplicationName') {
             try {
-                $SteamApps = $SteamApps | Where-Object -FilterScript { $PSItem.name -like "$($GameName)*" }
-
-                # If only one game is found when searching by game name.
-                if (($SteamApps | Measure-Object).Count -eq 1) {
-                    Write-Verbose -Message "Only one game found: $($SteamApps.appid) - $($SteamApps.name)."
-                    # Put Steam AppID into variable $SteamAppID.
-                    $SteamAppID = $SteamApps.appid
-                }
-                # If more than one game is found the user is promted to select the exact game.
-                elseif (($SteamApps | Measure-Object).Count -ge 1) {
-                    # An OutGridView is presented to the user where the exact AppID can be located. This variable contains the AppID selected in the Out-GridView.
-                    $SteamAppID = $SteamApps | Out-GridView -Title 'Select the game you wish to update or install' -PassThru | Select-Object -ExpandProperty appid
-                    Write-Verbose -Message "$($SteamAppID) selected from Out-GridView."
-                }
-
+                $SteamAppID = Find-SteamAppID -ApplicationName $ApplicationName
                 # Install selected Steam application if a SteamAppID has been selected.
                 if (-not ($null -eq $SteamAppID)) {
                     $SCMessage = @"
@@ -155,9 +133,9 @@ Do you want to install or update the following SteamApp?
                     }
                 }
             } catch {
-                Throw "$($GameName) couldn't be updated."
+                Throw "$($ApplicationName) couldn't be updated."
             }
-        } # ParameterSet GameName
+        } # ParameterSet ApplicationName
 
         # If game is found by using a unique AppID.
         if ($PSCmdlet.ParameterSetName -eq 'AppID') {

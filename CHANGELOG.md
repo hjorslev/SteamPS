@@ -1,9 +1,9 @@
-﻿# Change Log
+﻿# Changelog
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [1.2.1] - Unreleased
 
@@ -12,6 +12,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Add link to online help for all cmdlets.
 - New cmdlet: Get-SteamServerInfo
   - Get server information about game servers from [Rust Server Info (RSI)](https://rust-servers.info).
+- New-cmdlet: Find-SteamAppID
+  - Moved functionality from Update-SteamApp into its own cmdlet allowing the
+  user to use it as a standalone cmdlet as well.
+
+### Changed
+
+- Update-SteamApp
+  - Change parameter *GameName* to *ApplicationName*. Add *GameName* as an alias
+  to *ApplicationName*.
 
 ## [1.2.0] - 02/07-2019
 
