@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.2.1] - Unreleased
 
+### Added
+
+- Add link to online help for all cmdlets.
+- New cmdlet: Get-SteamServerInfo
+  - Get server information about game servers from [Rust Server Info (RSI)](https://rust-servers.info).
+
 ## [1.2.0] - 02/07-2019
 
 ### Changed

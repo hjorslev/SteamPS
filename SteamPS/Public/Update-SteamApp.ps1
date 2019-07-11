@@ -42,6 +42,9 @@ function Update-SteamApp {
 
     SteamCMD CLI parameters: https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_4
 
+    .LINK
+    https://hjorslev.github.io/SteamPS/Update-SteamApp.html
+
     #>
     [CmdletBinding(
         SupportsShouldProcess = $true,
