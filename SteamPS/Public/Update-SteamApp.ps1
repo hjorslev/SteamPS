@@ -27,6 +27,9 @@ function Update-SteamApp {
 
     If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit"
 
+    .PARAMETER Force
+    The Force parameter allows the user to skip the "Should Continue" box.
+
     .EXAMPLE
     Update-SteamApp -GameName 'Arma 3' -Credential 'Toby' -Path 'C:\Servers\Arma3'
 
@@ -76,7 +79,9 @@ function Update-SteamApp {
         [System.Management.Automation.Credential()]
         $Credential = [System.Management.Automation.PSCredential]::Empty,
 
-        [string]$Arguments
+        [string]$Arguments,
+
+        [switch]$Force
     )
 
     begin {
@@ -92,7 +97,7 @@ function Update-SteamApp {
         $InstallPath = (Get-ItemProperty -Path $RegistryPath -Name InstallPath -ErrorAction SilentlyContinue).InstallPath
         $SteamCMDExecutable = "$($InstallPath)\steamcmd.exe"
 
-        # Prompt the user to install it.
+        # Prompt the user to install SteamCMD if missing.
         # ? I have tried calling Install-SteamCMD here, but it seems like it is
         # ? only working if you call it manually.
         if (-not (Test-Path -Path $SteamCMDExecutable)) {
@@ -143,7 +148,14 @@ function Update-SteamApp {
 
                 # Install selected Steam application if a SteamAppID has been selected.
                 if (-not ($null -eq $SteamAppID)) {
-                    Use-SteamCMD
+                    $SCMessage = @"
+Do you want to install or update the following SteamApp?
+    $($SteamAppID)
+"@
+                    if ($Force -or $PSCmdlet.ShouldContinue($SCMessage, "Update SteamApp $($SteamAppID)?")) {
+                        Write-Verbose -Message "The game with Steam AppID $($SteamAppID) is being updated. Please wait for SteamCMD to finish."
+                        Use-SteamCMD
+                    }
                 }
             } catch {
                 Throw "$($GameName) couldn't be updated."
@@ -154,10 +166,15 @@ function Update-SteamApp {
         if ($PSCmdlet.ParameterSetName -eq 'AppID') {
             try {
                 $SteamAppID = $AppID
-                Write-Verbose -Message "The game with Steam AppID $($SteamAppID) is being updated. Please wait for SteamCMD to finish."
-
+                $SCMessage = @"
+Do you want to install or update the following SteamApp?
+    $($SteamAppID)
+"@
                 # Install selected Steam application.
-                Use-SteamCMD
+                if ($Force -or $PSCmdlet.ShouldContinue($SCMessage, "Update SteamApp $($SteamAppID)?")) {
+                    Write-Verbose -Message "The game with Steam AppID $($SteamAppID) is being updated. Please wait for SteamCMD to finish."
+                    Use-SteamCMD
+                }
             } catch {
                 Throw "$($SteamAppID) couldn't be updated."
             }
