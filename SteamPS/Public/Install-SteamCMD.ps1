@@ -25,7 +25,6 @@ function Install-SteamCMD {
 
     .LINK
     https://hjorslev.github.io/SteamPS/Install-SteamCMD.html
-
     #>
 
     [CmdletBinding()]

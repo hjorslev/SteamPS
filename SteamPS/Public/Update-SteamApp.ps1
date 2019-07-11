@@ -4,10 +4,11 @@ function Update-SteamApp {
     Install or update a Steam application using SteamCMD.
 
     .DESCRIPTION
-    Install or update a Steam application using SteamCMD. If SteamCMD is missing, it will be installed first. You can either search for the application by name or enter the specific Application ID.
+    Install or update a Steam application using SteamCMD. If SteamCMD is missing, it will be installed first.
+    You can either search for the application by name or enter the specific Application ID.
 
     .PARAMETER ApplicationName
-    Enter the name of the app to make a wildcard search for the game.
+    Enter the name of the app to make a wildcard search for the application.
 
     .PARAMETER AppID
     Enter the application ID you wish to install.
@@ -47,14 +48,12 @@ function Update-SteamApp {
 
     .LINK
     https://hjorslev.github.io/SteamPS/Update-SteamApp.html
-
     #>
+
     [CmdletBinding(SupportsShouldProcess = $true,
         ConfirmImpact = 'Medium'
     )]
-    param
-    (
-
+    param (
         [Parameter(Position = 0,
             Mandatory = $true,
             ValueFromPipelineByPropertyName = $true,
