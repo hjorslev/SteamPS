@@ -70,6 +70,7 @@ function Update-SteamApp {
         )]
         [int]$AppID,
 
+        [Parameter(Mandatory = $true)]
         [System.IO.FileInfo]$Path,
 
         [ValidateNotNull()]
