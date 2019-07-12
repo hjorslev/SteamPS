@@ -32,8 +32,6 @@ Describe "$($ModuleName) Comment Based Help" -Tags "Module" {
             # Get the Parameters declared in the AST PARAM() Block
             $ASTParameters = $ast.ParamBlock.Parameters.Name.VariablePath.UserPath
 
-            $FunctionsList = (Get-Command -Module $ModuleName | Where-Object -FilterScript { $_.CommandType -eq 'Function' }).Name
-
             It "Parameter - Compare Count Help/AST" {
                 $HelpParameters.Name.Count -eq $ASTParameters.Count | Should Be $true
             }
@@ -50,7 +48,7 @@ Describe "$($ModuleName) Comment Based Help" -Tags "Module" {
 
             # Examples
             it "Example - Count should be greater than 0" {
-                $Help.Examples.Example.code.Count | Should BeGreaterthan 0
+                $Help.Examples.Example.Code.Count | Should BeGreaterthan 0
             }
 
             # Examples - Remarks (small description that comes with the example)
@@ -60,5 +58,5 @@ Describe "$($ModuleName) Comment Based Help" -Tags "Module" {
                 }
             }
         }
-    }
-}
+    } # foreach
+} # Describe
