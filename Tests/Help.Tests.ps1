@@ -20,17 +20,17 @@ Describe "$($ModuleName) Comment Based Help" -Tags "Module" {
 
         Context "$Function - Help" {
 
-            It "Synopsis" { $help.Synopsis | Should -not -BeNullOrEmpty }
-            It "Description" { $help.Description | Should -not -BeNullOrEmpty }
-            It "Notes - Author" { $Notes[0].trim() | Should -Be "Author: Frederik Hjorslev Poulsen" }
+            It "Synopsis" { $Help.Synopsis | Should -not -BeNullOrEmpty }
+            It "Description" { $Help.Description | Should -not -BeNullOrEmpty }
+            It "Notes - Author" { $Notes[0].trim() | Should -BeLike "Author: *" }
             #It "Notes - Site" { $Notes[1].trim() | Should Be "hjorslev.com" }
 
-            # Get the parameters declared in the Comment Based Help
+            # Get the Parameters declared in the Comment Based Help
             $RiskMitigationParameters = 'Whatif', 'Confirm'
-            $HelpParameters = $help.parameters.parameter | Where-Object Name -NotIn $RiskMitigationParameters
+            $HelpParameters = $Help.Parameters.Parameter | Where-Object Name -NotIn $RiskMitigationParameters
 
-            # Get the parameters declared in the AST PARAM() Block
-            $ASTParameters = $ast.ParamBlock.Parameters.Name.variablepath.userpath
+            # Get the Parameters declared in the AST PARAM() Block
+            $ASTParameters = $ast.ParamBlock.Parameters.Name.VariablePath.UserPath
 
             $FunctionsList = (Get-Command -Module $ModuleName | Where-Object -FilterScript { $_.CommandType -eq 'Function' }).Name
 
@@ -46,7 +46,6 @@ Describe "$($ModuleName) Comment Based Help" -Tags "Module" {
                         $_.Description | Should -not -BeNullOrEmpty
                     }
                 }
-
             }
 
             # Examples
@@ -57,7 +56,7 @@ Describe "$($ModuleName) Comment Based Help" -Tags "Module" {
             # Examples - Remarks (small description that comes with the example)
             foreach ($Example in $Help.Examples.Example) {
                 it "Example - Remarks on $($Example.Title)" {
-                    $Example.remarks | Should -not -BeNullOrEmpty
+                    $Example.Remarks | Should -not -BeNullOrEmpty
                 }
             }
         }
