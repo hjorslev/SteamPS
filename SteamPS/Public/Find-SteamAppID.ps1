@@ -11,7 +11,7 @@
     with an Out-GridView where he/she can choose the correct application.
 
     .INPUTS
-    System.String. Find-SteamAppID accepets a string value.
+    System.String. Find-SteamAppID accepts a string value.
 
     .OUTPUTS
     System.String and Int. It returns the application name and application ID.
