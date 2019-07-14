@@ -10,6 +10,12 @@
     Enter the name of the application. If multiple hits the user will be presented
     with an Out-GridView where he/she can choose the correct application.
 
+    .INPUTS
+    System.String. Find-SteamAppID accepets a string value.
+
+    .OUTPUTS
+    System.String and Int. It returns the application name and application ID.
+
     .EXAMPLE
     Find-SteamAppID -ApplicationName 'Ground Branch'
 
@@ -20,8 +26,8 @@
     .EXAMPLE
     Find-SteamAppID -ApplicationName 'Ground Branch D'
 
-    Will only yield one result which is 'Ground Branch Dedicated Server'. This
-    will directly output the AppID of 'Ground Branch Dedicated Server' to the user.
+    This Will only yield one result which is 'Ground Branch Dedicated Server'.
+    Output is the AppID and name of the application.
 
     .NOTES
     Author: Frederik Hjorslev Poulsen
