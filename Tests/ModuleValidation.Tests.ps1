@@ -49,5 +49,5 @@ Describe "General project validation: $($ModuleName)" {
                 $Commandompare.InputObject -join ',' | Should -BeNullOrEmpty
             }
         }
-    }
-}
+    } # Context
+}# Descrive

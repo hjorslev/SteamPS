@@ -5,12 +5,12 @@ $Public = @( Get-ChildItem -Path $PSScriptRoot\Public\*.ps1 -Recurse -ErrorActio
 $Private = @( Get-ChildItem -Path $PSScriptRoot\Private\*.ps1 -Recurse -ErrorAction SilentlyContinue )
 
 #Dot source the files
-Foreach ($import in @($Public + $Private)) {
-    Try {
-        . $import.fullname
-    } Catch {
-        Write-Error -Message "Failed to import function $($import.fullname): $_"
+foreach ($Import in @($Public + $Private)) {
+    try {
+        . $Import.FullName
+    } catch {
+        Write-Error -Message "Failed to import function $($Import.FullName): $_"
     }
 }
 
-Export-ModuleMember -Function $Public.Basename
+Export-ModuleMember -Function $Public.BaseName

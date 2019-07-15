@@ -18,6 +18,6 @@ foreach ($PowerShellFile in $PowerShellFiles) {
                     $Failures.Count | Should -Be 0
                 }
             }
-        }
-    }
+        } # foreach
+    } # Describe
 } # foreach
