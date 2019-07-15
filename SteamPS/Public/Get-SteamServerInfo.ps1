@@ -12,6 +12,9 @@
     https://rust-servers.info/all-servers.html - ID is located in the URL e.g.
     https://rust-servers.info/server/id-2743.html
 
+    .INPUTS
+    System.String. Get-SteamServer accepts a string value.
+
     .EXAMPLE
     Get-SteamServerInfo -ServerID 2743
 
