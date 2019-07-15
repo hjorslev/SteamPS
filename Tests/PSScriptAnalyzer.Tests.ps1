@@ -1,7 +1,7 @@
 ﻿$ScriptAnalyzerRules = Get-ScriptAnalyzerRule
 $RootFolderofCheckout = Split-Path $PSScriptRoot
 $PowerShellFiles = Get-ChildItem $RootFolderofCheckout -Recurse -Filter *.ps*1
-$ExcludeRules = 'PSAvoidUsingWriteHost', 'PSAvoidUsingInvokeExpression'
+$ExcludeRules = 'PSAvoidUsingWriteHost', 'PSAvoidUsingInvokeExpression', 'PSShouldProcess'
 
 foreach ($PowerShellFile in $PowerShellFiles) {
     Describe "File $($PowerShellFile) should not produce any PSScriptAnalyzer warnings" {
