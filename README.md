@@ -33,14 +33,16 @@ The module is published in the [PowerShell Gallery](https://www.powershellgaller
 Install-Module -Name SteamPS
 ```
 
-2. Install SteamCMD
+When SteamPS is installed we will need to use the cmdlet `Install-SteamCMD` from
+the module to install SteamCMD.
+
+2. This is done by calling Install-SteamCMD from an elevated prompt:
 
 ```powershell
 Install-SteamCMD
 ```
 
 By using the parameter -InstallPath you can specify an install location of SteamCMD.
-
 
 ## Examples
 
