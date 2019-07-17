@@ -96,11 +96,11 @@ function Update-SteamApp {
             $PlainPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
         }
 
-        # Prompt the user to install SteamCMD if missing.
-        # ? I have tried calling Install-SteamCMD here, but it seems like it is
-        # ? only working if you call it manually.
+        # Install SteamCMD if it is missing.
         if (-not (Test-Path -Path $SteamCMDExecutable)) {
-            Throw 'Please install SteamCMD first by executing Install-SteamCMD.'
+            Start-Process powershell -ArgumentList '-NoExit -Command "Install-SteamCMD; exit"' -Verb RunAs
+            Write-Verbose -Message 'Installing SteamCMD in another window. Please wait and try again.'
+            Throw "SteamCMD is missing and is being installed in another window. Please wait until the other window closes and try again."
         }
     } # Begin
 
