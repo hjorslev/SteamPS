@@ -1,7 +1,7 @@
 ---
 external help file: SteamPS-help.xml
 Module Name: SteamPS
-online version:
+online version: https://hjorslev.github.io/SteamPS/Install-SteamCMD.html
 schema: 2.0.0
 ---
 
@@ -64,3 +64,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 Author: Frederik Hjorslev Poulsen
 
 ## RELATED LINKS
+
+[https://hjorslev.github.io/SteamPS/Install-SteamCMD.html](https://hjorslev.github.io/SteamPS/Install-SteamCMD.html)
+

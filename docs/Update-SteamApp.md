@@ -1,7 +1,7 @@
 ---
 external help file: SteamPS-help.xml
 Module Name: SteamPS
-online version:
+online version: https://hjorslev.github.io/SteamPS/Update-SteamApp.html
 schema: 2.0.0
 ---
 
@@ -12,15 +12,15 @@ Install or update a Steam application using SteamCMD.
 
 ## SYNTAX
 
-### GameName
+### ApplicationName
 ```
-Update-SteamApp [-GameName] <String[]> [-Path <FileInfo>] [-Credential <PSCredential>] [-Arguments <String>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+Update-SteamApp [-ApplicationName] <String> -Path <FileInfo> [-Credential <PSCredential>] [-Arguments <String>]
+ [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### AppID
 ```
-Update-SteamApp [-AppID] <Int32> [-Path <FileInfo>] [-Credential <PSCredential>] [-Arguments <String>]
+Update-SteamApp [-AppID] <Int32> -Path <FileInfo> [-Credential <PSCredential>] [-Arguments <String>] [-Force]
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -33,7 +33,7 @@ You can either search for the application by name or enter the specific Applicat
 
 ### EXAMPLE 1
 ```
-Update-SteamApp -GameName 'Arma 3' -Credential 'Toby' -Path 'C:\Servers\Arma3'
+Update-SteamApp -ApplicationName 'Arma 3' -Credential 'Toby' -Path 'C:\Servers\Arma3'
 ```
 
 Because there are multiple hits when searching for Arma 3, the user will be promoted to select the right application.
@@ -47,13 +47,13 @@ Here we use anonymous login because the particular application (ARK: Survival Ev
 
 ## PARAMETERS
 
-### -GameName
-Enter the name of the app to make a wildcard search for the game.
+### -ApplicationName
+Enter the name of the app to make a wildcard search for the application.
 
 ```yaml
-Type: String[]
-Parameter Sets: GameName
-Aliases:
+Type: String
+Parameter Sets: ApplicationName
+Aliases: GameName
 
 Required: True
 Position: 1
@@ -85,7 +85,7 @@ Type: FileInfo
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -124,6 +124,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+The Force parameter allows the user to skip the "Should Continue" box.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -172,3 +187,6 @@ Author: Frederik Hjorslev Poulsen
 SteamCMD CLI parameters: https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_4
 
 ## RELATED LINKS
+
+[https://hjorslev.github.io/SteamPS/Update-SteamApp.html](https://hjorslev.github.io/SteamPS/Update-SteamApp.html)
+
