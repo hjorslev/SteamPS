@@ -1,7 +1,7 @@
 ﻿function Get-SteamServerInfo {
     <#
     .SYNOPSIS
-    - Get server information about Steam game servers.
+    Get server information about Steam game servers.
 
     .DESCRIPTION
     Get server information about Steam game servers from Rust Server Info (RSI).
