@@ -1,3 +1,4 @@
+#Requires -RunAsAdministrator
 function Install-SteamCMD {
     <#
     .SYNOPSIS
