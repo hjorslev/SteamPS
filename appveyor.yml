@@ -49,5 +49,5 @@ test_script:
   - git config --global user.name "Frederik Hjorslev Poulsen"
   - git config --global core.autocrlf true
   - git config --global core.safecrlf false
-  - ps: write-host "calling build.ps1"
+  - ps: write-host "Calling build.ps1"
   - ps: . .\build.ps1

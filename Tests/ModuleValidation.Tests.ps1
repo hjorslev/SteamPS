@@ -5,8 +5,8 @@ $ModuleName = Split-Path $ModuleRoot -Leaf
 $PublicFiles = @(Get-ChildItem -Path "$($ProjectRoot)\Public\*.ps1" -ErrorAction SilentlyContinue)
 $ModuleInformation = Import-Metadata -Path "$($ProjectRoot)\$($ModuleName)\$($ModuleName).psd1" # Cmdlet from module Configuration.
 
-Describe "General project validation: $($ModuleName)" {
-    Context "Project files" {
+Describe "General Project Validation: $($ModuleName)" {
+    Context "Project Files" {
         $FileSearch = @{
             Path    = $ProjectRoot
             Include = '*.ps1', '*.psm1', '*.psd1'
@@ -33,13 +33,13 @@ Describe "General project validation: $($ModuleName)" {
     }
 
     Context 'Manifest' {
-        It 'Should contains RootModule' { $ModuleInformation.RootModule | Should -Not -BeNullOrEmpty }
-        It 'Should contains Author' { $ModuleInformation.Author | Should -Not -BeNullOrEmpty }
-        It 'Should contains Company Name' { $ModuleInformation.CompanyName | Should -Not -BeNullOrEmpty }
-        It 'Should contains Description' { $ModuleInformation.Description | Should -Not -BeNullOrEmpty }
-        It 'Should contains Copyright' { $ModuleInformation.Copyright | Should -Not -BeNullOrEmpty }
-        It 'Should contains License' { $ModuleInformation.PrivateData.PSData.LicenseURI | Should -Not -BeNullOrEmpty }
-        It 'Should contains a Project Link' { $ModuleInformation.PrivateData.PSData.ProjectURI | Should -Not -BeNullOrEmpty }
+        It 'Should contain RootModule' { $ModuleInformation.RootModule | Should -Not -BeNullOrEmpty }
+        It 'Should contain Author' { $ModuleInformation.Author | Should -Not -BeNullOrEmpty }
+        It 'Should contain Company Name' { $ModuleInformation.CompanyName | Should -Not -BeNullOrEmpty }
+        It 'Should contain Description' { $ModuleInformation.Description | Should -Not -BeNullOrEmpty }
+        It 'Should contain Copyright' { $ModuleInformation.Copyright | Should -Not -BeNullOrEmpty }
+        It 'Should contain License' { $ModuleInformation.PrivateData.PSData.LicenseURI | Should -Not -BeNullOrEmpty }
+        It 'Should contain a Project Link' { $ModuleInformation.PrivateData.PSData.ProjectURI | Should -Not -BeNullOrEmpty }
         It 'Should contain Tags (For the PSGallery)' { $ModuleInformation.Tags.Count | Should -Not -BeNullOrEmpty }
 
         It "Should have equal number of Function Exported and the Public PS1 files found ($($ExportedFunctions.Count) and $($PublicFiles.Count))" {
@@ -54,9 +54,13 @@ Describe "General project validation: $($ModuleName)" {
     } # Context: Manifest
 
     Context "Changelog" {
-        It "Version in Changelog should not be equal to version in Manifest" {
+        It "Version in Changelog should be greater than version in Manifest" {
             # Expects that the latest version is located at line 8.
-            $ChangeLog = [version]((Get-Content -Path '.\CHANGELOG.md')[7]).Substring(4, 5) | Should -BeGreaterThan (Test-ModuleManifest -Path ".\$($ModuleName)\$($ModuleName).psd1").Version
+            $ChangeLog = [version]((Get-Content -Path "$($ProjectRoot)\CHANGELOG.md")[7]).Substring(4, 5) | Should -BeGreaterThan (Test-ModuleManifest -Path ".\$($ModuleName)\$($ModuleName).psd1").Version
+        }
+
+        It "Should not be Unreleased, but display a date" {
+            ((Get-Content -Path "$($ProjectRoot)\CHANGELOG.md")[7]).Substring(13) | Should -not -BeExactly 'Unreleased'
         }
     } # Context: Changelog
-}# Describe
+} # Describe
