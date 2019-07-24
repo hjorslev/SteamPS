@@ -3,7 +3,7 @@
 ## Released / master branch
 
 [![Build status](https://img.shields.io/appveyor/ci/hjorslev/SteamPS.svg?style=for-the-badge&logo=appveyor)](https://ci.appveyor.com/project/hjorslev/steamps)
-[![AppVeyor tests (branch)](https://img.shields.io/appveyor/tests/hjorslev/SteamPS.svg?style=for-the-badge&logo=appveyor)](https://ci.appveyor.com/project/hjorslev/steamps/build/tests)
+[![AppVeyor tests (master)](https://img.shields.io/appveyor/tests/hjorslev/SteamPS.svg?style=for-the-badge&logo=appveyor)](https://ci.appveyor.com/project/hjorslev/steamps/build/tests)
 [![PowerShellGallery Version](https://img.shields.io/powershellgallery/v/SteamPS.svg?style=for-the-badge)](https://www.powershellgallery.com/packages/SteamPS)
 [![PowerShellGallery Downloads](https://img.shields.io/powershellgallery/dt/SteamPS.svg?style=for-the-badge)](https://www.powershellgallery.com/packages/SteamPS)
 
