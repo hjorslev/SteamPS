@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [1.2.2] - Unreleased
 
+### Changed
+
+- New workflow with AppVeyor.
+
 ## [1.2.1] - 17/02-2019
 
 ### Added

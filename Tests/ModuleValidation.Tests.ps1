@@ -1,14 +1,11 @@
-﻿$ProjectRoot = Resolve-Path "$($PSScriptRoot)/.."
-$ModuleRoot = Split-Path (Resolve-Path "$($ProjectRoot)/*/*.psm1")
-$ModuleName = Split-Path $ModuleRoot -Leaf
+﻿
+$PublicFiles = @(Get-ChildItem -Path "$($env:BHProjectPath)\Public\*.ps1" -ErrorAction SilentlyContinue)
+$ModuleInformation = Import-Metadata -Path "$($env:BHProjectPath)\$($env:BHProjectName)\$($env:BHProjectName).psd1" # Cmdlet from module Configuration.
 
-$PublicFiles = @(Get-ChildItem -Path "$($ProjectRoot)\Public\*.ps1" -ErrorAction SilentlyContinue)
-$ModuleInformation = Import-Metadata -Path "$($ProjectRoot)\$($ModuleName)\$($ModuleName).psd1" # Cmdlet from module Configuration.
-
-Describe "General Project Validation: $($ModuleName)" {
+Describe "General Project Validation: $($env:BHProjectName)" {
     Context "Project Files" {
         $FileSearch = @{
-            Path    = $ProjectRoot
+            Path    = $env:BHProjectPath
             Include = '*.ps1', '*.psm1', '*.psd1'
             Recurse = $true
         }
@@ -27,8 +24,8 @@ Describe "General Project Validation: $($ModuleName)" {
             $Errors.Count | Should -Be 0
         }
 
-        It "'$ModuleName' can import cleanly" {
-            { Import-Module (Join-Path $ModuleRoot "$ModuleName.psm1") -Force } | Should -Not -Throw
+        It "'$env:BHProjectName' can import cleanly" {
+            { Import-Module "$($env:BHModulePath)\$($env:BHProjectName).psm1" -Force } | Should -Not -Throw
         }
     }
 
@@ -56,11 +53,11 @@ Describe "General Project Validation: $($ModuleName)" {
     Context "Changelog" {
         It "Version in Changelog should be greater than version in Manifest" {
             # Expects that the latest version is located at line 8.
-            $ChangeLog = [version]((Get-Content -Path "$($ProjectRoot)\CHANGELOG.md")[7]).Substring(4, 5) | Should -BeGreaterThan (Test-ModuleManifest -Path ".\$($ModuleName)\$($ModuleName).psd1").Version
+            [version]((Get-Content -Path "$($env:BHProjectPath)\CHANGELOG.md")[7]).Substring(4, 5) | Should -BeGreaterThan (Test-ModuleManifest -Path $env:BHPSModuleManifest).Version
         }
 
         It "Should not be Unreleased, but display a date" {
-            ((Get-Content -Path "$($ProjectRoot)\CHANGELOG.md")[7]).Substring(13) | Should -not -BeExactly 'Unreleased'
+            ((Get-Content -Path "$($env:BHProjectPath)\CHANGELOG.md")[7]).Substring(13) | Should -not -BeExactly 'Unreleased'
         }
     } # Context: Changelog
 } # Describe
