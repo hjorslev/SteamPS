@@ -1,6 +1,6 @@
 ﻿
 $PublicFiles = @(Get-ChildItem -Path "$($env:BHProjectPath)\Public\*.ps1" -ErrorAction SilentlyContinue)
-$ModuleInformation = Import-Metadata -Path "$($env:BHProjectPath)\$($env:BHProjectName)\$($env:BHProjectName).psd1" # Cmdlet from module Configuration.
+$ModuleInformation = Import-Metadata -Path $env:BHPSModuleManifest # Cmdlet from module Configuration.
 
 Describe "General Project Validation: $($env:BHProjectName)" {
     Context "Project Files" {
@@ -56,8 +56,12 @@ Describe "General Project Validation: $($env:BHProjectName)" {
             [version]((Get-Content -Path "$($env:BHProjectPath)\CHANGELOG.md")[7]).Substring(4, 5) | Should -BeGreaterThan (Test-ModuleManifest -Path $env:BHPSModuleManifest).Version
         }
 
-        It "Should not be Unreleased, but display a date" {
-            ((Get-Content -Path "$($env:BHProjectPath)\CHANGELOG.md")[7]).Substring(13) | Should -not -BeExactly 'Unreleased'
+        if ((Get-BuildEnvironment).BranchName -ne 'dev') {
+            It "Should not be Unreleased, but display a date" {
+                ((Get-Content -Path "$($env:BHProjectPath)\CHANGELOG.md")[7]).Substring(13) | Should -not -BeExactly 'Unreleased'
+            }
+        } else {
+            Write-Verbose -Message "Skipping checking for 'Unreleased' string since we are on dev branch."
         }
     } # Context: Changelog
 } # Describe
