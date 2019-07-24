@@ -10,7 +10,7 @@
 ## Dev branch
 
 [![Build status](https://img.shields.io/appveyor/ci/hjorslev/SteamPS/dev.svg?style=for-the-badge&logo=appveyor)](https://ci.appveyor.com/project/hjorslev/steamps)
-[![AppVeyor tests (branch)](https://img.shields.io/appveyor/tests/hjorslev/SteamPS/dev.svg?style=for-the-badge&logo=appveyor)](https://ci.appveyor.com/project/hjorslev/steamps/build/tests)
+[![AppVeyor tests (dev)](https://img.shields.io/appveyor/tests/hjorslev/SteamPS/dev.svg?style=for-the-badge&logo=appveyor)](https://ci.appveyor.com/project/hjorslev/steamps/build/tests)
 
 ## Introduction
 
