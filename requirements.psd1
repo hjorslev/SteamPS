@@ -23,7 +23,6 @@
     # Grab some modules without depending on PowerShellGet
     'BuildHelpers'      = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
     'Configuration'     = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
-    'InvokeBuild'       = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
     'Pester'            = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
     'platyPS'           = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
     'posh-git'          = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
