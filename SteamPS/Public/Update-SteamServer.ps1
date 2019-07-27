@@ -36,6 +36,7 @@
 
     [CmdletBinding(SupportsShouldProcess = $true,
         ConfirmImpact = 'High')]
+
     param (
         [Parameter(Mandatory = $true)]
         [int]$AppID,
