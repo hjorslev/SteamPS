@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - Module [Logging](https://www.powershellgallery.com/packages/Logging) is listed
 as dependency.
+- New cmdlet: Update-SteamServer
+  - Cmdlet that presents a workflow to keep a Steam based game server up to date.
 
 ### Changed
 

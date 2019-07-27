@@ -52,7 +52,7 @@
         [string]$ApplicationPath = "C:\DedicatedServers\$($ServiceName)",
 
         [Parameter(Mandatory = $false)]
-        [string]$LogLocation = "C:\DedicatedServers\Logs\$($ServiceName)\$($ServiceName)_%{+%Y%m%d}.log",
+        [string]$LogLocation = "C:\DedicatedServers\Logs\$($ServiceName)\$($ServiceName)_$((Get-Date).ToShortDateString()).log",
 
         [Parameter(Mandatory = $false)]
         [string]$DiscordWebhookUri
@@ -80,14 +80,14 @@
         # Server is now empty and we stop, update and start the server.
         Write-Log -Message "Stopping $($ServiceName)"
         Stop-Service -Name $ServiceName
-        Write-Log -Message "$(Get-Service -Name $ServiceName | Out-String)"
+        Write-Log -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status),"
 
         Write-Log -Message "Updating $($ServiceName)..."
         Update-SteamApp -AppID $AppID -Path $ApplicationPath -Force -Verbose
 
-        Write-Log -Message "Starting $($ServiceName)."
+        Write-Log -Message "Starting $($ServiceName)"
         Start-Service -Name $ServiceName
-        Write-Log -Message $(Get-Service -Name $ServiceName | Out-String)
+        Write-Log -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status),"
 
         $TimeOutCounter = 0
         do {

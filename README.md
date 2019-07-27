@@ -1,6 +1,6 @@
 ﻿# SteamPS
 
-## Released / master branch
+## Module status
 
 [![Build status](https://img.shields.io/appveyor/ci/hjorslev/SteamPS.svg?label=MASTER&style=for-the-badge&logo=appveyor)](https://ci.appveyor.com/project/hjorslev/steamps)
 [![AppVeyor tests (master)](https://img.shields.io/appveyor/tests/hjorslev/SteamPS.svg?label=MASTER&style=for-the-badge&logo=appveyor)](https://ci.appveyor.com/project/hjorslev/steamps/build/tests)
