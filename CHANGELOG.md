@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [1.2.2] - Unreleased
 
+### Added
+
+- Module [Logging](https://www.powershellgallery.com/packages/Logging) is listed
+as dependency.
+
 ### Changed
 
 - New workflow with AppVeyor.
