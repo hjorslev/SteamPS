@@ -8,8 +8,8 @@ Set-BuildEnvironment -ErrorAction SilentlyContinue
 
 # Make sure we're using the Master branch and that it's not a pull request
 # Environmental Variables Guide: https://www.appveyor.com/docs/environment-variables/
-if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
-    Write-Warning -Message "Skipping version increment and publish for branch $env:APPVEYOR_REPO_BRANCH"
+if ($env:BHBranchName -ne 'master') {
+    Write-Warning -Message "Skipping version increment and publish for branch $($env:BHBranchName)"
 } elseif ($env:APPVEYOR_PULL_REQUEST_NUMBER -gt 0) {
     Write-Warning -Message "Skipping version increment and publish for pull request #$env:APPVEYOR_PULL_REQUEST_NUMBER"
 } else {
@@ -56,11 +56,6 @@ if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
     Copy-Item -Path '.\README.md' -Destination 'docs\index.md'
     Copy-Item -Path '.\CHANGELOG.md' -Destination 'docs\CHANGELOG.md'
     Copy-Item -Path '.\CONTRIBUTING.md' -Destination 'docs\CONTRIBUTING.md'
-
-    # Build documentation
-    mkdocs build
-    Write-Host -Object 'Done building documentation..' -ForegroundColor Green
-    Write-Host -Object ''
 
     # Publish the new version to the PowerShell Gallery
     try {
