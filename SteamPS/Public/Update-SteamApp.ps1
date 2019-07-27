@@ -100,7 +100,7 @@ function Update-SteamApp {
         if (-not (Test-Path -Path $SteamCMDExecutable)) {
             Start-Process powershell -ArgumentList '-NoExit -Command "Install-SteamCMD; exit"' -Verb RunAs
             Write-Verbose -Message 'Installing SteamCMD in another window. Please wait and try again.'
-            Throw "SteamCMD is missing and is being installed in another window. Please wait until the other window closes and try again."
+            throw "SteamCMD is missing and is being installed in another window. Please wait until the other window closes and try again."
         }
     } # Begin
 

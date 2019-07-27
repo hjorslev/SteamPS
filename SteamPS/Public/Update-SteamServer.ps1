@@ -1,52 +1,47 @@
 ﻿function Update-SteamServer {
     <#
     .SYNOPSIS
-    Short description
+    Update a Steam based game server.
 
     .DESCRIPTION
-    Long description
+    This cmdlet presents a workflow to keep a steam based game server up to date.
+    The server is expecting the game server to be running as a Windows Service.
 
     .PARAMETER AppID
-    Parameter description
-
-    .PARAMETER ApplicationName
-    Parameter description
+    Enter the application ID you wish to install..
 
     .PARAMETER ServiceName
-    Parameter description
+    Specify the Windows Service Name. You can get a list of services with Get-Service.
 
     .PARAMETER ApplicationPath
     Parameter description
 
     .PARAMETER RsiServerID
-    Parameter description
+    Enter the Rust Server ID. More information about adding and obtaining an ID:
+    https://rust-servers.info/add.html
 
     .PARAMETER LogLocation
-    Parameter description
+    Specify the location of the log files.
 
     .PARAMETER DiscordWebhookUri
-    Parameter description
+    Enter a Discord Webhook Uri if you wish to get notifications about the server
+    update.
 
     .EXAMPLE
-    An example
+    Update-SteamServer -AppID 476400 -ServiceName GB-PG10 -RsiServerID 2743
 
     .NOTES
-    General notes
+    Author: Frederik Hjorslev Poulsen
     #>
 
-    [CmdletBinding(DefaultParameterSetName = 'AppID',
-        SupportsShouldProcess = $true,
+    [CmdletBinding(SupportsShouldProcess = $true,
         ConfirmImpact = 'High')]
     param (
-        [Parameter(Mandatory = $true,
-            ParameterSetName = 'AppID')]
+        [Parameter(Mandatory = $true)]
         [int]$AppID,
 
-        [Parameter(Mandatory = $true,
-            ParameterSetName = 'ApplicationName')]
-        [string]$ApplicationName,
-
         [Parameter(Mandatory = $true)]
+        [ValidateScript( { Get-Service -Name $_ })]
         [string]$ServiceName,
 
         [Parameter(Mandatory = $true)]
