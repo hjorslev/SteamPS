@@ -32,6 +32,9 @@
 
     .NOTES
     Author: Frederik Hjorslev Poulsen
+
+    .LINK
+    https://hjorslev.github.io/SteamPS/Update-SteamServer.html
     #>
 
     [CmdletBinding(SupportsShouldProcess = $true,
