@@ -1,5 +1,6 @@
-﻿$PowerShellFiles = Get-ChildItem $env:BHProjectPath -Recurse -Filter *.ps*1 -Exclude 'build.ps1', 'install.ps1', 'psake.ps1'
-$ExcludeRules = 'PSAvoidUsingWriteHost', 'PSAvoidUsingInvokeExpression'
+﻿$ScriptAnalyzerRules = Get-ScriptAnalyzerRule
+$PowerShellFiles = Get-ChildItem $env:BHProjectPath -Recurse -Filter *.ps*1
+$ExcludeRules = 'PSAvoidUsingWriteHost', 'PSAvoidUsingInvokeExpression', 'PSShouldProcess'
 
 foreach ($PowerShellFile in $PowerShellFiles) {
     Describe "File $($PowerShellFile) should not produce any PSScriptAnalyzer warnings" {
