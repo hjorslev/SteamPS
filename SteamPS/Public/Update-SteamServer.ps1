@@ -1,4 +1,5 @@
-﻿function Update-SteamServer {
+﻿#Requires -RunAsAdministrator
+function Update-SteamServer {
     <#
     .SYNOPSIS
     Update a Steam based game server.

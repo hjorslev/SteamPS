@@ -4,7 +4,20 @@ Param ()
 # Line break for readability in AppVeyor console
 Write-Host -Object ''
 
-Set-BuildEnvironment -ErrorAction SilentlyContinue
+Set-BuildEnvironment
+Write-Host -Object "Build System Details:"
+Get-Item env:BH*
+Write-Output -InputObject "`n"
+
+# Invoke Pester to run all of the unit tests, then save the results into XML in order to populate the AppVeyor tests section
+# If any of the tests fail, consider the pipeline failed
+$res = Invoke-Pester -Path ".\Tests" -OutputFormat NUnitXml -OutputFile ".\Tests\TestsResults.xml" -PassThru
+(New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path ".\Tests\TestsResults.xml"))
+if ($res.FailedCount -gt 0) {
+    throw "$($res.FailedCount) tests failed."
+}
+
+Remove-Item -Path "$($env:BHProjectPath)\Tests\TestsResults.xml" -Force
 
 # Make sure we're using the Master branch and that it's not a pull request
 # Environmental Variables Guide: https://www.appveyor.com/docs/environment-variables/

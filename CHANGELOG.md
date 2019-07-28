@@ -17,6 +17,10 @@ as dependency.
 ### Changed
 
 - New workflow with AppVeyor.
+- Move `#Requires -RunAsAdministrator` statement from module file to the cmdlets
+that requires administrator priviliges (Install-SteamCMD, Update-SteamApp,
+Update-SteamServer) allowing some cmdlets to be executed without administrator
+priviliges (Find-SteamAppID, Get-SteamServerInfo).
 
 ## [1.2.1] - 17/02-2019
 

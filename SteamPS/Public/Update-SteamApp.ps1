@@ -1,3 +1,4 @@
+#Requires -RunAsAdministrator
 function Update-SteamApp {
     <#
     .SYNOPSIS
