@@ -21,6 +21,8 @@ as dependency.
 that requires administrator priviliges (Install-SteamCMD, Update-SteamApp,
 Update-SteamServer) allowing some cmdlets to be executed without administrator
 priviliges (Find-SteamAppID, Get-SteamServerInfo).
+- Use `$env:Path` instead of registry database to handle the install location of
+SteamCMD.
 
 ## [1.2.1] - 17/02-2019
 

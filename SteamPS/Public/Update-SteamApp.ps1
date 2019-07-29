@@ -1,4 +1,3 @@
-#Requires -RunAsAdministrator
 function Update-SteamApp {
     <#
     .SYNOPSIS
@@ -71,7 +70,7 @@ function Update-SteamApp {
         [int]$AppID,
 
         [Parameter(Mandatory = $true)]
-        [System.IO.FileInfo]$Path,
+        [string]$Path,
 
         [ValidateNotNull()]
         [System.Management.Automation.PSCredential]
@@ -86,9 +85,9 @@ function Update-SteamApp {
     )
 
     begin {
-        $RegistryPath = 'HKLM:\SOFTWARE\SteamPS'
-        $InstallPath = (Get-ItemProperty -Path $RegistryPath -Name InstallPath -ErrorAction SilentlyContinue).InstallPath
-        $SteamCMDExecutable = "$($InstallPath)\steamcmd.exe"
+        if ($null -eq (Get-SteamPath)) {
+            throw 'SteamCMD could not be found in the env:Path. Have you executed Install-SteamCMD?'
+        }
 
         # Make Secure.String to plain text string.
         if ($null -eq $Credential) {
@@ -98,10 +97,10 @@ function Update-SteamApp {
         }
 
         # Install SteamCMD if it is missing.
-        if (-not (Test-Path -Path $SteamCMDExecutable)) {
+        if (-not (Test-Path -Path (Get-SteamPath).Executable)) {
             Start-Process powershell -ArgumentList '-NoExit -Command "Install-SteamCMD; exit"' -Verb RunAs
             Write-Verbose -Message 'Installing SteamCMD in another window. Please wait and try again.'
-            throw "SteamCMD is missing and is being installed in another window. Please wait until the other window closes and try again."
+            throw "SteamCMD is missing and is being installed in another window. Please wait until the other window closes, restart your console, and try again."
         }
     } # Begin
 
@@ -110,12 +109,12 @@ function Update-SteamApp {
             # If Steam username and Steam password are not empty we use them for logging in.
             if ($null -ne $Credential.UserName) {
                 Write-Verbose -Message "Logging into Steam as $($Credential | Select-Object -ExpandProperty UserName)."
-                Start-Process -FilePath $SteamCMDExecutable -NoNewWindow -ArgumentList "+login $($Credential | Select-Object -ExpandProperty UserName) $($PlainPassword) +force_install_dir `"$($Path)`" +app_update $($SteamAppID) $($Arguments) validate +quit" -Wait
+                Start-Process -FilePath (Get-SteamPath).Executable -NoNewWindow -ArgumentList "+login $($Credential | Select-Object -ExpandProperty UserName) $($PlainPassword) +force_install_dir `"$($Path)`" +app_update $($SteamAppID) $($Arguments) validate +quit" -Wait
             }
             # If Steam username and Steam password are empty we use anonymous login.
             elseif ($null -eq $Credential.UserName) {
-                Write-Verbose -Message 'Using anonymous Steam login.'
-                Start-Process -FilePath $SteamCMDExecutable -NoNewWindow -ArgumentList "+login anonymous +force_install_dir `"$($Path)`" +app_update $($SteamAppID) $($Arguments) validate +quit" -Wait
+                Write-Verbose -Message 'Using SteamCMD as anonymous.'
+                Start-Process -FilePath (Get-SteamPath).Executable -NoNewWindow -ArgumentList "+login anonymous +force_install_dir `"$($Path)`" +app_update $($SteamAppID) $($Arguments) validate +quit" -Wait
             }
         }
 

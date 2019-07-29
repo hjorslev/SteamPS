@@ -12,3 +12,26 @@ Describe "Get-SteamServerInfo" {
         $ServerInfo.hostname | Should -Be 'SAS Proving Ground 10 (EU)'
     }
 }
+
+Describe "Install with SteamCMD" {
+    Add-EnvPath -Path 'TestDrive:\Test\SteamCMD' -Container Session
+    New-Item -Path 'TestDrive:' -Name 'GB-AppID' -ItemType Directory
+    New-Item -Path 'TestDrive:' -Name 'GB-AppName' -ItemType Directory
+
+    Install-SteamCMD -InstallPath 'TestDrive:\Test' -Force
+
+    Context "Install applications" {
+        It "Installs Ground Branch Dedicated Server using AppID" {
+            Update-SteamApp -AppID 476400 -Path 'TestDrive:\GB-AppID' -Force
+            Test-Path -Path 'TestDrive:\GB-AppID\GroundBranchServer.exe' | Should -Exist
+        }
+
+        It "Installs Ground Branch Dedicated Server using Application Name" {
+            Update-SteamApp -ApplicationName 'Ground Branch D' -Path 'TestDrive:\GB-AppName' -Force
+            Test-Path -Path 'TestDrive:\GB-AppName\GroundBranchServer.exe' | Should -Exist
+        }
+    }
+
+    # Wait for the process steamerrorreporter to be close - else test folder wont be deleted.
+    Wait-Process -Name 'steamerrorreporter' -ErrorAction SilentlyContinue
+}
