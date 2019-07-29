@@ -11,6 +11,9 @@ function Install-SteamCMD {
     .PARAMETER InstallPath
     Specifiy the install location of SteamCMD.
 
+    .PARAMETER Force
+    The Force parameter allows the user to skip the "Should Continue" box.
+
     .EXAMPLE
     Install-SteamCMD
 

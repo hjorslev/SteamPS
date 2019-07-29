@@ -14,6 +14,7 @@ Describe "Get-SteamServerInfo" {
 }
 
 Describe "Install with SteamCMD" {
+    . "$($env:BHModulePath)\Private\Add-EnvPath.ps1"
     Add-EnvPath -Path 'TestDrive:\Test\SteamCMD' -Container Session
     New-Item -Path 'TestDrive:' -Name 'GB-AppID' -ItemType Directory
     New-Item -Path 'TestDrive:' -Name 'GB-AppName' -ItemType Directory
