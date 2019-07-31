@@ -20,6 +20,10 @@ Describe "Install with SteamCMD" {
     Install-SteamCMD -InstallPath 'TestDrive:\Test' -Force
 
     Context "Install applications" {
+        It "Finds steamcmd.exe" {
+            Test-Path -Path "$($TestDrive)\Test\SteamCMD\steamcmd.exe" | Should -BeTrue
+        }
+
         It "Installs Ground Branch Dedicated Server using AppID" {
             Update-SteamApp -AppID 476400 -Path "$($TestDrive)\GB-AppID" -Force
             Test-Path -Path "$($TestDrive)\GB-AppID\GroundBranchServer.exe" | Should -BeTrue
