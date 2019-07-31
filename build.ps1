@@ -29,11 +29,18 @@ if ($env:BHBranchName -ne 'master') {
     # We're going to add 1 to the revision value since a new commit has been merged to Master
     # This means that the major / minor / build values will be consistent across GitHub and the Gallery
     try {
-        # Start by importing the manifest to determine the version, then add 1 to the revision
+        # Get current module version from Manifest.
         $Manifest = Test-ModuleManifest -Path $env:BHPSModuleManifest
-        [System.Version]$Version = $Manifest.Version
+        [version]$Version = $Manifest.Version
         Write-Output -InputObject "Old Version: $Version"
-        $NewVersion = Step-Version -Version $Version
+
+        switch -Wildcard ($env:BHCommitMessage) {
+            '*!ver:MAJOR*' { $NewVersion = Step-Version -Version $Version -By Major }
+            '*!ver:MINOR*' { $NewVersion = Step-Version -Version $Version -By Minor }
+            # Default is just changed build
+            Default { $NewVersion = Step-Version -Version $Version }
+        }
+
         Write-Output -InputObject "New Version: $NewVersion"
         $AppVeyor = ConvertFrom-Yaml $(Get-Content "$($env:BHProjectPath)\appveyor.yml" | Out-String)
         $UpdateAppVeyor = $AppVeyor.GetEnumerator() | Where-Object { $_.Name -eq 'version' }

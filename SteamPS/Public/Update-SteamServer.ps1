@@ -96,7 +96,7 @@
         do {
             $TimeOutCounter++ # Add +1 for every loop.
             Write-Log -Message 'Waiting for server to come online again.'
-            Start-Sleep -Seconds 1
+            Start-Sleep -Seconds 60
             # Getting new server information.
             $ServerStatus = Get-SteamServerInfo -ServerID $RsiServerID | Select-Object -Property hostname, ip, port, online_state, players_cur, checked
             Write-Log -Message $ServerStatus

@@ -16,20 +16,18 @@ Describe "Get-SteamServerInfo" {
 Describe "Install with SteamCMD" {
     . "$($env:BHModulePath)\Private\Add-EnvPath.ps1"
     Add-EnvPath -Path 'TestDrive:\Test\SteamCMD' -Container Session
-    New-Item -Path 'TestDrive:' -Name 'GB-AppID' -ItemType Directory
-    New-Item -Path 'TestDrive:' -Name 'GB-AppName' -ItemType Directory
 
     Install-SteamCMD -InstallPath 'TestDrive:\Test' -Force
 
     Context "Install applications" {
         It "Installs Ground Branch Dedicated Server using AppID" {
-            Update-SteamApp -AppID 476400 -Path 'TestDrive:\GB-AppID' -Force
-            Test-Path -Path 'TestDrive:\GB-AppID\GroundBranchServer.exe' | Should -Exist
+            Update-SteamApp -AppID 476400 -Path "$($TestDrive)\GB-AppID" -Force
+            Test-Path -Path "$($TestDrive)\GB-AppID\GroundBranchServer.exe" | Should -BeTrue
         }
 
         It "Installs Ground Branch Dedicated Server using Application Name" {
-            Update-SteamApp -ApplicationName 'Ground Branch D' -Path 'TestDrive:\GB-AppName' -Force
-            Test-Path -Path 'TestDrive:\GB-AppName\GroundBranchServer.exe' | Should -Exist
+            Update-SteamApp -ApplicationName 'Ground Branch D' -Path "$($TestDrive)\GB-AppName" -Force
+            Test-Path -Path "$($TestDrive)\GB-AppName\GroundBranchServer.exe" | Should -BeTrue
         }
     }
 
