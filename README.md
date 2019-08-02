@@ -6,7 +6,7 @@
 [![AppVeyor tests (master)](https://img.shields.io/appveyor/tests/hjorslev/SteamPS/master?label=MASTER&logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/hjorslev/steamps/build/tests)
 [![AppVeyor dev](https://img.shields.io/appveyor/ci/hjorslev/SteamPS/DEV?label=DEV&logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/hjorslev/steamps)
 [![AppVeyor tests (dev)](https://img.shields.io/appveyor/tests/hjorslev/SteamPS/dev?label=DEV&logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/hjorslev/steamps/build/tests)
-[![PowerShell Version](https://img.shields.io/powershellgallery/v/SteamPS.svg?style=for-the-badge)](https://www.powershellgallery.com/packages/SteamPS)
+[![PowerShell Version](https://img.shields.io/powershellgallery/v/SteamPS.svg?style=for-the-badge&logo=PowerShell)](https://www.powershellgallery.com/packages/SteamPS)
 [![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/SteamPS?style=for-the-badge)](https://www.powershellgallery.com/packages/SteamPS)
 
 ## Introduction

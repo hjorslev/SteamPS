@@ -13,13 +13,13 @@ Describe "Get-SteamServerInfo" {
     }
 }
 
-Describe "Install with SteamCMD" {
+Describe "Test SteamCMD cmdlets" {
     . "$($env:BHModulePath)\Private\Add-EnvPath.ps1"
     Add-EnvPath -Path 'TestDrive:\Test\SteamCMD' -Container Session
 
     Install-SteamCMD -InstallPath 'TestDrive:\Test' -Force
 
-    Context "Install applications" {
+    Context "Install and update applications" {
         It "Finds steamcmd.exe" {
             Test-Path -Path "$($TestDrive)\Test\SteamCMD\steamcmd.exe" | Should -BeTrue
         }
@@ -33,6 +33,22 @@ Describe "Install with SteamCMD" {
             Update-SteamApp -ApplicationName 'Ground Branch D' -Path "$($TestDrive)\GB-AppName" -Force
             Test-Path -Path "$($TestDrive)\GB-AppName\GroundBranchServer.exe" | Should -BeTrue
         }
+<#
+        It "Updates a server" {
+            Mock Get-Service { return @{Name = 'GB' } }
+            Mock Stop-Service { return @{Name = 'GB' } }
+            Mock Start-Service { return @{Name = 'GB' } }
+
+            $Splat = @{
+                AppID           = 476400
+                ServiceName     = 'GB'
+                RsiServerID     = 2743
+                ApplicationPath = "$($TestDrive)\GB-AppID"
+                LogLocation     = "$($TestDrive)\Logs"
+            }
+            Update-SteamServer @Splat
+        }
+        #>
     }
 
     # Wait for the process steamerrorreporter to be close - else test folder wont be deleted.

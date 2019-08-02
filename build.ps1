@@ -58,9 +58,6 @@ if ($env:BHBranchName -ne 'master') {
 
         Update-ModuleManifest @Splat
 
-        # Update functions to export.
-        Set-ModuleFunction
-
     } catch {
         throw $_
     }
