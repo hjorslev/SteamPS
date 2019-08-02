@@ -11,10 +11,10 @@ Write-Output -InputObject "`n"
 
 # Invoke Pester to run all of the unit tests, then save the results into XML in order to populate the AppVeyor tests section
 # If any of the tests fail, consider the pipeline failed
-$res = Invoke-Pester -Path ".\Tests" -OutputFormat NUnitXml -OutputFile ".\Tests\TestsResults.xml" -PassThru
-(New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path ".\Tests\TestsResults.xml"))
-if ($res.FailedCount -gt 0) {
-    throw "$($res.FailedCount) tests failed."
+$PesterResults = Invoke-Pester -Path ".\Tests" -OutputFormat NUnitXml -OutputFile ".\Tests\TestsResults.xml" -PassThru
+Add-TestResultToAppveyor -TestFile "$($env:BHProjectPath)\Tests\TestsResults.xml"
+if ($PesterResults.FailedCount -gt 0) {
+    throw "$($PesterResults.FailedCount) tests failed."
 }
 
 Remove-Item -Path "$($env:BHProjectPath)\Tests\TestsResults.xml" -Force
@@ -68,7 +68,7 @@ if ($env:BHBranchName -ne 'master') {
         New-Item -Path $env:BHProjectPath -Name 'docs' -ItemType Directory
     }
     Import-Module -Name "$env:BHProjectPath\$($env:BHProjectName)" -Force
-    New-MarkdownHelp -Module $($env:BHProjectName) -OutputFolder '.\md-docs\' -Force
+    New-MarkdownHelp -Module $($env:BHProjectName) -OutputFolder '.\docs\' -Force
     New-ExternalHelp -Path '.\docs\' -OutputPath ".\en-US\" -Force
     Copy-Item -Path '.\README.md' -Destination 'docs\index.md'
     Copy-Item -Path '.\CHANGELOG.md' -Destination 'docs\CHANGELOG.md'
