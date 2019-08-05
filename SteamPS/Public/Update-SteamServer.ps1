@@ -83,14 +83,14 @@
         # Server is now empty and we stop, update and start the server.
         Write-Log -Message "Stopping $($ServiceName)"
         Stop-Service -Name $ServiceName
-        Write-Log -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status),"
+        Write-Log -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status)."
 
         Write-Log -Message "Updating $($ServiceName)..."
         Update-SteamApp -AppID $AppID -Path $ApplicationPath -Force -Verbose
 
         Write-Log -Message "Starting $($ServiceName)"
         Start-Service -Name $ServiceName
-        Write-Log -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status),"
+        Write-Log -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status)."
 
         $TimeOutCounter = 0
         do {
