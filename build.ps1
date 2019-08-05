@@ -66,7 +66,7 @@ if ($env:BHBranchName -ne 'master') {
     } catch {
         throw $_
     }
-    Step-Version -By
+
     # Create new markdown and XML help files
     Write-Host -Object "Building new function documentation" -ForegroundColor Yellow
     if ((Test-Path -Path "$($env:BHProjectPath)\docs") -eq $false) {
