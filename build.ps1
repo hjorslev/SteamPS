@@ -103,7 +103,15 @@ if ($env:BHBranchName -ne 'master') {
     # Grab all text until next heading that starts with ## [.
     $ChangeLog = $ChangeLog.Where( { $_ -eq ($ChangeLog | Select-String -Pattern "## \[" | Select-Object -Skip 1 -First 1) }, 'Until')
 
-    #TODO New-GitHubRelease -Owner $(Get-Metadata -Path $env:BHPSModuleManifest -PropertyName CompanyName) -RepositoryName $($env:BHProjectName) -TagName "v$($NewVersion)" -name "v$($NewVersion) Release of $($($env:BHProjectName))" -ReleaseNote $ChangeLog -Token ($env:GitHubKey)
+    # Publish GitHub Release
+    $GHReleaseSplat = @{
+        AccessToken     = $env:GitHubKey
+        RepositoryOwner = $(Get-Metadata -Path $env:BHPSModuleManifest -PropertyName CompanyName)
+        TagName         = "v$($NewVersion)"
+        Name            = "v$($NewVersion) Release of $($env:BHProjectName)"
+        ReleaseText     = $ChangeLog | Out-String
+    }
+    Publish-GithubRelease @GHReleaseSplat
 
     # Publish the new version back to Master on GitHub
     try {
