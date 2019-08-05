@@ -59,7 +59,10 @@ if ($env:BHBranchName -ne 'master') {
 
         # Update FunctionsToExport in Manifest.
         $FunctionList = ((Get-ChildItem -Path ".\$($env:BHProjectName)\Public").BaseName)
-        Set-ModuleFunction -FunctionsToExport $FunctionList
+        Update-Metadata -Path $env:BHPSModuleManifest -PropertyName FunctionsToExport -Value $FunctionList
+
+        # Update copyright notice.
+        Update-Metadata -Path $env:BHPSModuleManifest -PropertyName Copyright -Value "(c) 2019-$( (Get-Date).Year ) $(Get-Metadata -Path $env:BHPSModuleManifest -PropertyName Author). All rights reserved."
     } catch {
         throw $_
     }

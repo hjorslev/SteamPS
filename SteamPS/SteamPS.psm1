@@ -17,3 +17,5 @@ if ($Host.Name -eq 'Windows PowerShell ISE Host') {
     Write-Warning -Message 'Output from SteamCMD might not be visible in PowerShell ISE, but will run in the background.'
     Write-Warning -Message 'Consider using PowerShell ConsoleHost instead.'
 }
+
+Load-Module Logging
