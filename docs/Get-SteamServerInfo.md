@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-SteamServerInfo
 
 ## SYNOPSIS
-- Get server information about Steam game servers.
+Get server information about Steam game servers.
 
 ## SYNTAX
 

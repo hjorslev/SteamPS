@@ -1,43 +1,24 @@
-﻿#          YAML Reference Guide: https://www.appveyor.com/docs/appveyor-yml/
-# Environmental Variables Guide: https://www.appveyor.com/docs/environment-variables/
-#                YAML Validator: https://ci.appveyor.com/tools/validate-yaml
-
-# Disable automatic builds
-# Without this, the following error shows up:
-# "Specify a project or solution file. The directory does not contain a project or solution file."
-build: off
-
-# Version number
-version: 1.2.1.{build}
-
-# Ignore testing a commit if only the README.md file changed
-# Or if various strings are found in the commit message: updated readme, update readme, update docs, update version, update appveyor
+install:
+- ps: . .\install.ps1
 skip_commits:
-  files:
-    - README.md
   message: /updated readme.*|update readme.*s|update docs.*|update version.*|update appveyor.*/
-
-# There's no need to alter the build number for a Pull Request (PR) since they don't modify anything
-pull_requests:
-  do_not_increment_build_number: true
-
-# Publish to PowerShell Gallery with this key
+  files:
+  - README.md
 environment:
   NuGetApiKey:
     secure: 8YlpDDR3+ijAeAxFBSPqFgYIk+kehh0ypKPVa5yrmWCFdFoswFw1pZ/kZmOyMdjS
   GitHubKey:
     secure: N7+lKlNrQkJHEtEtl1CcwG9Q3GRLbH9kGD41NWfb0GbLsH9rHjMoIiCVkDF8jolr
-
-# Install NuGet to interact with the PowerShell Gallery
-install:
-  - ps: . .\install.ps1
-
+version: 2.0.0.{build}
 test_script:
-  - git config --global credential.helper store
-  - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GitHubKey):x-oauth-basic@github.com`n"
-  - git config --global user.email "first.last@domain.com"
-  - git config --global user.name "First Last"
-  - git config --global core.autocrlf true
-  - git config --global core.safecrlf false
-  - ps: Write-Host -Object "--- Calling build.ps1 ---"
-  - ps: . .\build.ps1
+- git config --global credential.helper store
+- ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GitHubKey):x-oauth-basic@github.com`n"
+- git config --global user.email "first.last@domain.com"
+- git config --global user.name "First Last"
+- git config --global core.autocrlf true
+- git config --global core.safecrlf false
+- ps: Write-Host -Object "--- Calling build.ps1 ---"
+- ps: . .\build.ps1
+pull_requests:
+  do_not_increment_build_number: true
+build: off

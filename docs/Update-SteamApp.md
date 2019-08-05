@@ -14,13 +14,13 @@ Install or update a Steam application using SteamCMD.
 
 ### ApplicationName
 ```
-Update-SteamApp [-ApplicationName] <String> -Path <FileInfo> [-Credential <PSCredential>] [-Arguments <String>]
+Update-SteamApp [-ApplicationName] <String> -Path <String> [-Credential <PSCredential>] [-Arguments <String>]
  [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### AppID
 ```
-Update-SteamApp [-AppID] <Int32> -Path <FileInfo> [-Credential <PSCredential>] [-Arguments <String>] [-Force]
+Update-SteamApp [-AppID] <Int32> -Path <String> [-Credential <PSCredential>] [-Arguments <String>] [-Force]
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -81,7 +81,7 @@ Accept wildcard characters: False
 Path to installation folder.
 
 ```yaml
-Type: FileInfo
+Type: String
 Parameter Sets: (All)
 Aliases:
 

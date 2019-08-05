@@ -5,7 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [1.2.1] - 17/02-2019
+## [2.0.0] - 05/08-2019
+
+### Added
+
+- Module [Logging](https://www.powershellgallery.com/packages/Logging) is listed
+as dependency.
+- New cmdlet: Update-SteamServer
+  - Cmdlet that presents a workflow to keep a Steam based game server up to date.
+
+### Changed
+
+- New workflow with AppVeyor.
+- Move `#Requires -RunAsAdministrator` statement from module file to the cmdlets
+that requires administrator priviliges (Install-SteamCMD, Update-SteamApp,
+Update-SteamServer) allowing some cmdlets to be executed without administrator
+priviliges (Find-SteamAppID, Get-SteamServerInfo).
+- Use `$env:Path` instead of registry database to handle the install location of
+SteamCMD.
+
+## [1.2.1] - 17/07-2019
 
 ### Added
 
