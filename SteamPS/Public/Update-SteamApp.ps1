@@ -70,6 +70,12 @@ function Update-SteamApp {
         [int]$AppID,
 
         [Parameter(Mandatory = $true)]
+        [ValidateScript( {
+                if ($_.Substring(($_.Length -1)) -eq '\') {
+                    throw "Path may not end with a trailing slash."
+                }
+                $true
+            })]
         [string]$Path,
 
         [ValidateNotNull()]
