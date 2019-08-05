@@ -53,7 +53,7 @@ Describe "General Project Validation: $($env:BHProjectName)" {
     Context "Changelog" {
         It "Version in Changelog should be greater than version in Manifest" {
             # Expects that the latest version is located at line 8.
-            [version]((Get-Content -Path "$($env:BHProjectPath)\CHANGELOG.md")[7]).Substring(4, 5) | Should -BeGreaterThan (Test-ModuleManifest -Path $env:BHPSModuleManifest).Version
+            [version]((Get-Content -Path "$($env:BHProjectPath)\CHANGELOG.md")[7]).Substring(4, 5) | Should -BeGreaterThan (Import-PowerShellDataFile -Path $env:BHPSModuleManifest).ModuleVersion
         }
 
         if ((Get-BuildEnvironment).BranchName -ne 'dev') {

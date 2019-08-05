@@ -30,15 +30,25 @@ if ($env:BHBranchName -ne 'master') {
     # This means that the major / minor / build values will be consistent across GitHub and the Gallery
     try {
         # Get current module version from Manifest.
-        $Manifest = Test-ModuleManifest -Path $env:BHPSModuleManifest
-        [version]$Version = $Manifest.Version
+        $Manifest = Import-PowerShellDataFile -Path $env:BHPSModuleManifest
+        [version]$Version = $Manifest.ModuleVersion
         Write-Output -InputObject "Old Version: $Version"
 
+        # Update module version in Manifest.
         switch -Wildcard ($env:BHCommitMessage) {
-            '*!ver:MAJOR*' { $NewVersion = Step-Version -Version $Version -By Major }
-            '*!ver:MINOR*' { $NewVersion = Step-Version -Version $Version -By Minor }
+            '*!ver:MAJOR*' {
+                $NewVersion = Step-Version -Version $Version -By Major
+                Step-ModuleVersion -Path $env:BHPSModuleManifest -By Major
+            }
+            '*!ver:MINOR*' {
+                $NewVersion = Step-Version -Version $Version -By Minor
+                Step-ModuleVersion -Path $env:BHPSModuleManifest -By Minor
+            }
             # Default is just changed build
-            Default { $NewVersion = Step-Version -Version $Version }
+            Default {
+                $NewVersion = Step-Version -Version $Version
+                Step-ModuleVersion -Path $env:BHPSModuleManifest -By Patch
+            }
         }
 
         Write-Output -InputObject "New Version: $NewVersion"
@@ -47,21 +57,13 @@ if ($env:BHBranchName -ne 'master') {
         $UpdateAppVeyor | ForEach-Object { $AppVeyor[$_.Key] = "$($NewVersion).{build}" }
         ConvertTo-Yaml -Data $AppVeyor -OutFile "$($env:BHProjectPath)\appveyor.yml" -Force
 
-        # Update the manifest with the new version value.
+        # Update FunctionsToExport in Manifest.
         $FunctionList = ((Get-ChildItem -Path ".\$($env:BHProjectName)\Public").BaseName)
-        $Splat = @{
-            'Path'              = $env:BHPSModuleManifest
-            'ModuleVersion'     = $NewVersion
-            'FunctionsToExport' = $FunctionList
-            'Copyright'         = "(c) 2019-$( (Get-Date).Year ) $(Get-Metadata -Path $env:BHPSModuleManifest -PropertyName Author). All rights reserved."
-        }
-
-        Update-ModuleManifest @Splat
-
+        Set-ModuleFunction -FunctionsToExport $FunctionList
     } catch {
         throw $_
     }
-
+    Step-Version -By
     # Create new markdown and XML help files
     Write-Host -Object "Building new function documentation" -ForegroundColor Yellow
     if ((Test-Path -Path "$($env:BHProjectPath)\docs") -eq $false) {
