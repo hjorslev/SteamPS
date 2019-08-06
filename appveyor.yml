@@ -13,8 +13,8 @@ version: 2.0.0.{build}
 test_script:
 - git config --global credential.helper store
 - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GitHubKey):x-oauth-basic@github.com`n"
-- git config --global user.email "first.last@domain.com"
-- git config --global user.name "First Last"
+- git config --global user.email "frederik@hjorslev.com"
+- git config --global user.name "Frederik Hjorslev Poulsen"
 - git config --global core.autocrlf true
 - git config --global core.safecrlf false
 - ps: Write-Host -Object "--- Calling build.ps1 ---"

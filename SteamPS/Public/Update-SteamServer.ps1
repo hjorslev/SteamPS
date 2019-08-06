@@ -14,7 +14,7 @@
     Specify the Windows Service Name. You can get a list of services with Get-Service.
 
     .PARAMETER ApplicationPath
-    Parameter description
+    Install location of the game server.
 
     .PARAMETER RsiServerID
     Enter the Rust Server ID. More information about adding and obtaining an ID:
