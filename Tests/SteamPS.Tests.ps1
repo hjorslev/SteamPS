@@ -33,22 +33,6 @@ Describe "Test SteamCMD cmdlets" {
             Update-SteamApp -ApplicationName 'Ground Branch D' -Path "$($TestDrive)\GB-AppName" -Force
             Test-Path -Path "$($TestDrive)\GB-AppName\GroundBranchServer.exe" | Should -BeTrue
         }
-<#
-        It "Updates a server" {
-            Mock Get-Service { return @{Name = 'GB' } }
-            Mock Stop-Service { return @{Name = 'GB' } }
-            Mock Start-Service { return @{Name = 'GB' } }
-
-            $Splat = @{
-                AppID           = 476400
-                ServiceName     = 'GB'
-                RsiServerID     = 2743
-                ApplicationPath = "$($TestDrive)\GB-AppID"
-                LogLocation     = "$($TestDrive)\Logs"
-            }
-            Update-SteamServer @Splat
-        }
-        #>
     }
 
     # Wait for the process steamerrorreporter to be close - else test folder wont be deleted.
