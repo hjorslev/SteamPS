@@ -682,7 +682,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
           <maml:name>ApplicationPath</maml:name>
           <maml:Description>
-            <maml:para>Parameter description</maml:para>
+            <maml:para>Install location of the game server.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -779,7 +779,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
         <maml:name>ApplicationPath</maml:name>
         <maml:Description>
-          <maml:para>Parameter description</maml:para>
+          <maml:para>Install location of the game server.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>

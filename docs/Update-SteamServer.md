@@ -80,7 +80,7 @@ Accept wildcard characters: False
 ```
 
 ### -ApplicationPath
-Parameter description
+Install location of the game server.
 
 ```yaml
 Type: String
