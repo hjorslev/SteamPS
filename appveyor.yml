@@ -1,9 +1,9 @@
 install:
-- ps: . .\install.ps1
+  - ps: . .\install.ps1
 skip_commits:
-  message: /updated readme.*|update readme.*s|update docs.*|update version.*|update appveyor.*/
+  message: /update action.*|updated readme.*|update readme.*|update changelog.*|update docs.*|update version.*|update appveyor.*/
   files:
-  - README.md
+    - README.md
 environment:
   NuGetApiKey:
     secure: 8YlpDDR3+ijAeAxFBSPqFgYIk+kehh0ypKPVa5yrmWCFdFoswFw1pZ/kZmOyMdjS
@@ -11,14 +11,14 @@ environment:
     secure: N7+lKlNrQkJHEtEtl1CcwG9Q3GRLbH9kGD41NWfb0GbLsH9rHjMoIiCVkDF8jolr
 version: 2.0.1.{build}
 test_script:
-- git config --global credential.helper store
-- ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GitHubKey):x-oauth-basic@github.com`n"
-- git config --global user.email "frederik@hjorslev.com"
-- git config --global user.name "Frederik Hjorslev Poulsen"
-- git config --global core.autocrlf true
-- git config --global core.safecrlf false
-- ps: Write-Host -Object "--- Calling build.ps1 ---"
-- ps: . .\build.ps1
+  - git config --global credential.helper store
+  - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GitHubKey):x-oauth-basic@github.com`n"
+  - git config --global user.email "frederik@hjorslev.com"
+  - git config --global user.name "Frederik Hjorslev Poulsen"
+  - git config --global core.autocrlf true
+  - git config --global core.safecrlf false
+  - ps: Write-Host -Object "--- Calling build.ps1 ---"
+  - ps: . .\build.ps1
 pull_requests:
   do_not_increment_build_number: true
 build: off

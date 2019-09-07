@@ -1,4 +1,4 @@
-name: CI
+name: PSScriptAnalyzer checks
 on: [push]
 jobs:
   lint:
