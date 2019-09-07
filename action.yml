@@ -1,8 +1,9 @@
 name: CI
-on: [pull_request]
+on: [push]
 jobs:
   lint:
     name: PSScriptAnalyzer checks
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v1
       - name: lint
