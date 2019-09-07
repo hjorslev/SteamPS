@@ -1,5 +1,5 @@
 ﻿$ScriptAnalyzerRules = Get-ScriptAnalyzerRule
-$PowerShellFiles = Get-ChildItem $env:BHProjectPath -Recurse -Filter *.ps*1 -Exclude 'Load-Module.ps1'
+$PowerShellFiles = Get-ChildItem $env:BHProjectPath -Recurse -Filter *.ps*1 -Exclude 'Use-Module.ps1'
 $ExcludeRules = 'PSAvoidUsingWriteHost', 'PSAvoidUsingInvokeExpression', 'PSShouldProcess'
 
 foreach ($PowerShellFile in $PowerShellFiles) {

@@ -18,4 +18,4 @@ if ($Host.Name -eq 'Windows PowerShell ISE Host') {
     Write-Warning -Message 'Consider using PowerShell ConsoleHost instead.'
 }
 
-Load-Module Logging
+Use-Module -Name Logging
