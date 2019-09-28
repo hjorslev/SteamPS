@@ -1,24 +1,45 @@
-install:
-  - ps: . .\install.ps1
+#          YAML Reference Guide: https://www.appveyor.com/docs/appveyor-yml/
+# Environmental Variables Guide: https://www.appveyor.com/docs/environment-variables/
+#                YAML Validator: https://ci.appveyor.com/tools/validate-yaml
+
+# Disable automatic builds
+# Without this, the following error shows up:
+# "Specify a project or solution file. The directory does not contain a project or solution file."
+build: off
+
+# Version number
+version: 2.0.1.{build}
+
+# Ignore testing a commit if only the README.md file changed
+# Or if various strings are found in the commit message: updated readme, update readme, update docs, update version, update appveyor
 skip_commits:
-  message: /update action.*|updated readme.*|update readme.*|update changelog.*|update docs.*|update version.*|update appveyor.*/
   files:
     - README.md
+  message: /update action.*|updated readme.*|update readme.*|update changelog.*|update docs.*|update version.*|update appveyor.*/
+
+# There's no need to alter the build number for a Pull Request (PR) since they don't modify anything
+pull_requests:
+  do_not_increment_build_number: true
+
+# Publish to PowerShell Gallery with this key
 environment:
   NuGetApiKey:
     secure: 8YlpDDR3+ijAeAxFBSPqFgYIk+kehh0ypKPVa5yrmWCFdFoswFw1pZ/kZmOyMdjS
   GitHubKey:
     secure: N7+lKlNrQkJHEtEtl1CcwG9Q3GRLbH9kGD41NWfb0GbLsH9rHjMoIiCVkDF8jolr
-version: 2.0.1.{build}
+
+# Install InvokeBuild and PSDepend that handles dependencies.
+install:
+  - ps: Install-Module -Name InvokeBuild -Force
+  - ps: Install-Module -Name PSDepend -Force
+  - ps: Invoke-PSDepend -Force
+
 test_script:
   - git config --global credential.helper store
   - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GitHubKey):x-oauth-basic@github.com`n"
   - git config --global user.email "frederik@hjorslev.com"
   - git config --global user.name "Frederik Hjorslev Poulsen"
-  - git config --global core.autocrlf true
+  - git config --global core.autocrlf false
   - git config --global core.safecrlf false
-  - ps: Write-Host -Object "--- Calling build.ps1 ---"
-  - ps: . .\build.ps1
-pull_requests:
-  do_not_increment_build_number: true
-build: off
+  - ps: Write-Host -Object "------------------ Invoke-Build ------------------"
+  - ps: Invoke-Build
