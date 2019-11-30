@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   - Changed default to only send Discord notification on errors. Introduce new
   parameter `AlwaysNotify` to always send notifications.
 
+### Added
+
+- Update-SteamServer
+  - Add new parameter `TimeoutLimit` to allow the customization of the timeout.
+  Default is 10 loops before an error is thrown.
+
 ## [2.0.1] - 02/09-2019
 
 ### Fixed
