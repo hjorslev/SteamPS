@@ -25,7 +25,11 @@
 
     .PARAMETER DiscordWebhookUri
     Enter a Discord Webhook Uri if you wish to get notifications about the server
-    update.
+    update.,
+
+    .PARAMETER AlwaysNotify
+    Use this if you allways want to receive a notification when a server has been
+    updated. Default is only to send on errors.
 
     .EXAMPLE
     Update-SteamServer -AppID 476400 -ServiceName GB-PG10 -RsiServerID 2743
@@ -58,7 +62,10 @@
         [string]$LogLocation = "C:\DedicatedServers\Logs\$($ServiceName)\$($ServiceName)_$((Get-Date).ToShortDateString()).log",
 
         [Parameter(Mandatory = $false)]
-        [string]$DiscordWebhookUri
+        [string]$DiscordWebhookUri,
+
+        [Parameter(Mandatory = $false)]
+        [string]$AlwaysNotify
     )
 
     begin {
@@ -111,14 +118,14 @@
             $ServerState = 'ONLINE'
             $Color = 'Green'
         } else {
-            Write-Log -Level ERROR -Message  "Server seems to be OFFLINE after the update..."
+            Write-Log -Level ERROR -Message "Server seems to be OFFLINE after the update..."
             $ServerState = 'OFFLINE'
             $Color = 'Red'
         }
     } # Process
 
     end {
-        if ($null -ne $DiscordWebhookUri) {
+        if ($null -ne $DiscordWebhookUri -and ($ServerState -eq 'OFFLINE' -or $AlwaysNotify -eq $true)) {
             # Send Message to Discord about the update.
             $ServerFact = New-DiscordFact -Name 'Game Server Info' -Value $(Get-SteamServerInfo -ServerID $RsiServerID | Select-Object -Property hostname, ip, port, online_state, players_cur, checked | Out-String)
             $ServerStateFact = New-DiscordFact -Name 'Server State' -Value $(Write-Output -InputObject "Server is $($ServerState)!")
