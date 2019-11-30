@@ -29,7 +29,11 @@
 
     .PARAMETER AlwaysNotify
     Use this if you allways want to receive a notification when a server has been
-    updated. Default is only to send on errors.
+    updated. Default is only to send on errors.,
+
+    .PARAMETER TimeoutLimit
+    Number of times the cmdlet checks if the server is online or offline. When
+    the limit is reached an error is thrown.
 
     .EXAMPLE
     Update-SteamServer -AppID 476400 -ServiceName GB-PG10 -RsiServerID 2743
@@ -65,7 +69,10 @@
         [string]$DiscordWebhookUri,
 
         [Parameter(Mandatory = $false)]
-        [string]$AlwaysNotify
+        [string]$AlwaysNotify,
+
+        [Parameter(Mandatory = $false)]
+        [string]$TimeoutLimit = 10
     )
 
     begin {
@@ -73,6 +80,10 @@
         Set-LoggingDefaultLevel -Level 'INFO'
         Add-LoggingTarget -Name Console
         Add-LoggingTarget -Name File -Configuration @{ Path = $LogLocation }
+
+        # Variable that stores how many times the cmdlet has checked whether the
+        # server is offline or online.
+        $TimeoutCounter = 0
     }
 
     process {
@@ -99,16 +110,15 @@
         Start-Service -Name $ServiceName
         Write-Log -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status)."
 
-        $TimeOutCounter = 0
         do {
-            $TimeOutCounter++ # Add +1 for every loop.
+            $TimeoutCounter++ # Add +1 for every loop.
             Write-Log -Message 'Waiting for server to come online again.'
             Start-Sleep -Seconds 60
             # Getting new server information.
             $ServerStatus = Get-SteamServerInfo -ServerID $RsiServerID | Select-Object -Property hostname, ip, port, online_state, players_cur, checked
             Write-Log -Message $ServerStatus
-            Write-Log -Message "TimeOutCounter: $($TimeOutCounter)/10"
-            if ($TimeOutCounter -ge 10) {
+            Write-Log -Message "TimeoutCounter: $($TimeoutCounter)/10"
+            if ($TimeoutCounter -ge $TimeoutLimit) {
                 break
             }
         } until ($ServerStatus.online_state -eq '1')
