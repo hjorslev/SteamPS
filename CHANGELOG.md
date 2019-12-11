@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - New workflow with [InvokeBuild](https://github.com/nightroman/Invoke-Build).
 - Update-SteamServer
   - Changed default to only send Discord notification on errors. Introduce new
-  parameter `AlwaysNotify` to always send notifications.
+  parameter `AlwaysNotify` to always send notifications (fix #3).
 
 ### Added
 
