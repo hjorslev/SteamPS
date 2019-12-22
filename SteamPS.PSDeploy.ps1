@@ -3,8 +3,7 @@
         FromSource $env:BHProjectName
         To PSGallery
         WithOptions @{
-            ApiKey      = $env:NugetApiKey
-            ErrorAction = 'Stop'
+            ApiKey = $env:NugetApiKey
         }
     }
 }
