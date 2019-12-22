@@ -84,7 +84,6 @@ Add-BuildTask BuildDocs {
         New-ExternalHelp -Path '.\docs\' -OutputPath ".\en-US\" -Force
         Copy-Item -Path '.\README.md' -Destination 'docs\index.md'
         Copy-Item -Path '.\CHANGELOG.md' -Destination 'docs\CHANGELOG.md'
-        Copy-Item -Path '.\CONTRIBUTING.md' -Destination 'docs\CONTRIBUTING.md'
     } else {
         Write-Host -Object "Skipping building docs because `n" +
         Write-Host -Object "`t* You are on $($env:BHBranchName) and not master branch. `n"
@@ -137,7 +136,7 @@ Add-BuildTask PushChangesGitHub {
         git checkout master
         git add --all
         git status
-        git commit -s -m "Update version to $($NewVersion)"
+        git commit -s -m ":bookmark: Update version to $($NewVersion)"
         git push origin master
 
         $ErrorActionPreference = 'Stop'
