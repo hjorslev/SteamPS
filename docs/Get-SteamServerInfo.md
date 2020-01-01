@@ -1,6 +1,6 @@
 ---
 external help file: SteamPS-help.xml
-Module Name: SteamPS
+Module Name: steamps
 online version: https://hjorslev.github.io/SteamPS/Get-SteamServerInfo.html
 schema: 2.0.0
 ---

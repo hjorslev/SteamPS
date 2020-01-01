@@ -1,6 +1,6 @@
 ---
 external help file: SteamPS-help.xml
-Module Name: SteamPS
+Module Name: steamps
 online version: https://hjorslev.github.io/SteamPS/Update-SteamServer.html
 schema: 2.0.0
 ---
@@ -14,8 +14,8 @@ Update a Steam based game server.
 
 ```
 Update-SteamServer [-AppID] <Int32> [-ServiceName] <String> [-RsiServerID] <Int32>
- [[-ApplicationPath] <String>] [[-LogLocation] <String>] [[-DiscordWebhookUri] <String>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [[-ApplicationPath] <String>] [[-LogLocation] <String>] [[-DiscordWebhookUri] <String>]
+ [[-AlwaysNotify] <String>] [[-TimeoutLimit] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -111,7 +111,7 @@ Accept wildcard characters: False
 
 ### -DiscordWebhookUri
 Enter a Discord Webhook Uri if you wish to get notifications about the server
-update.
+update.,
 
 ```yaml
 Type: String
@@ -121,6 +121,40 @@ Aliases:
 Required: False
 Position: 6
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AlwaysNotify
+Use this if you allways want to receive a notification when a server has been
+updated.
+Default is only to send on errors.,
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TimeoutLimit
+Number of times the cmdlet checks if the server is online or offline.
+When
+the limit is reached an error is thrown.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: 10
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
