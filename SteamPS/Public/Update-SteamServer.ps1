@@ -16,6 +16,9 @@
     .PARAMETER ApplicationPath
     Install location of the game server.
 
+    .PARAMETER Arguments
+    Enter any additional arguments here.
+
     .PARAMETER RsiServerID
     Enter the Rust Server ID. More information about adding and obtaining an ID:
     https://rust-servers.info/add.html
