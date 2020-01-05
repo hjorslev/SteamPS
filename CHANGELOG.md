@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 - Update-SteamServer
-  - Add `Argument` parameter.
+  - Add `Arguments` parameter.
 
 ## [2.0.2] - 22/12-2019
 
