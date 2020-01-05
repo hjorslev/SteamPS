@@ -16,6 +16,9 @@
     .PARAMETER ApplicationPath
     Install location of the game server.
 
+    .PARAMETER Arguments
+    Enter any additional arguments here.
+
     .PARAMETER RsiServerID
     Enter the Rust Server ID. More information about adding and obtaining an ID:
     https://rust-servers.info/add.html
@@ -63,6 +66,9 @@
         [string]$ApplicationPath = "C:\DedicatedServers\$($ServiceName)",
 
         [Parameter(Mandatory = $false)]
+        [string]$Arguments,
+
+        [Parameter(Mandatory = $false)]
         [string]$LogLocation = "C:\DedicatedServers\Logs\$($ServiceName)\$($ServiceName)_$((Get-Date).ToShortDateString()).log",
 
         [Parameter(Mandatory = $false)]
@@ -104,7 +110,7 @@
         Write-Log -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status)."
 
         Write-Log -Message "Updating $($ServiceName)..."
-        Update-SteamApp -AppID $AppID -Path $ApplicationPath -Force -Verbose
+        Update-SteamApp -AppID $AppID -Path $ApplicationPath -Arguments "$($Arguments)" -Force -Verbose
 
         Write-Log -Message "Starting $($ServiceName)"
         Start-Service -Name $ServiceName

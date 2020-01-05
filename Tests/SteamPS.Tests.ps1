@@ -33,6 +33,11 @@ Describe "Test SteamCMD cmdlets" {
             Update-SteamApp -ApplicationName 'Ground Branch D' -Path "$($TestDrive)\GB-AppName" -Force
             Test-Path -Path "$($TestDrive)\GB-AppName\GroundBranchServer.exe" | Should -BeTrue
         }
+
+        It "Passes custom argument and installs testing branch of Ground Branch Dedicated Server" {
+            Update-SteamApp -AppID 476400 -Path "$($TestDrive)\GB-TestingBranch" -Arguments "-beta testing" -Force
+            Test-Path -Path "$($TestDrive)\GB-TestingBranch\GroundBranchServer.exe" | Should -BeTrue
+        }
     }
 
     # Wait for the process steamerrorreporter to be close - else test folder wont be deleted.
