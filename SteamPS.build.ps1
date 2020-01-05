@@ -154,6 +154,7 @@ if ($env:BHBuildSystem -ne 'Unknown' -and $env:BHBranchName -eq 'master' -and $e
 } else {
     Add-BuildTask . Init, Test
     Write-Host -Object "Skipping deployment: To deploy, ensure that...`n"
-    Write-Host -Object "`t* You are in a known build system (Current: $env:BHBuildSystem)`n"
-    Write-Host -Object "`t* You are committing to the master branch (Current: $env:BHBranchName) `n"
+    Write-Host -Object "`t* You are in a known build system (Current: $($env:BHBuildSystem))`n"
+    Write-Host -Object "`t* You are committing to the master branch (Current: $($env:BHBranchName)) `n"
+    Write-Host -Object "`t* Your commit message includes '!deploy' (Current: $($env:BHCommitMessage)) `n"
 }
