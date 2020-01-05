@@ -94,7 +94,7 @@ Add-BuildTask BuildDocs {
 Add-BuildTask DeployPSGallery {
     # Publish the new version to the PowerShell Gallery
     try {
-        Invoke-PSDeploy -Force
+        Invoke-PSDeploy -Force -ErrorAction Stop
         Write-Host -Object "$($env:BHProjectName) PowerShell Module version $($NewVersion) published to the PowerShell Gallery." -ForegroundColor Cyan
     } catch {
         # Sad panda; it broke
