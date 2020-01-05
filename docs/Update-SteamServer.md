@@ -14,8 +14,9 @@ Update a Steam based game server.
 
 ```
 Update-SteamServer [-AppID] <Int32> [-ServiceName] <String> [-RsiServerID] <Int32>
- [[-ApplicationPath] <String>] [[-LogLocation] <String>] [[-DiscordWebhookUri] <String>]
- [[-AlwaysNotify] <String>] [[-TimeoutLimit] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-ApplicationPath] <String>] [[-Arguments] <String>] [[-LogLocation] <String>]
+ [[-DiscordWebhookUri] <String>] [[-AlwaysNotify] <String>] [[-TimeoutLimit] <String>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -94,6 +95,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Arguments
+Enter any additional arguments here.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -LogLocation
 Specify the location of the log files.
 
@@ -103,7 +119,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: "C:\DedicatedServers\Logs\$($ServiceName)\$($ServiceName)_$((Get-Date).ToShortDateString()).log"
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -119,7 +135,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -136,7 +152,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -153,7 +169,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: 10
 Accept pipeline input: False
 Accept wildcard characters: False

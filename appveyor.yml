@@ -11,7 +11,7 @@ environment:
     secure: 8YlpDDR3+ijAeAxFBSPqFgYIk+kehh0ypKPVa5yrmWCFdFoswFw1pZ/kZmOyMdjS
   GitHubKey:
     secure: N7+lKlNrQkJHEtEtl1CcwG9Q3GRLbH9kGD41NWfb0GbLsH9rHjMoIiCVkDF8jolr
-version: 2.0.2.{build}
+version: 2.0.3.{build}
 test_script:
 - git config --global credential.helper store
 - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GitHubKey):x-oauth-basic@github.com`n"
