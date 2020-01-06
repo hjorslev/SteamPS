@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.4] - Unreleased
+
+### Fixed
+
+- Place external help inside module folder instead of the project folder.
+
 ## [2.0.3] - 05/01-2020
 
 ### Added
