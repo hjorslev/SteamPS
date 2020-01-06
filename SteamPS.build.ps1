@@ -80,8 +80,8 @@ Add-BuildTask BuildDocs {
         }
 
         Import-Module $env:BHPSModuleManifest -Force -Global
-        New-MarkdownHelp -Module $($env:BHProjectName) -OutputFolder '.\docs\' -Force
-        New-ExternalHelp -Path '.\docs\' -OutputPath ".\en-US\" -Force
+        New-MarkdownHelp -Module $env:BHProjectName -OutputFolder "$($env:BHProjectPath)\docs" -Force
+        New-ExternalHelp -Path "$($env:BHProjectPath)\docs" -OutputPath "$($env:BHModulePath)\en-US\" -Force
         Copy-Item -Path '.\README.md' -Destination 'docs\index.md'
         Copy-Item -Path '.\CHANGELOG.md' -Destination 'docs\CHANGELOG.md'
     } else {
