@@ -1,12 +1,12 @@
 {
-    "editor.tabSize": 4,
-    "editor.autoIndent": "full",
-    "editor.insertSpaces": true,
-    "editor.formatOnPaste": true,
-    "editor.formatOnSave": true,
-    "editor.renderWhitespace": "boundary",
-    "editor.detectIndentation": true,
-    "files.trimTrailingWhitespace": true,
-    "powershell.codeFormatting.preset": "OTBS",
-    "powershell.scriptAnalysis.settingsPath": ".\\PSScriptAnalyzerSettings.psd1",
+  "editor.tabSize": 4,
+  "editor.autoIndent": "full",
+  "editor.insertSpaces": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.renderWhitespace": "boundary",
+  "editor.detectIndentation": true,
+  "files.trimTrailingWhitespace": true,
+  "powershell.codeFormatting.preset": "OTBS",
+  "powershell.scriptAnalysis.settingsPath": ".\\PSScriptAnalyzerSettings.psd1"
 }

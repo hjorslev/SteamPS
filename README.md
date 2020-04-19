@@ -2,6 +2,7 @@
 
 ## Build Status
 
+[![Codacy grade](https://img.shields.io/codacy/grade/bf0bb30dfc904b2f885c4f0ccdf1ea78?style=for-the-badge)](https://www.codacy.com/manual/hjorslev/SteamPS)
 [![AppVeyor master](https://img.shields.io/appveyor/ci/hjorslev/SteamPS/master?label=MASTER&logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/hjorslev/steamps)
 [![AppVeyor tests (master)](https://img.shields.io/appveyor/tests/hjorslev/SteamPS/master?label=MASTER&logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/hjorslev/steamps/build/tests)
 [![AppVeyor dev](https://img.shields.io/appveyor/ci/hjorslev/SteamPS/DEV?label=DEV&logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/hjorslev/steamps)
