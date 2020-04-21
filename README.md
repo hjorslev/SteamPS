@@ -2,15 +2,17 @@
 
 ## Build Status
 
-[![Codacy grade](https://img.shields.io/codacy/grade/bf0bb30dfc904b2f885c4f0ccdf1ea78?style=for-the-badge)](https://www.codacy.com/manual/hjorslev/SteamPS)
-[![AppVeyor master](https://img.shields.io/appveyor/ci/hjorslev/SteamPS/master?label=MASTER&logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/hjorslev/steamps)
-[![AppVeyor tests (master)](https://img.shields.io/appveyor/tests/hjorslev/SteamPS/master?label=MASTER&logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/hjorslev/steamps/build/tests)
-[![AppVeyor dev](https://img.shields.io/appveyor/ci/hjorslev/SteamPS/DEV?label=DEV&logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/hjorslev/steamps)
-[![AppVeyor tests (dev)](https://img.shields.io/appveyor/tests/hjorslev/SteamPS/dev?label=DEV&logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/hjorslev/steamps/build/tests)
-[![PowerShell Version](https://img.shields.io/powershellgallery/v/SteamPS.svg?style=for-the-badge&logo=PowerShell)](https://www.powershellgallery.com/packages/SteamPS)
-[![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/SteamPS?style=for-the-badge)](https://www.powershellgallery.com/packages/SteamPS)
+[![AppVeyor master](https://img.shields.io/appveyor/ci/hjorslev/SteamPS/master?label=MASTER&logo=appveyor&style=flat)](https://ci.appveyor.com/project/hjorslev/steamps)
+[![AppVeyor tests (master)](https://img.shields.io/appveyor/tests/hjorslev/SteamPS/master?label=MASTER&logo=appveyor&style=flat)](https://ci.appveyor.com/project/hjorslev/steamps/build/tests)
+[![AppVeyor dev](https://img.shields.io/appveyor/ci/hjorslev/SteamPS/DEV?label=DEV&logo=appveyor&style=flat)](https://ci.appveyor.com/project/hjorslev/steamps)
+[![AppVeyor tests (dev)](https://img.shields.io/appveyor/tests/hjorslev/SteamPS/dev?label=DEV&logo=appveyor&style=flat)](https://ci.appveyor.com/project/hjorslev/steamps/build/tests)
+[![Codacy master grade](https://img.shields.io/codacy/grade/bf0bb30dfc904b2f885c4f0ccdf1ea78/master?label=MASTER&style=flat)](https://app.codacy.com/manual/hjorslev/SteamPS/dashboard?bid=13716491)
+[![Codacy dev  grade](https://img.shields.io/codacy/grade/bf0bb30dfc904b2f885c4f0ccdf1ea78/dev?label=DEV&style=flat)](https://app.codacy.com/manual/hjorslev/SteamPS/dashboard?bid=13716490)
 
 ## Introduction
+
+[![PowerShell Version](https://img.shields.io/powershellgallery/v/SteamPS.svg?style=flat&logo=PowerShell)](https://www.powershellgallery.com/packages/SteamPS)
+[![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/SteamPS?style=flat)](https://www.powershellgallery.com/packages/SteamPS)
 
 This cmdlet utilizes SteamCMD and eases the installation and updating of servers.
 
