@@ -13,6 +13,8 @@ Add-BuildTask Init {
 
 # Synopsis: Pester Tests
 Add-BuildTask Test {
+    Remove-Module -Name $env:BHProjectName -Force
+    Import-Module $env:BHPSModuleManifest -Force -Global
     # Invoke Pester to run all of the unit tests, then save the results into XML in order to populate the AppVeyor tests section
     # If any of the tests fail, consider the pipeline failed
     $PesterResults = Invoke-Pester -Path "$($env:BHProjectPath)\Tests" -OutputFormat NUnitXml -OutputFile "$($env:BHProjectPath)\Tests\TestsResults.xml" -PassThru

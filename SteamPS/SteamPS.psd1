@@ -57,7 +57,7 @@
     # RequiredAssemblies = @()
 
     # Script files (.ps1) that are run in the caller's environment prior to importing this module.
-    ScriptsToProcess  = @('Class\Enums.ps1')
+    # ScriptsToProcess  = @('')
 
     # Type files (.ps1xml) to be loaded when importing this module
     # TypesToProcess = @()
