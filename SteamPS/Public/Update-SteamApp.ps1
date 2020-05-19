@@ -50,6 +50,8 @@ function Update-SteamApp {
     https://hjorslev.github.io/SteamPS/Update-SteamApp.html
     #>
 
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSShouldProcess', '', Justification='Is implemented but not accepted by PSSA.')]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
     [CmdletBinding(SupportsShouldProcess = $true,
         ConfirmImpact = 'Medium'
     )]

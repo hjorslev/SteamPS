@@ -5,7 +5,12 @@ install:
 skip_commits:
   message: /update action.*|updated readme.*|update readme.*|update changelog.*|update docs.*|update version.*|update appveyor.*/
   files:
+    - .vscode/*
+    - appveyor.yml
+    - CHANGELOG.md
+    - CONTRIBUTING.md
     - README.md
+    - .editorconfig
 environment:
   NuGetApiKey:
     secure: yiHR8ZR5W9xQwiXuE5/62mj7XvrJcdB26oPHaZ6BEfFQWQyAi21eZhk7eeEXQH53

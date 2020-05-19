@@ -13,6 +13,8 @@ Add-BuildTask Init {
 
 # Synopsis: Pester Tests
 Add-BuildTask Test {
+    Remove-Module -Name $env:BHProjectName -Force -ErrorAction SilentlyContinue
+    Import-Module $env:BHPSModuleManifest -Force -Global
     # Invoke Pester to run all of the unit tests, then save the results into XML in order to populate the AppVeyor tests section
     # If any of the tests fail, consider the pipeline failed
     $PesterResults = Invoke-Pester -Path "$($env:BHProjectPath)\Tests" -OutputFormat NUnitXml -OutputFile "$($env:BHProjectPath)\Tests\TestsResults.xml" -PassThru
@@ -80,8 +82,8 @@ Add-BuildTask BuildDocs {
         }
 
         Import-Module $env:BHPSModuleManifest -Force -Global
-        New-MarkdownHelp -Module $($env:BHProjectName) -OutputFolder '.\docs\' -Force
-        New-ExternalHelp -Path '.\docs\' -OutputPath ".\en-US\" -Force
+        New-MarkdownHelp -Module $env:BHProjectName -OutputFolder "$($env:BHProjectPath)\docs" -Force
+        New-ExternalHelp -Path "$($env:BHProjectPath)\docs" -OutputPath "$($env:BHModulePath)\en-US\" -Force
         Copy-Item -Path '.\README.md' -Destination 'docs\index.md'
         Copy-Item -Path '.\CHANGELOG.md' -Destination 'docs\CHANGELOG.md'
     } else {

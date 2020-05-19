@@ -1,0 +1,43 @@
+# EditorConfig is awesome: https://EditorConfig.org
+# .NET coding convention settings for EditorConfig
+# https://docs.microsoft.com/visualstudio/ide/editorconfig-code-style-settings-reference
+#
+# This file comes from dotnet repositories:
+# https://github.com/dotnet/runtime/blob/master/.editorconfig
+# https://github.com/dotnet/roslyn/blob/master/.editorconfig
+
+# Top-most EditorConfig file
+root = true
+
+[*]
+charset = utf-8-bom
+# indent_size intentionally not specified in this section
+indent_style = space
+
+# Source code
+[*.{cs,ps1,psd1,psm1}]
+indent_size = 4
+
+# Shell scripts
+[*.sh]
+indent_size = 4
+
+# Xml project files
+[*.{csproj,resx,ps1xml}]
+indent_size = 2
+
+# Data serialization
+[*.{json,yaml,yml}]
+indent_size = 2
+
+# Markdown
+[*.md]
+indent_size = 2
+
+# Xml files
+[*.{resx,ruleset,stylecop,xml,xsd,xsl}]
+indent_size = 2
+
+# Xml config files
+[*.{props,targets,config,nuspec}]
+indent_size = 2
