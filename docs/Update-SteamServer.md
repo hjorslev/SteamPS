@@ -13,10 +13,9 @@ Update a Steam based game server.
 ## SYNTAX
 
 ```
-Update-SteamServer [-AppID] <Int32> [-ServiceName] <String> [-RsiServerID] <Int32>
- [[-ApplicationPath] <String>] [[-Arguments] <String>] [[-LogLocation] <String>]
- [[-DiscordWebhookUri] <String>] [[-AlwaysNotify] <String>] [[-TimeoutLimit] <String>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+Update-SteamServer [-AppID] <Int32> [-ServiceName] <String> [-IPAddress] <IPAddress> [-Port] <Int32>
+ [[-Path] <String>] [[-Arguments] <String>] [[-LogPath] <String>] [[-DiscordWebhookUri] <String>]
+ [[-AlwaysNotify] <String>] [[-TimeoutLimit] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -27,13 +26,13 @@ The server is expecting the game server to be running as a Windows Service.
 
 ### EXAMPLE 1
 ```
-Update-SteamServer -AppID 476400 -ServiceName GB-PG10 -RsiServerID 2743
+Update-SteamServer -AppID 476400 -ServiceName GB-PG10 -IPAddress '185.15.73.207' -Port 27015
 ```
 
 ## PARAMETERS
 
 ### -AppID
-Enter the application ID you wish to install..
+Enter the application ID you wish to install.
 
 ```yaml
 Type: Int32
@@ -63,10 +62,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -RsiServerID
-Enter the Rust Server ID.
-More information about adding and obtaining an ID:
-https://rust-servers.info/add.html
+### -IPAddress
+Enter the IP address of the Steam based server.
+
+```yaml
+Type: IPAddress
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 3
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Port
+Enter the port number of the Steam based server.
 
 ```yaml
 Type: Int32
@@ -74,22 +86,22 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 3
+Position: 4
 Default value: 0
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -ApplicationPath
+### -Path
 Install location of the game server.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: ApplicationPath
 
 Required: False
-Position: 4
+Position: 5
 Default value: "C:\DedicatedServers\$($ServiceName)"
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -104,22 +116,22 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -LogLocation
+### -LogPath
 Specify the location of the log files.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: LogLocation
 
 Required: False
-Position: 6
+Position: 7
 Default value: "C:\DedicatedServers\Logs\$($ServiceName)\$($ServiceName)_$((Get-Date).ToShortDateString()).log"
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -127,24 +139,7 @@ Accept wildcard characters: False
 
 ### -DiscordWebhookUri
 Enter a Discord Webhook Uri if you wish to get notifications about the server
-update.,
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 7
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -AlwaysNotify
-Use this if you allways want to receive a notification when a server has been
-updated.
-Default is only to send on errors.,
+update.
 
 ```yaml
 Type: String
@@ -153,6 +148,23 @@ Aliases:
 
 Required: False
 Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AlwaysNotify
+Always receive a notification when a server has been updated.
+Default is
+only to send on errors.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -169,7 +181,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: 10
 Accept pipeline input: False
 Accept wildcard characters: False

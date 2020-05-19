@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [3.0.0] - 19/05-2020
+
+### Fixed
+
+- Place external help inside module folder instead of the project folder.
+
+### Changed
+
+- Update-SteamServer
+  - Change parameter ApplicationPath to Path. Set old parameter as an alias.
+  - Change parameter LogLocation to LogPath. Set old parameter as an alias.
+- Get-SteamServerInfo
+  - The cmdlet now uses Steam server queries to fetch data about the server. Added
+  new parameters `-IPAddress`, `-Port` and `-Timeout`. Removed parameter `-ServerID`
+  since the cmdlet is no longer dependent on Rust Server Info.
+
 ## [2.0.3] - 05/01-2020
 
 ### Added

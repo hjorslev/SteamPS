@@ -8,7 +8,7 @@ schema: 2.0.0
 # Find-SteamAppID
 
 ## SYNOPSIS
-Find a Steam AppID by searching using the name of the application.
+Find a Steam AppID by searching the name of the application.
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Find-SteamAppID [-ApplicationName] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Find a Steam AppID by searching using the name of the application.
+Find a Steam AppID by searching the name of the application.
 
 ## EXAMPLES
 
