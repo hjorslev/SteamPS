@@ -36,6 +36,7 @@
     https://hjorslev.github.io/SteamPS/Find-SteamAppID.html
     #>
 
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
     [CmdletBinding()]
     param (
         [Parameter(Position = 0,

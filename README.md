@@ -99,6 +99,8 @@ can be altered using the `-ApplicationPath` parameter.
 If you want to have your server automatically updated, then remember to consider
 backup of the server as well as fallback.
 
+#### Workflow
+
 ```powershell
 Update-SteamServer -AppID 476400 -ServiceName 'GB-PG10' -IPAddress '185.15.73.207' -Port 27015
 ```
