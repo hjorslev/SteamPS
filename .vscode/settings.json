@@ -8,5 +8,8 @@
   "editor.detectIndentation": true,
   "files.trimTrailingWhitespace": true,
   "powershell.codeFormatting.preset": "OTBS",
-  "powershell.scriptAnalysis.settingsPath": ".\\PSScriptAnalyzerSettings.psd1"
+  "powershell.scriptAnalysis.settingsPath": ".\\PSScriptAnalyzerSettings.psd1",
+  "cSpell.words": [
+    "cmdlet"
+  ]
 }

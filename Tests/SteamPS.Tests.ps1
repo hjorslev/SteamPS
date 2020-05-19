@@ -8,8 +8,8 @@
 
 Describe "Get-SteamServerInfo" {
     It "Finds information about a Steam based game server" {
-        $ServerInfo = Get-SteamServerInfo -ServerID 2743
-        $ServerInfo.hostname | Should -Be 'SAS Proving Ground 10 (EU)'
+        $ServerInfo = Get-SteamServerInfo -IPAddress '185.15.73.207' -Port 27015
+        $ServerInfo.HostName | Should -Be 'SAS Proving Ground 10 (EU)'
     }
 }
 
@@ -40,6 +40,6 @@ Describe "Test SteamCMD cmdlets" {
         }
     }
 
-    # Wait for the process steamerrorreporter to be close - else test folder wont be deleted.
+    # Wait for the process steamerrorreporter to be closed - else test folder wont be deleted.
     Wait-Process -Name 'steamerrorreporter' -ErrorAction SilentlyContinue
 }

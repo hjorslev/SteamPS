@@ -8,38 +8,40 @@
     The server is expecting the game server to be running as a Windows Service.
 
     .PARAMETER AppID
-    Enter the application ID you wish to install..
+    Enter the application ID you wish to install.
 
     .PARAMETER ServiceName
     Specify the Windows Service Name. You can get a list of services with Get-Service.
 
-    .PARAMETER ApplicationPath
+    .PARAMETER Path
     Install location of the game server.
 
     .PARAMETER Arguments
     Enter any additional arguments here.
 
-    .PARAMETER RsiServerID
-    Enter the Rust Server ID. More information about adding and obtaining an ID:
-    https://rust-servers.info/add.html
+    .PARAMETER IPAddress
+    Enter the IP address of the Steam based server.
 
-    .PARAMETER LogLocation
+    .PARAMETER Port
+    Enter the port number of the Steam based server.
+
+    .PARAMETER LogPath
     Specify the location of the log files.
 
     .PARAMETER DiscordWebhookUri
     Enter a Discord Webhook Uri if you wish to get notifications about the server
-    update.,
+    update.
 
     .PARAMETER AlwaysNotify
-    Use this if you allways want to receive a notification when a server has been
-    updated. Default is only to send on errors.,
+    Always receive a notification when a server has been updated. Default is
+    only to send on errors.
 
     .PARAMETER TimeoutLimit
     Number of times the cmdlet checks if the server is online or offline. When
     the limit is reached an error is thrown.
 
     .EXAMPLE
-    Update-SteamServer -AppID 476400 -ServiceName GB-PG10 -RsiServerID 2743
+    Update-SteamServer -AppID 476400 -ServiceName GB-PG10 -IPAddress '185.15.73.207' -Port 27015
 
     .NOTES
     Author: Frederik Hjorslev Poulsen
@@ -59,17 +61,24 @@
         [ValidateScript( { Get-Service -Name $_ })]
         [string]$ServiceName,
 
-        [Parameter(Mandatory = $true)]
-        [int]$RsiServerID,
+        [Parameter(Mandatory = $true,
+            ValueFromPipelineByPropertyName = $true)]
+        [System.Net.IPAddress]$IPAddress,
+
+        [Parameter(Mandatory = $true,
+            ValueFromPipelineByPropertyName = $true)]
+        [int]$Port,
 
         [Parameter(Mandatory = $false)]
-        [string]$ApplicationPath = "C:\DedicatedServers\$($ServiceName)",
+        [Alias('ApplicationPath')]
+        [string]$Path = "C:\DedicatedServers\$($ServiceName)",
 
         [Parameter(Mandatory = $false)]
         [string]$Arguments,
 
         [Parameter(Mandatory = $false)]
-        [string]$LogLocation = "C:\DedicatedServers\Logs\$($ServiceName)\$($ServiceName)_$((Get-Date).ToShortDateString()).log",
+        [Alias('LogLocation')]
+        [string]$LogPath = "C:\DedicatedServers\Logs\$($ServiceName)\$($ServiceName)_$((Get-Date).ToShortDateString()).log",
 
         [Parameter(Mandatory = $false)]
         [string]$DiscordWebhookUri,
@@ -85,7 +94,7 @@
         # Create a log file with information about the operation.
         Set-LoggingDefaultLevel -Level 'INFO'
         Add-LoggingTarget -Name Console
-        Add-LoggingTarget -Name File -Configuration @{ Path = $LogLocation }
+        Add-LoggingTarget -Name File -Configuration @{ Path = $LogPath }
 
         # Variable that stores how many times the cmdlet has checked whether the
         # server is offline or online.
@@ -94,14 +103,14 @@
 
     process {
         # Get server status and output it.
-        $ServerStatus = Get-SteamServerInfo -ServerID $RsiServerID
+        $ServerStatus = Get-SteamServerInfo -IPAddress $IPAddress -Port $Port
         Write-Log -Message $ServerStatus
 
         # Waiting to server is empty. Checking every 60 seconds.
-        while ($ServerStatus.players_cur -ne "0") {
+        while ($ServerStatus.Players -ne 0) {
             Write-Log -Message "Awaiting that the server is empty."
-            $ServerStatus = Get-SteamServerInfo -ServerID $RsiServerID
-            Write-Log -Message $ServerStatus | Select-Object -Property hostname, ip, port, online_state, players_cur, checked
+            $ServerStatus = Get-SteamServerInfo -IPAddress $IPAddress -Port $Port
+            Write-Log -Message $ServerStatus | Select-Object -Property ServerName, Port, Players
             Start-Sleep -Seconds 60
         }
         # Server is now empty and we stop, update and start the server.
@@ -110,7 +119,7 @@
         Write-Log -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status)."
 
         Write-Log -Message "Updating $($ServiceName)..."
-        Update-SteamApp -AppID $AppID -Path $ApplicationPath -Arguments "$($Arguments)" -Force -Verbose
+        Update-SteamApp -AppID $AppID -Path $Path -Arguments "$($Arguments)" -Force -Verbose
 
         Write-Log -Message "Starting $($ServiceName)"
         Start-Service -Name $ServiceName
@@ -121,16 +130,16 @@
             Write-Log -Message 'Waiting for server to come online again.'
             Start-Sleep -Seconds 60
             # Getting new server information.
-            $ServerStatus = Get-SteamServerInfo -ServerID $RsiServerID | Select-Object -Property hostname, ip, port, online_state, players_cur, checked
+            $ServerStatus = Get-SteamServerInfo -IPAddress $IPAddress -Port $Port | Select-Object -Property ServerName, Port, Players
             Write-Log -Message $ServerStatus
             Write-Log -Message "TimeoutCounter: $($TimeoutCounter)/10"
             if ($TimeoutCounter -ge $TimeoutLimit) {
                 break
             }
-        } until ($ServerStatus.online_state -eq '1')
+        } until ($null -ne $ServerStatus.ServerName)
 
-        if ($ServerStatus.online_state -eq '1') {
-            Write-Log -Message "$($ServerStatus.hostname) is now ONLINE."
+        if ($null -ne $ServerStatus.ServerName) {
+            Write-Log -Message "$($ServerStatus.ServerName) is now ONLINE."
             $ServerState = 'ONLINE'
             $Color = 'Green'
         } else {
@@ -143,9 +152,9 @@
     end {
         if ($null -ne $DiscordWebhookUri -and ($ServerState -eq 'OFFLINE' -or $AlwaysNotify -eq $true)) {
             # Send Message to Discord about the update.
-            $ServerFact = New-DiscordFact -Name 'Game Server Info' -Value $(Get-SteamServerInfo -ServerID $RsiServerID | Select-Object -Property hostname, ip, port, online_state, players_cur, checked | Out-String)
+            $ServerFact = New-DiscordFact -Name 'Game Server Info' -Value $(Get-SteamServerInfo -IPAddress $IPAddress -Port $Port | Select-Object -Property ServerName, ip, port, online_state, players_cur, checked | Out-String)
             $ServerStateFact = New-DiscordFact -Name 'Server State' -Value $(Write-Output -InputObject "Server is $($ServerState)!")
-            $LogFact = New-DiscordFact -Name 'Log Location' -Value $LogLocation
+            $LogFact = New-DiscordFact -Name 'Log Location' -Value $LogPath
             $Section = New-DiscordSection -Title "$($ServiceName) - Update Script Executed" -Facts $ServerStateFact, $ServerFact, $LogFact -Color $Color
             Send-DiscordMessage -WebHookUrl $DiscordWebhookUri -Sections $Section -Verbose
         }

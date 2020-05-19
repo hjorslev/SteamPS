@@ -1,10 +1,10 @@
 ﻿function Find-SteamAppID {
     <#
     .SYNOPSIS
-    Find a Steam AppID by searching using the name of the application.
+    Find a Steam AppID by searching the name of the application.
 
     .DESCRIPTION
-    Find a Steam AppID by searching using the name of the application.
+    Find a Steam AppID by searching the name of the application.
 
     .PARAMETER ApplicationName
     Enter the name of the application. If multiple hits the user will be presented
