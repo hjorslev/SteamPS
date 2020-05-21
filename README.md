@@ -82,37 +82,10 @@ the server.
 Update-SteamApp -AppID 376030 -Path 'C:\Servers\ARK-SurvivalEvolved'
 ```
 
-### Server update flow
+### Update Steam server automatically
 
 The cmdlet Update-SteamServer is, at least for my own use case, applied to automatically
 keep a server up-to-date. It will check the if the server is empty before updating
 it.
 
-Game servers must be ran as a [Windows Service](https://www.howtogeek.com/50786/using-srvstart-to-run-any-application-as-a-windows-service/).
-There are also commercial programs available such as [FireDaemon](https://firedaemon.com/firedaemon-pro/).
-
-#### Introduction
-
-Per default, all servers are installed at `C:\DedicatedServers\$ServiceName`. This
-can be altered using the `-ApplicationPath` parameter.
-
-If you want to have your server automatically updated, then remember to consider
-backup of the server as well as fallback.
-
-#### Workflow
-
-```powershell
-Update-SteamServer -AppID 476400 -ServiceName 'GB-PG10' -IPAddress '185.15.73.207' -Port 27015
-```
-
-1. `Update-SteamServer` will fetch the server info to check if the server is empty.
-If not, it will wait until the server is empty before updating.
-2. It will stop the server by stopping the  Windows Service named *GB-PG10*.
-3. It will update the server.
-4. When the server is updated it will check to see that the server is online. Default
-is to check every minute for a maximum of 10 times before the server is declared
-offline.
-   1. By specifying the parameter `-DiscordWebhookUri` you can have a notification
-   if the server fails to update.
-   2. If you specify the parameter `-AlwaysNotify` alongside `-DiscordWebhookUri`
-   you will always receive a message with a status of the server update.
+Please see the wiki for further information: [Update Steam server automatically](https://github.com/hjorslev/SteamPS/wiki/Update-Steam-server-automatically)
