@@ -71,14 +71,14 @@
 
         [Parameter(Mandatory = $false)]
         [Alias('ApplicationPath')]
-        [string]$Path = "C:\DedicatedServers\$($ServiceName)",
+        [string]$Path = "C:\DedicatedServers\$ServiceName",
 
         [Parameter(Mandatory = $false)]
         [string]$Arguments,
 
         [Parameter(Mandatory = $false)]
         [Alias('LogLocation')]
-        [string]$LogPath = "C:\DedicatedServers\Logs\$($ServiceName)\$($ServiceName)_$((Get-Date).ToShortDateString()).log",
+        [string]$LogPath = "C:\DedicatedServers\Logs\$ServiceName\$($ServiceName)_$((Get-Date).ToShortDateString()).log",
 
         [Parameter(Mandatory = $false)]
         [string]$DiscordWebhookUri,
@@ -114,14 +114,14 @@
             Start-Sleep -Seconds 60
         }
         # Server is now empty and we stop, update and start the server.
-        Write-Log -Message "Stopping $($ServiceName)"
+        Write-Log -Message "Stopping $ServiceName)"
         Stop-Service -Name $ServiceName
         Write-Log -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status)."
 
-        Write-Log -Message "Updating $($ServiceName)..."
-        Update-SteamApp -AppID $AppID -Path $Path -Arguments "$($Arguments)" -Force -Verbose
+        Write-Log -Message "Updating $ServiceName..."
+        Update-SteamApp -AppID $AppID -Path $Path -Arguments "$Arguments" -Force -Verbose
 
-        Write-Log -Message "Starting $($ServiceName)"
+        Write-Log -Message "Starting $ServiceName"
         Start-Service -Name $ServiceName
         Write-Log -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status)."
 
@@ -152,10 +152,10 @@
     end {
         if ($null -ne $DiscordWebhookUri -and ($ServerState -eq 'OFFLINE' -or $AlwaysNotify -eq $true)) {
             # Send Message to Discord about the update.
-            $ServerFact = New-DiscordFact -Name 'Game Server Info' -Value $(Get-SteamServerInfo -IPAddress $IPAddress -Port $Port | Select-Object -Property ServerName, ip, port, online_state, players_cur, checked | Out-String)
-            $ServerStateFact = New-DiscordFact -Name 'Server State' -Value $(Write-Output -InputObject "Server is $($ServerState)!")
+            $ServerFact = New-DiscordFact -Name 'Game Server Info' -Value $(Get-SteamServerInfo -IPAddress $IPAddress -Port $Port | Select-Object -Property ServerName, IP, Port, Players | Out-String)
+            $ServerStateFact = New-DiscordFact -Name 'Server State' -Value $(Write-Output -InputObject "Server is $ServerState!")
             $LogFact = New-DiscordFact -Name 'Log Location' -Value $LogPath
-            $Section = New-DiscordSection -Title "$($ServiceName) - Update Script Executed" -Facts $ServerStateFact, $ServerFact, $LogFact -Color $Color
+            $Section = New-DiscordSection -Title "$ServiceName - Update Script Executed" -Facts $ServerStateFact, $ServerFact, $LogFact -Color $Color
             Send-DiscordMessage -WebHookUrl $DiscordWebhookUri -Sections $Section -Verbose
         }
     } # End

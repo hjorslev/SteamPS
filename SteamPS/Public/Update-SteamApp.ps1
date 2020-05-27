@@ -24,9 +24,9 @@ function Update-SteamApp {
 
     Beware, the following arguments are already used:
 
-    If you use Steam login to install/upload the app the following arguments are already used: "+login $($SteamUserName) $($SteamPassword) +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit"
+    If you use Steam login to install/upload the app the following arguments are already used: "+login $SteamUserName $SteamPassword +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"
 
-    If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit"
+    If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"
 
     .PARAMETER Force
     The Force parameter allows the user to skip the "Should Continue" box.
@@ -117,12 +117,12 @@ function Update-SteamApp {
             # If Steam username and Steam password are not empty we use them for logging in.
             if ($null -ne $Credential.UserName) {
                 Write-Verbose -Message "Logging into Steam as $($Credential | Select-Object -ExpandProperty UserName)."
-                Start-Process -FilePath (Get-SteamPath).Executable -NoNewWindow -ArgumentList "+login $($Credential | Select-Object -ExpandProperty UserName) $($PlainPassword) +force_install_dir `"$($Path)`" +app_update $($SteamAppID) $($Arguments) validate +quit" -Wait
+                Start-Process -FilePath (Get-SteamPath).Executable -NoNewWindow -ArgumentList "+login $($Credential | Select-Object -ExpandProperty UserName) $PlainPassword +force_install_dir `"$Path`" +app_update $SteamAppID $Arguments validate +quit" -Wait
             }
             # If Steam username and Steam password are empty we use anonymous login.
             elseif ($null -eq $Credential.UserName) {
                 Write-Verbose -Message 'Using SteamCMD as anonymous.'
-                Start-Process -FilePath (Get-SteamPath).Executable -NoNewWindow -ArgumentList "+login anonymous +force_install_dir `"$($Path)`" +app_update $($SteamAppID) $($Arguments) validate +quit" -Wait
+                Start-Process -FilePath (Get-SteamPath).Executable -NoNewWindow -ArgumentList "+login anonymous +force_install_dir `"$Path`" +app_update $SteamAppID $Arguments validate +quit" -Wait
             }
         }
 
@@ -138,7 +138,7 @@ function Update-SteamApp {
                     } # Should Continue
                 }
             } catch {
-                Throw "$($ApplicationName) couldn't be updated."
+                Throw "$ApplicationName couldn't be updated."
             }
         } # ParameterSet ApplicationName
 
@@ -147,12 +147,12 @@ function Update-SteamApp {
             try {
                 $SteamAppID = $AppID
                 # Install selected Steam application.
-                if ($Force -or $PSCmdlet.ShouldContinue("Do you want to install or update $($SteamAppID)?", "Update SteamApp $($SteamAppID)?")) {
-                    Write-Verbose -Message "The application with AppID $($SteamAppID) is being updated. Please wait for SteamCMD to finish."
+                if ($Force -or $PSCmdlet.ShouldContinue("Do you want to install or update $SteamAppID?", "Update SteamApp $SteamAppID?")) {
+                    Write-Verbose -Message "The application with AppID $SteamAppID is being updated. Please wait for SteamCMD to finish."
                     Use-SteamCMD -SteamAppID $SteamAppID
                 } # Should Continue
             } catch {
-                Throw "$($SteamAppID) couldn't be updated."
+                Throw "$SteamAppID couldn't be updated."
             }
         } # ParameterSet AppID
     } # Process

@@ -1,9 +1,9 @@
 ﻿# https://lazywinadmin.com/2016/05/using-pester-to-test-your-comment-based.html
 
-Import-Module "$($env:BHModulePath)\$($env:BHProjectName).psm1"
+Import-Module "$env:BHModulePath\$env:BHProjectName.psm1"
 
-Describe "$($ModuleName) Comment Based Help" -Tags "Module" {
-    $FunctionsList = (Get-ChildItem -Path "$($env:BHModulePath)\Public").BaseName
+Describe "$ModuleName Comment Based Help" -Tags "Module" {
+    $FunctionsList = (Get-ChildItem -Path "$env:BHModulePath\Public").BaseName
 
     foreach ($Function in $FunctionsList) {
         # Retrieve the Help of the function
@@ -49,7 +49,7 @@ Describe "$($ModuleName) Comment Based Help" -Tags "Module" {
 
             # Examples - Remarks (small description that comes with the example)
             foreach ($Example in $Help.Examples.Example) {
-                it "Example - Remarks on $($Example.Title)" {
+                It "Example - Remarks on $($Example.Title)" {
                     $Example.Remarks | Should -not -BeNullOrEmpty
                 }
             }
