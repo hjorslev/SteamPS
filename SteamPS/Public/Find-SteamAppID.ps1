@@ -54,7 +54,7 @@
     }
 
     process {
-        $SteamApps = $SteamApps | Where-Object -FilterScript { $PSItem.name -like "$($ApplicationName)*" }
+        $SteamApps = $SteamApps | Where-Object -FilterScript { $PSItem.name -like "$ApplicationName*" }
 
         # If only one game is found when searching by game name.
         if (($SteamApps | Measure-Object).Count -eq 1) {

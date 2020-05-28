@@ -17,14 +17,14 @@ Add-BuildTask Test {
     Import-Module $env:BHPSModuleManifest -Force -Global
     # Invoke Pester to run all of the unit tests, then save the results into XML in order to populate the AppVeyor tests section
     # If any of the tests fail, consider the pipeline failed
-    $PesterResults = Invoke-Pester -Path "$($env:BHProjectPath)\Tests" -OutputFormat NUnitXml -OutputFile "$($env:BHProjectPath)\Tests\TestsResults.xml" -PassThru
+    $PesterResults = Invoke-Pester -Path "$env:BHProjectPath\Tests" -OutputFormat NUnitXml -OutputFile "$env:BHProjectPath\Tests\TestsResults.xml" -PassThru
     if ($PesterResults.FailedCount -gt 0) {
         throw "$($PesterResults.FailedCount) tests failed."
     } else {
-        Add-TestResultToAppveyor -TestFile "$($env:BHProjectPath)\Tests\TestsResults.xml"
+        Add-TestResultToAppveyor -TestFile "$env:BHProjectPath\Tests\TestsResults.xml"
     }
 
-    Remove-Item -Path "$($env:BHProjectPath)\Tests\TestsResults.xml" -Force
+    Remove-Item -Path "$env:BHProjectPath\Tests\TestsResults.xml" -Force
 }
 
 # Synopsis: Build manifest
@@ -35,7 +35,7 @@ Add-BuildTask BuildManifest {
         # Get current module version from Manifest.
         $Manifest = Import-PowerShellDataFile -Path $env:BHPSModuleManifest
         [version]$Version = $Manifest.ModuleVersion
-        Write-Output -InputObject "Old Version: $($Version)"
+        Write-Output -InputObject "Old Version: $Version"
 
         # Update module version in Manifest.
         switch -Wildcard ($env:BHCommitMessage) {
@@ -54,19 +54,19 @@ Add-BuildTask BuildManifest {
             }
         }
 
-        Write-Output -InputObject "New Version: $($NewVersion)"
+        Write-Output -InputObject "New Version: $NewVersion"
         # Update yaml file with new version information.
-        $AppVeyor = ConvertFrom-Yaml -Yaml $(Get-Content "$($env:BHProjectPath)\appveyor.yml" | Out-String)
+        $AppVeyor = ConvertFrom-Yaml -Yaml $(Get-Content "$env:BHProjectPath\appveyor.yml" | Out-String)
         $UpdateAppVeyor = $AppVeyor.GetEnumerator() | Where-Object { $_.Name -eq 'version' }
         $UpdateAppVeyor | ForEach-Object { $AppVeyor[$_.Key] = "$($NewVersion).{build}" }
-        ConvertTo-Yaml -Data $AppVeyor -OutFile "$($env:BHProjectPath)\appveyor.yml" -Force
+        ConvertTo-Yaml -Data $AppVeyor -OutFile "$env:BHProjectPath\appveyor.yml" -Force
 
         # Update FunctionsToExport in Manifest.
         Set-ModuleFunction
         Get-ModuleFunction
 
         # Update copyright notice.
-        Update-Metadata -Path $env:BHPSModuleManifest -PropertyName Copyright -Value "(c) 2019-$( (Get-Date).Year ) $(Get-Metadata -Path $env:BHPSModuleManifest -PropertyName Author). All rights reserved."
+        Update-Metadata -Path $env:BHPSModuleManifest -PropertyName Copyright -Value "(c) 2019-$((Get-Date).Year) $(Get-Metadata -Path $env:BHPSModuleManifest -PropertyName Author). All rights reserved."
     } catch {
         throw $_
     }
@@ -77,18 +77,18 @@ Add-BuildTask BuildDocs {
     if ($env:BHBuildSystem -ne 'Unknown' -and $env:BHBranchName -eq 'master' ) {
         # Create new markdown and XML help files.
         Write-Host -Object 'Building new function documentation' -ForegroundColor Yellow
-        if ((Test-Path -Path "$($env:BHProjectPath)\docs") -eq $false) {
+        if ((Test-Path -Path "$env:BHProjectPath\docs") -eq $false) {
             New-Item -Path $env:BHProjectPath -Name 'docs' -ItemType Directory
         }
 
         Import-Module $env:BHPSModuleManifest -Force -Global
-        New-MarkdownHelp -Module $env:BHProjectName -OutputFolder "$($env:BHProjectPath)\docs" -Force
-        New-ExternalHelp -Path "$($env:BHProjectPath)\docs" -OutputPath "$($env:BHModulePath)\en-US\" -Force
+        New-MarkdownHelp -Module $env:BHProjectName -OutputFolder "$env:BHProjectPath\docs" -Force
+        New-ExternalHelp -Path "$($env:BHProjectPath)\docs" -OutputPath "$env:BHModulePath\en-US\" -Force
         Copy-Item -Path '.\README.md' -Destination 'docs\index.md'
         Copy-Item -Path '.\CHANGELOG.md' -Destination 'docs\CHANGELOG.md'
     } else {
         Write-Host -Object "Skipping building docs because `n" +
-        Write-Host -Object "`t* You are on $($env:BHBranchName) and not master branch. `n"
+        Write-Host -Object "`t* You are on $env:BHBranchName and not master branch.`n"
     }
 }
 
@@ -97,10 +97,10 @@ Add-BuildTask DeployPSGallery {
     # Publish the new version to the PowerShell Gallery
     try {
         Invoke-PSDeploy -Force -ErrorAction Stop
-        Write-Host -Object "$($env:BHProjectName) PowerShell Module version $($NewVersion) published to the PowerShell Gallery." -ForegroundColor Cyan
+        Write-Host -Object "$env:BHProjectName PowerShell Module version $NewVersion published to the PowerShell Gallery." -ForegroundColor Cyan
     } catch {
         # Sad panda; it broke
-        Write-Warning -Message "Publishing update $($NewVersion) to the PowerShell Gallery failed."
+        Write-Warning -Message "Publishing update $NewVersion) to the PowerShell Gallery failed."
         throw $_
     }
 }
@@ -118,8 +118,8 @@ Add-BuildTask DeployGHRelease {
     $GHReleaseSplat = @{
         AccessToken     = $env:GitHubKey
         RepositoryOwner = $(Get-Metadata -Path $env:BHPSModuleManifest -PropertyName CompanyName)
-        TagName         = "v$($NewVersion)"
-        Name            = "v$($NewVersion) Release of $($env:BHProjectName)"
+        TagName         = "v$NewVersion"
+        Name            = "v$NewVersion Release of $env:BHProjectName"
         ReleaseText     = $ChangeLog | Out-String
     }
     Publish-GithubRelease @GHReleaseSplat
@@ -138,14 +138,14 @@ Add-BuildTask PushChangesGitHub {
         git checkout master
         git add --all
         git status
-        git commit -s -m ":rocket: Update version to $($NewVersion)"
+        git commit -s -m ":rocket: Update version to $NewVersion"
         git push origin master
 
         $ErrorActionPreference = 'Stop'
-        Write-Host -Object "$($env:BHProjectName) PowerShell Module version $($NewVersion) published to GitHub." -ForegroundColor Cyan
+        Write-Host -Object "$env:BHProjectName PowerShell Module version $NewVersion published to GitHub." -ForegroundColor Cyan
     } catch {
         # Sad panda; it broke
-        Write-Warning "Publishing update $($NewVersion) to GitHub failed."
+        Write-Warning "Publishing update $NewVersion to GitHub failed."
         throw $_
     }
 }
@@ -156,7 +156,7 @@ if ($env:BHBuildSystem -ne 'Unknown' -and $env:BHBranchName -eq 'master' -and $e
 } else {
     Add-BuildTask . Init, Test
     Write-Host -Object "Skipping deployment: To deploy, ensure that...`n"
-    Write-Host -Object "`t* You are in a known build system (Current: $($env:BHBuildSystem))`n"
-    Write-Host -Object "`t* You are committing to the master branch (Current: $($env:BHBranchName)) `n"
-    Write-Host -Object "`t* Your commit message includes '!deploy' (Current: $($env:BHCommitMessage)) `n"
+    Write-Host -Object "`t* You are in a known build system (Current: $env:BHBuildSystem)`n"
+    Write-Host -Object "`t* You are committing to the master branch (Current: $env:BHBranchName) `n"
+    Write-Host -Object "`t* Your commit message includes '!deploy' (Current: $env:BHCommitMessage) `n"
 }
