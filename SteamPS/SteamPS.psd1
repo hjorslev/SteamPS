@@ -51,7 +51,7 @@
     # ProcessorArchitecture = ''
 
     # Modules that must be imported into the global environment prior to importing this module
-    # RequiredModules   = @(@{ ModuleName = 'Logging'; GUID = '25a60f1d-85dd-4ad6-9efc-35fd3894f6c1'; ModuleVersion = '4.1.1' })
+    RequiredModules   = @(@{ ModuleName = 'Logging'; GUID = '25a60f1d-85dd-4ad6-9efc-35fd3894f6c1'; ModuleVersion = '4.3.2' })
 
     # Assemblies that must be loaded prior to importing this module
     # RequiredAssemblies = @()
@@ -69,7 +69,7 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = @('Find-SteamAppID','Get-SteamServerInfo','Install-SteamCMD','Update-SteamApp','Update-SteamServer')
+    FunctionsToExport = @('Find-SteamAppID', 'Get-SteamServerInfo', 'Install-SteamCMD', 'Update-SteamApp', 'Update-SteamServer')
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
     # CmdletsToExport   = @()
@@ -129,5 +129,3 @@
     # DefaultCommandPrefix = ''
 
 }
-
-

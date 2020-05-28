@@ -18,8 +18,6 @@ if ($Host.Name -eq 'Windows PowerShell ISE Host') {
     Write-Warning -Message 'Consider using PowerShell ConsoleHost instead.'
 }
 
-Use-Module -Name Logging
-
 # Enums
 enum ServerType {
     Dedicated = 0x64    #d
