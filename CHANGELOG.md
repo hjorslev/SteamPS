@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - Improving structure / format of the code.
   - Remove the subexpression where they are not needed.
+- Dependencies are now handled in the module manifest instead of using custom
+cmdlet `Use-Module`.
+
+### Removed
+
+Remove private cmdlet Use-Module.
 
 ## [3.0.0] - 19/05-2020
 
