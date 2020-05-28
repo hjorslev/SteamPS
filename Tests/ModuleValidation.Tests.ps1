@@ -55,18 +55,17 @@ Describe "General Project Validation: $env:BHProjectName" {
         }
     } # Context: Manifest
 
-    Context 'Changelog' {
-        It 'Version in Changelog should be greater than version in Manifest' {
-            # Expects that the latest version is located at line 8.
-            [version]((Get-Content -Path "$env:BHProjectPath\CHANGELOG.md")[7]).Substring(4, 5) | Should -BeGreaterThan (Import-PowerShellDataFile -Path $env:BHPSModuleManifest).ModuleVersion
-        }
-
-        if ((Get-BuildEnvironment).BranchName -ne 'dev') {
+    if ((Get-BuildEnvironment).BranchName -eq 'master') {
+        Context 'Changelog' {
+            It 'Version in Changelog should be greater than version in Manifest' {
+                # Expects that the latest version is located at line 8.
+                [version]((Get-Content -Path "$env:BHProjectPath\CHANGELOG.md")[7]).Substring(4, 5) | Should -BeGreaterThan (Import-PowerShellDataFile -Path $env:BHPSModuleManifest).ModuleVersion
+            }
             It 'Should not be Unreleased, but display a date' {
                 ((Get-Content -Path "$env:BHProjectPath\CHANGELOG.md")[7]).Substring(13) | Should -not -BeExactly 'Unreleased'
             }
-        } else {
-            Write-Verbose -Message "Skipping checking for 'Unreleased' string since we are on dev branch."
-        }
-    } # Context: Changelog
+        } # Context: Changelog
+    } else {
+        Write-Verbose -Message "Skipping checking for 'Unreleased' string since we are on dev branch."
+    }
 } # Describe
