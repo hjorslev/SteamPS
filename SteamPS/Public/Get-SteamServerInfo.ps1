@@ -80,7 +80,7 @@
             $Stream = [System.IO.BinaryReader][System.IO.MemoryStream][Byte[]]$ReceivedData
             $Client.Close()
         } catch {
-            $Exception = [Exception]::new("Could not reach server $($IPAddress):$($Port).")
+            $Exception = [Exception]::new("Could not reach server {0}:{1}.") -f $IPAddress, $Port
             $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
                 $Exception,
                 "ServerNotFound",

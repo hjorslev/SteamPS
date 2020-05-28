@@ -1,9 +1,9 @@
 ﻿
-$PublicFiles = @(Get-ChildItem -Path "$($env:BHModulePath)\Public\*.ps1" -ErrorAction SilentlyContinue)
+$PublicFiles = @(Get-ChildItem -Path "$env:BHModulePath\Public\*.ps1" -ErrorAction SilentlyContinue)
 $ModuleInformation = Import-Metadata -Path $env:BHPSModuleManifest # Cmdlet from module Configuration.
 $ExportedFunctions = (Import-Module -Name $env:BHPSModuleManifest -Force -ErrorAction Stop -PassThru).ExportedFunctions.Values.Name
 
-Describe "General Project Validation: $($env:BHProjectName)" {
+Describe "General Project Validation: $env:BHProjectName" {
     Context "Project Files" {
         $FileSearch = @{
             Path    = $env:BHProjectPath
@@ -26,7 +26,7 @@ Describe "General Project Validation: $($env:BHProjectName)" {
         }
 
         It "'$env:BHProjectName' can import cleanly" {
-            { Import-Module "$($env:BHModulePath)\$($env:BHProjectName).psm1" -Force } | Should -Not -Throw
+ { Import-Module "$env:BHModulePath\$env:BHProjectName.psm1" -Force } | Should -Not -Throw
         }
     }
 
@@ -55,18 +55,17 @@ Describe "General Project Validation: $($env:BHProjectName)" {
         }
     } # Context: Manifest
 
-    Context 'Changelog' {
-        It 'Version in Changelog should be greater than version in Manifest' {
-            # Expects that the latest version is located at line 8.
-            [version]((Get-Content -Path "$($env:BHProjectPath)\CHANGELOG.md")[7]).Substring(4, 5) | Should -BeGreaterThan (Import-PowerShellDataFile -Path $env:BHPSModuleManifest).ModuleVersion
-        }
-
-        if ((Get-BuildEnvironment).BranchName -ne 'dev') {
-            It 'Should not be Unreleased, but display a date' {
-                ((Get-Content -Path "$($env:BHProjectPath)\CHANGELOG.md")[7]).Substring(13) | Should -not -BeExactly 'Unreleased'
+    if ((Get-BuildEnvironment).BranchName -eq 'master') {
+        Context 'Changelog' {
+            It 'Version in Changelog should be greater than version in Manifest' {
+                # Expects that the latest version is located at line 8.
+                [version]((Get-Content -Path "$env:BHProjectPath\CHANGELOG.md")[7]).Substring(4, 5) | Should -BeGreaterThan (Import-PowerShellDataFile -Path $env:BHPSModuleManifest).ModuleVersion
             }
-        } else {
-            Write-Verbose -Message "Skipping checking for 'Unreleased' string since we are on dev branch."
-        }
-    } # Context: Changelog
+            It 'Should not be Unreleased, but display a date' {
+                ((Get-Content -Path "$env:BHProjectPath\CHANGELOG.md")[7]).Substring(13) | Should -not -BeExactly 'Unreleased'
+            }
+        } # Context: Changelog
+    } else {
+        Write-Verbose -Message "Skipping checking for 'Unreleased' string since we are on dev branch."
+    }
 } # Describe

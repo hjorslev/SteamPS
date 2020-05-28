@@ -41,7 +41,7 @@ function Install-SteamCMD {
                 }
                 $true
             })]
-        [string]$InstallPath = "$($env:ProgramFiles)",
+        [string]$InstallPath = "$env:ProgramFiles",
 
         [Parameter(Mandatory = $false)]
         [switch]$Force
@@ -53,7 +53,7 @@ function Install-SteamCMD {
             $InstallPath = $InstallPath + '\SteamCMD'
 
             if (-not ((Get-SteamPath).Path -eq $InstallPath)) {
-                Write-Verbose -Message "Adding $($InstallPath) to Environment Variable PATH."
+                Write-Verbose -Message "Adding $InstallPath to Environment Variable PATH."
                 Add-EnvPath -Path $InstallPath -Container Machine
             } else {
                 Write-Verbose -Message "Path $((Get-SteamPath).Path) already exists."
@@ -66,19 +66,19 @@ function Install-SteamCMD {
             }
 
             # Download SteamCMD.
-            Invoke-WebRequest -Uri 'https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip' -OutFile "$($TempDirectory)\steamcmd.zip" -UseBasicParsing
+            Invoke-WebRequest -Uri 'https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip' -OutFile "$TempDirectory\steamcmd.zip" -UseBasicParsing
 
             # Create SteamCMD directory if necessary.
             if (-not (Test-Path -Path $InstallPath)) {
-                Write-Verbose -Message "Creating SteamCMD directory: $($InstallPath)"
+                Write-Verbose -Message "Creating SteamCMD directory: $InstallPath"
                 New-Item -Path $InstallPath -ItemType Directory | Write-Verbose
-                Expand-Archive -Path "$($TempDirectory)\steamcmd.zip" -DestinationPath $InstallPath
+                Expand-Archive -Path "$TempDirectory\steamcmd.zip" -DestinationPath $InstallPath
             }
 
             # Doing some initial configuration of SteamCMD. The first time SteamCMD is launched it will need to do some updates.
             Write-Host -Object 'Configuring SteamCMD for the first time. This might take a little while.'
             Write-Host -Object 'Please wait' -NoNewline
-            Start-Process -FilePath "$($InstallPath)\steamcmd.exe" -ArgumentList 'validate +quit' -WindowStyle Hidden
+            Start-Process -FilePath "$InstallPath\steamcmd.exe" -ArgumentList 'validate +quit' -WindowStyle Hidden
             do {
                 Write-Host -Object "." -NoNewline
                 Start-Sleep -Seconds 3
@@ -88,8 +88,8 @@ function Install-SteamCMD {
     } # Process
 
     end {
-        if (Test-Path -Path "$($TempDirectory)\steamcmd.zip") {
-            Remove-Item -Path "$($TempDirectory)\steamcmd.zip" -Force
+        if (Test-Path -Path "$TempDirectory\steamcmd.zip") {
+            Remove-Item -Path "$TempDirectory\steamcmd.zip" -Force
         }
 
         if (Test-Path -Path (Get-SteamPath).Executable) {
