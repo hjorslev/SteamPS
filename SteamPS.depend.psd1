@@ -24,6 +24,7 @@
     'BuildHelpers'     = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
     'Configuration'    = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
     'InvokeBuild'      = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
+    'Logging'          = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
     'Pester'           = @{ DependencyType = 'PSGalleryNuget'; version = '4.10.1' }
     'platyPS'          = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
     'posh-git'         = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
