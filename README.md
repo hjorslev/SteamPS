@@ -50,13 +50,13 @@ By using the parameter -InstallPath you can specify an install location of Steam
 
 ## Cmdlets
 
-| Cmdlet              | Description                                                     |
-| ------------------- | --------------------------------------------------------------- |
-| Find-SteamAppID     | Find a Steam AppID by searching the name of the application.    |
-| Get-SteamServerInfo | Query a running steam based game server.                        |
-| Install-SteamCMD    | Install SteamCMD.                                               |
-| Update-SteamApp     | Install or update a Steam application using SteamCMD.           |
-| Update-SteamServer  | Update a Steam based game server through a particular workflow. |
+| Cmdlet                                                                             | Description                                                     |
+| ---------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| [Find-SteamAppID](https://hjorslev.github.io/SteamPS/Find-SteamAppID.html)         | Find a Steam AppID by searching the name of the application.    |
+| [Get-SteamServerInfo](https://hjorslev.github.io/SteamPS/Get-SteamServerInfo.html) | Query a running steam based game server.                        |
+| [Install-SteamCMD](https://hjorslev.github.io/SteamPS/Install-SteamCMD.html)       | Install SteamCMD.                                               |
+| [Update-SteamApp](https://hjorslev.github.io/SteamPS/Update-SteamApp.html)         | Install or update a Steam application using SteamCMD.           |
+| [Update-SteamServer](https://hjorslev.github.io/SteamPS/Update-SteamServer.html)   | Update a Steam based game server through a particular workflow. |
 
 ## Examples
 
