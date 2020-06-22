@@ -1,4 +1,7 @@
-﻿Describe "General project validation: $env:BHProjectName" {
+﻿[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '')]
+[CmdletBinding()]
+Param ()
+Describe "General project validation: $env:BHProjectName" {
     BeforeEach {
         $FileSearch = @{
             Path    = $env:BHProjectPath
