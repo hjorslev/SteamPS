@@ -26,7 +26,7 @@ Describe "General Project Validation: $env:BHProjectName" {
         }
 
         It "'$env:BHProjectName' can import cleanly" {
- { Import-Module "$env:BHModulePath\$env:BHProjectName.psm1" -Force } | Should -Not -Throw
+            { Import-Module "$env:BHModulePath\$env:BHProjectName.psm1" -Force } | Should -Not -Throw
         }
     }
 
@@ -55,7 +55,7 @@ Describe "General Project Validation: $env:BHProjectName" {
         }
     } # Context: Manifest
 
-    if ((Get-BuildEnvironment).BranchName -eq 'master') {
+    if (((Get-BuildEnvironment).BranchName -eq 'master') -and ($env:BHCommitMessage -like "*!deploy*")) {
         Context 'Changelog' {
             It 'Version in Changelog should be greater than version in Manifest' {
                 # Expects that the latest version is located at line 8.
