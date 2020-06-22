@@ -98,7 +98,7 @@ Add-BuildTask DeployPSGallery {
         Write-Host -Object "$env:BHProjectName PowerShell Module version $NewVersion published to the PowerShell Gallery." -ForegroundColor Cyan
     } catch {
         # Sad panda; it broke
-        Write-Warning -Message "Publishing update $NewVersion) to the PowerShell Gallery failed."
+        Write-Warning -Message "Publishing update $NewVersion to the PowerShell Gallery failed."
         throw $_
     }
 }
