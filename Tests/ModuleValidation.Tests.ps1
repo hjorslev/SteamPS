@@ -2,7 +2,7 @@
 [CmdletBinding()]
 Param ()
 Describe "General project validation: $env:BHProjectName" {
-    BeforeEach {
+    BeforeAll {
         $FileSearch = @{
             Path    = $env:BHProjectPath
             Include = '*.ps1', '*.psm1', '*.psd1'

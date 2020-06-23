@@ -2,7 +2,7 @@
 $PowerShellFiles = Get-ChildItem $env:BHProjectPath -Recurse -Filter *.ps*1
 
 foreach ($PowerShellFile in $PowerShellFiles) {
-    Describe "File $PowerShellFile should not produce any PSScriptAnalyzer warnings" {
+    Describe "File $($PowerShellFile) should not produce any PSScriptAnalyzer warnings" -Tag 'PSScriptAnalyzer' {
         $Analysis = Invoke-ScriptAnalyzer -Path $PowerShellFile.FullName -Settings "$env:BHProjectPath\PSScriptAnalyzerSettings.psd1"
 
         foreach ($Rule in $ScriptAnalyzerRules) {

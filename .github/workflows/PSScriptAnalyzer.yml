@@ -1,12 +1,12 @@
-name: PSScriptAnalyzer checks
-on: [push]
+name: PSScriptAnalyzer
+on: [push, pull_request]
 jobs:
   lint:
-    name: PSScriptAnalyzer checks
+    name: PSScriptAnalyzer
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: PSScriptAnalyzer checks
+      - name: PSScriptAnalyzer
         uses: devblackops/github-action-psscriptanalyzer@v2.0.0
         with:
           rootPath: SteamPS
