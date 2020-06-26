@@ -20,7 +20,7 @@ letting you choose the right application to install.
 
 ## Requirements
 
-PowerShell 5.0
+PowerShell 5.1
 
 You can find your version of PowerShell by using:
 
@@ -32,21 +32,21 @@ $PSVersionTable.PSVersion
 
 The module is published in the [PowerShell Gallery](https://www.powershellgallery.com/packages/SteamPS).
 
-1. Run the following in an elevated prompt:
+Run the following in an elevated prompt:
 
 ```powershell
 Install-Module -Name SteamPS
 ```
 
 When SteamPS is installed we will need to use the cmdlet `Install-SteamCMD` from
-the module to install SteamCMD.
-2. This is done by calling Install-SteamCMD from an elevated prompt:
+the module to install SteamCMD. This is done by calling Install-SteamCMD from an
+elevated prompt:
 
 ```powershell
 Install-SteamCMD
 ```
 
-By using the parameter -InstallPath you can specify an install location of SteamCMD.
+By using the parameter `-InstallPath` you can specify an install location of SteamCMD.
 
 ## Cmdlets
 
