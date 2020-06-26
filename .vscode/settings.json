@@ -10,6 +10,7 @@
   "powershell.codeFormatting.preset": "OTBS",
   "powershell.scriptAnalysis.settingsPath": ".\\PSScriptAnalyzerSettings.psd1",
   "cSpell.words": [
-    "cmdlet"
+    "cmdlet",
+    "cmdlets"
   ]
 }
