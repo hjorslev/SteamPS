@@ -13,23 +13,29 @@
         [string] $Container = 'Session'
     )
 
-    if ($Container -ne 'Session') {
-        $containerMapping = @{
-            Machine = [EnvironmentVariableTarget]::Machine
-            User    = [EnvironmentVariableTarget]::User
-        }
-        $containerType = $containerMapping[$Container]
+    process {
+        Write-Verbose -Message "Container is set to: $Container"
+        if ($Container -ne 'Session') {
+            $containerMapping = @{
+                Machine = [EnvironmentVariableTarget]::Machine
+                User    = [EnvironmentVariableTarget]::User
+            }
+            $containerType = $containerMapping[$Container]
 
-        $persistedPaths = [Environment]::GetEnvironmentVariable('Path', $containerType) -split ';'
-        if ($persistedPaths -notcontains $Path) {
-            $persistedPaths = $persistedPaths + $Path | Where-Object { $_ }
-            [Environment]::SetEnvironmentVariable('Path', $persistedPaths -join ';', $containerType)
+            $persistedPaths = [Environment]::GetEnvironmentVariable('Path', $containerType) -split ';'
+            if ($persistedPaths -notcontains $Path) {
+                $persistedPaths = $persistedPaths + $Path | Where-Object { $_ }
+                [Environment]::SetEnvironmentVariable('Path', $persistedPaths -join ';', $containerType)
+            }
+            Write-Verbose -Message "Adding $Path to environment path."
         }
-    }
 
-    $envPaths = $env:Path -split ';'
-    if ($envPaths -notcontains $Path) {
-        $envPaths = $envPaths + $Path | Where-Object { $_ }
-        $env:Path = $envPaths -join ';'
-    }
-}
+        $envPaths = $env:Path -split ';'
+        Write-Verbose -Message "Current environment paths: $envPaths"
+        if ($envPaths -notcontains $Path) {
+            $envPaths = $envPaths + $Path | Where-Object { $_ }
+            $env:Path = $envPaths -join ';'
+            Write-Verbose -Message "Adding $Path to environment path."
+        }
+    } # Process
+} # Cmdlet

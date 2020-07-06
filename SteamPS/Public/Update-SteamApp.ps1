@@ -80,6 +80,7 @@ function Update-SteamApp {
             })]
         [string]$Path,
 
+        [Parameter(Mandatory = $false)]
         [ValidateNotNull()]
         [System.Management.Automation.PSCredential]
         [System.Management.Automation.Credential()]
@@ -97,13 +98,6 @@ function Update-SteamApp {
             throw 'SteamCMD could not be found in the env:Path. Have you executed Install-SteamCMD?'
         }
 
-        # Make Secure.String to plain text string.
-        if ($null -eq $Credential) {
-            $SecureString = $Credential | Select-Object -ExpandProperty Password
-            $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecureString)
-            $PlainPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
-        }
-
         # Install SteamCMD if it is missing.
         if (-not (Test-Path -Path (Get-SteamPath).Executable)) {
             Start-Process powershell -ArgumentList '-NoExit -Command "Install-SteamCMD; exit"' -Verb RunAs
@@ -117,7 +111,7 @@ function Update-SteamApp {
             # If Steam username and Steam password are not empty we use them for logging in.
             if ($null -ne $Credential.UserName) {
                 Write-Verbose -Message "Logging into Steam as $($Credential | Select-Object -ExpandProperty UserName)."
-                Start-Process -FilePath (Get-SteamPath).Executable -NoNewWindow -ArgumentList "+login $($Credential | Select-Object -ExpandProperty UserName) $PlainPassword +force_install_dir `"$Path`" +app_update $SteamAppID $Arguments validate +quit" -Wait
+                Start-Process -FilePath (Get-SteamPath).Executable -NoNewWindow -ArgumentList "+login $($Credential.UserName) $($Credential.GetNetworkCredential().Password) +force_install_dir `"$Path`" +app_update $SteamAppID $Arguments validate +quit" -Wait
             }
             # If Steam username and Steam password are empty we use anonymous login.
             elseif ($null -eq $Credential.UserName) {
@@ -147,7 +141,7 @@ function Update-SteamApp {
             try {
                 $SteamAppID = $AppID
                 # Install selected Steam application.
-                if ($Force -or $PSCmdlet.ShouldContinue("Do you want to install or update $SteamAppID?", "Update SteamApp $SteamAppID?")) {
+                if ($Force -or $PSCmdlet.ShouldContinue("Do you want to install or update $($SteamAppID)?", "Update SteamApp $($SteamAppID)?")) {
                     Write-Verbose -Message "The application with AppID $SteamAppID is being updated. Please wait for SteamCMD to finish."
                     Use-SteamCMD -SteamAppID $SteamAppID
                 } # Should Continue

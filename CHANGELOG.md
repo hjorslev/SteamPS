@@ -7,12 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Added
+
+- Update-SteamServer
+  - Added `-Credential` parameter (#16).
+
 ### Changed
 
 - Improving structure / format of the code.
   - Remove the subexpression where they are not needed.
 - Dependencies are now handled in the module manifest instead of using custom
 cmdlet `Use-Module`.
+- Update-SteamServer
+  - Fix minor issue with TimeoutLimit being hardcoded when writing to the log
+  instead of using the value defined in the parameter $TimeoutLimit.
 
 ### Removed
 
