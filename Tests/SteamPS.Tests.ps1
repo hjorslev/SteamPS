@@ -6,20 +6,20 @@
     }
 }
 
-InModuleScope SteamPS {
-    Describe "Get-SteamServerInfo" {
-        It "Finds information about a Steam based game server" {
-            $ServerInfo = Get-SteamServerInfo -IPAddress '185.15.73.207' -Port 27015
-            $ServerInfo.ServerName | Should -Be 'SAS Proving Ground 10 (EU)'
-        }
+Describe "Get-SteamServerInfo" {
+    It "Finds information about a Steam based game server" {
+        $ServerInfo = Get-SteamServerInfo -IPAddress '185.15.73.207' -Port 27015
+        $ServerInfo.ServerName | Should -Be 'SAS Proving Ground 10 (EU)'
     }
 }
 
 Describe "Test SteamCMD cmdlets" {
-    . "$env:BHModulePath\Private\Add-EnvPath.ps1"
-    Add-EnvPath -Path 'TestDrive:\Test\SteamCMD' -Container Session
+    BeforeAll {
+        . "$env:BHModulePath\Private\Add-EnvPath.ps1"
+        Add-EnvPath -Path 'TestDrive:\Test\SteamCMD' -Container Session
 
-    Install-SteamCMD -InstallPath 'TestDrive:\Test' -Force
+        Install-SteamCMD -InstallPath 'TestDrive:\Test' -Force
+    }
 
     Context "Install and update applications" {
         It "Finds steamcmd.exe" {
@@ -42,6 +42,8 @@ Describe "Test SteamCMD cmdlets" {
         }
     }
 
-    # Wait for the process steamerrorreporter to be closed - else test folder wont be deleted.
-    Wait-Process -Name 'steamerrorreporter' -ErrorAction SilentlyContinue
+    AfterAll {
+        # Wait for the process steamerrorreporter to be closed - else test folder wont be deleted.
+        Wait-Process -Name 'steamerrorreporter' -ErrorAction SilentlyContinue
+    }
 }

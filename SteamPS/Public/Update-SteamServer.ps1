@@ -13,17 +13,20 @@
     .PARAMETER ServiceName
     Specify the Windows Service Name. You can get a list of services with Get-Service.
 
-    .PARAMETER Path
-    Install location of the game server.
-
-    .PARAMETER Arguments
-    Enter any additional arguments here.
-
     .PARAMETER IPAddress
     Enter the IP address of the Steam based server.
 
     .PARAMETER Port
     Enter the port number of the Steam based server.
+
+    .PARAMETER Path
+    Install location of the game server.
+
+    .PARAMETER Credential
+    If the app requires login to install or update, enter your Steam username and password.
+
+    .PARAMETER Arguments
+    Enter any additional arguments here.
 
     .PARAMETER LogPath
     Specify the location of the log files.
@@ -74,6 +77,12 @@
         [string]$Path = "C:\DedicatedServers\$ServiceName",
 
         [Parameter(Mandatory = $false)]
+        [ValidateNotNull()]
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.Credential()]
+        $Credential = [System.Management.Automation.PSCredential]::Empty,
+
+        [Parameter(Mandatory = $false)]
         [string]$Arguments,
 
         [Parameter(Mandatory = $false)]
@@ -87,10 +96,14 @@
         [string]$AlwaysNotify,
 
         [Parameter(Mandatory = $false)]
-        [string]$TimeoutLimit = 10
+        [int]$TimeoutLimit = 10
     )
 
     begin {
+        if ($null -eq (Get-SteamPath)) {
+            throw 'SteamCMD could not be found in the env:Path. Have you executed Install-SteamCMD?'
+        }
+
         # Create a log file with information about the operation.
         Set-LoggingDefaultLevel -Level 'INFO'
         Add-LoggingTarget -Name Console
@@ -108,18 +121,22 @@
 
         # Waiting to server is empty. Checking every 60 seconds.
         while ($ServerStatus.Players -ne 0) {
-            Write-Log -Message "Awaiting that the server is empty."
+            Write-Log -Message "Awaiting that the server is empty before updating."
             $ServerStatus = Get-SteamServerInfo -IPAddress $IPAddress -Port $Port
             Write-Log -Message $ServerStatus | Select-Object -Property ServerName, Port, Players
             Start-Sleep -Seconds 60
         }
         # Server is now empty and we stop, update and start the server.
-        Write-Log -Message "Stopping $ServiceName)"
+        Write-Log -Message "Stopping $ServiceName"
         Stop-Service -Name $ServiceName
         Write-Log -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status)."
 
         Write-Log -Message "Updating $ServiceName..."
-        Update-SteamApp -AppID $AppID -Path $Path -Arguments "$Arguments" -Force -Verbose
+        if ($null -ne $Credential) {
+            Update-SteamApp -AppID $AppID -Path $Path -Credential $Credential -Arguments "$Arguments" -Force
+        } else {
+            Update-SteamApp -AppID $AppID -Path $Path -Arguments "$Arguments" -Force
+        }
 
         Write-Log -Message "Starting $ServiceName"
         Start-Service -Name $ServiceName
@@ -132,7 +149,7 @@
             # Getting new server information.
             $ServerStatus = Get-SteamServerInfo -IPAddress $IPAddress -Port $Port | Select-Object -Property ServerName, Port, Players
             Write-Log -Message $ServerStatus
-            Write-Log -Message "TimeoutCounter: $($TimeoutCounter)/10"
+            Write-Log -Message "TimeoutCounter: $TimeoutCounter/$TimeoutLimit"
             if ($TimeoutCounter -ge $TimeoutLimit) {
                 break
             }
@@ -156,7 +173,7 @@
             $ServerStateFact = New-DiscordFact -Name 'Server State' -Value $(Write-Output -InputObject "Server is $ServerState!")
             $LogFact = New-DiscordFact -Name 'Log Location' -Value $LogPath
             $Section = New-DiscordSection -Title "$ServiceName - Update Script Executed" -Facts $ServerStateFact, $ServerFact, $LogFact -Color $Color
-            Send-DiscordMessage -WebHookUrl $DiscordWebhookUri -Sections $Section -Verbose
+            Send-DiscordMessage -WebHookUrl $DiscordWebhookUri -Sections $Section
         }
     } # End
 } # Cmdlet
