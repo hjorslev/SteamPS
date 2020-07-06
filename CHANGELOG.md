@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - Update-SteamServer
   - Added `-Credential` parameter (#16).
+- Update-SteamApp
+  - Output ExitCode from SteamCMD if it is not 0.
 
 ### Changed
 
