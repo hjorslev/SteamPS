@@ -111,12 +111,18 @@ function Update-SteamApp {
             # If Steam username and Steam password are not empty we use them for logging in.
             if ($null -ne $Credential.UserName) {
                 Write-Verbose -Message "Logging into Steam as $($Credential | Select-Object -ExpandProperty UserName)."
-                Start-Process -FilePath (Get-SteamPath).Executable -NoNewWindow -ArgumentList "+login $($Credential.UserName) $($Credential.GetNetworkCredential().Password) +force_install_dir `"$Path`" +app_update $SteamAppID $Arguments validate +quit" -Wait
+                $SteamCMDProcess = Start-Process -FilePath (Get-SteamPath).Executable -NoNewWindow -ArgumentList "+login $($Credential.UserName) $($Credential.GetNetworkCredential().Password) +force_install_dir `"$Path`" +app_update $SteamAppID $Arguments validate +quit" -Wait -PassThru
+                if ($SteamCMDProcess.ExitCode -ne 0) {
+                    Write-Error -Message ("SteamCMD closed with ExitCode {0}" -f $SteamCMDProcess.ExitCode) -Category CloseError
+                }
             }
             # If Steam username and Steam password are empty we use anonymous login.
             elseif ($null -eq $Credential.UserName) {
                 Write-Verbose -Message 'Using SteamCMD as anonymous.'
-                Start-Process -FilePath (Get-SteamPath).Executable -NoNewWindow -ArgumentList "+login anonymous +force_install_dir `"$Path`" +app_update $SteamAppID $Arguments validate +quit" -Wait
+                $SteamCMDProcess = Start-Process -FilePath (Get-SteamPath).Executable -NoNewWindow -ArgumentList "+login anonymous +force_install_dir `"$Path`" +app_update $SteamAppID $Arguments validate +quit" -Wait -PassThru
+                if ($SteamCMDProcess.ExitCode -ne 0) {
+                    Write-Error -Message ("SteamCMD closed with ExitCode {0}" -f $SteamCMDProcess.ExitCode) -Category CloseError
+                }
             }
         }
 
