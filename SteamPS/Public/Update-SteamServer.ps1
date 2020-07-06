@@ -13,17 +13,20 @@
     .PARAMETER ServiceName
     Specify the Windows Service Name. You can get a list of services with Get-Service.
 
-    .PARAMETER Path
-    Install location of the game server.
-
-    .PARAMETER Arguments
-    Enter any additional arguments here.
-
     .PARAMETER IPAddress
     Enter the IP address of the Steam based server.
 
     .PARAMETER Port
     Enter the port number of the Steam based server.
+
+    .PARAMETER Path
+    Install location of the game server.
+
+    .PARAMETER Credential
+    If the app requires login to install or update, enter your Steam username and password.
+
+    .PARAMETER Arguments
+    Enter any additional arguments here.
 
     .PARAMETER LogPath
     Specify the location of the log files.
