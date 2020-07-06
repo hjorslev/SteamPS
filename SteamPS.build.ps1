@@ -17,12 +17,13 @@ Add-BuildTask Test {
     Import-Module $env:BHPSModuleManifest -Force -Global
     # Invoke Pester to run all of the unit tests, then save the results into XML in order to populate the AppVeyor tests section
     # If any of the tests fail, consider the pipeline failed
-    $PesterResults = Invoke-Pester -Path "$env:BHProjectPath\Tests" -OutputFormat NUnitXml -OutputFile "$env:BHProjectPath\Tests\TestsResults.xml" -PassThru
-    Add-TestResultToAppveyor -TestFile "$env:BHProjectPath\Tests\TestsResults.xml"
+    $PesterResults = Invoke-Pester -Path "$env:BHProjectPath\Tests\ModuleValidation.Tests.ps1" -CI -Output Normal -PassThru
+    Add-TestResultToAppveyor -TestFile "$env:BHProjectPath\testResults.xml"
     if ($PesterResults.FailedCount -gt 0) {
         throw "$($PesterResults.FailedCount) tests failed."
     }
-    Remove-Item -Path "$env:BHProjectPath\Tests\TestsResults.xml" -Force
+    Remove-Item -Path "$env:BHProjectPath\coverage.xml" -Force
+    Remove-Item -Path "$env:BHProjectPath\testResults.xml" -Force
 }
 
 # Synopsis: Build manifest
