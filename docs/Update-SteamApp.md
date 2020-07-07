@@ -112,9 +112,9 @@ Enter any additional arguments here.
 
 Beware, the following arguments are already used:
 
-If you use Steam login to install/upload the app the following arguments are already used: "+login $($SteamUserName) $($SteamPassword) +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit"
+If you use Steam login to install/upload the app the following arguments are already used: "+login $SteamUserName $SteamPassword +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"
 
-If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit"
+If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"
 
 ```yaml
 Type: String

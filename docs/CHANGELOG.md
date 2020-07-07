@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [3.1.0] - 07/07-2020
+
+### Added
+
+- Update-SteamServer
+  - Added `-Credential` parameter so apps that requires authentication can be
+  updated (#16).
+- Update-SteamApp
+  - Output ExitCode from SteamCMD if it has another value than 0 (success).
+
+### Changed
+
+- Improving structure / format of the code.
+  - Remove sub-expressions where they are not needed.
+- Dependencies are now handled in the module manifest instead of using custom
+cmdlet `Use-Module`.
+- Update-SteamServer
+  - Fix minor issue with TimeoutLimit being hardcoded when writing to the log
+  instead of using the value defined in the parameter `$TimeoutLimit`.
+- Update tests to Pester 5. Thanks [Joel Sallow](https://github.com/vexx32/)!
+  - ModuleValidation - general tests of the module.
+  - Help - tests that each cmdlet uses Comment Based Help.
+
+### Removed
+
+- Remove private cmdlet Use-Module.
+
 ## [3.0.0] - 19/05-2020
 
 ### Fixed

@@ -48,7 +48,7 @@ Aliases:
 
 Required: False
 Position: 1
-Default value: "$($env:ProgramFiles)"
+Default value: "$env:ProgramFiles"
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

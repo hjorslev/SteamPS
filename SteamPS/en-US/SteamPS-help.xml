@@ -230,7 +230,7 @@
             <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>"$($env:ProgramFiles)"</dev:defaultValue>
+          <dev:defaultValue>"$env:ProgramFiles"</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Force</maml:name>
@@ -278,7 +278,7 @@
           <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>"$($env:ProgramFiles)"</dev:defaultValue>
+        <dev:defaultValue>"$env:ProgramFiles"</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Force</maml:name>
@@ -403,8 +403,8 @@
           <maml:Description>
             <maml:para>Enter any additional arguments here.</maml:para>
             <maml:para>Beware, the following arguments are already used:</maml:para>
-            <maml:para>If you use Steam login to install/upload the app the following arguments are already used: "+login $($SteamUserName) $($SteamPassword) +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit"</maml:para>
-            <maml:para>If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit"</maml:para>
+            <maml:para>If you use Steam login to install/upload the app the following arguments are already used: "+login $SteamUserName $SteamPassword +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"</maml:para>
+            <maml:para>If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -490,8 +490,8 @@
           <maml:Description>
             <maml:para>Enter any additional arguments here.</maml:para>
             <maml:para>Beware, the following arguments are already used:</maml:para>
-            <maml:para>If you use Steam login to install/upload the app the following arguments are already used: "+login $($SteamUserName) $($SteamPassword) +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit"</maml:para>
-            <maml:para>If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit"</maml:para>
+            <maml:para>If you use Steam login to install/upload the app the following arguments are already used: "+login $SteamUserName $SteamPassword +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"</maml:para>
+            <maml:para>If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -589,8 +589,8 @@
         <maml:Description>
           <maml:para>Enter any additional arguments here.</maml:para>
           <maml:para>Beware, the following arguments are already used:</maml:para>
-          <maml:para>If you use Steam login to install/upload the app the following arguments are already used: "+login $($SteamUserName) $($SteamPassword) +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit"</maml:para>
-          <maml:para>If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $($Path) +app_update $($SteamAppID) $($Arguments) validate +quit"</maml:para>
+          <maml:para>If you use Steam login to install/upload the app the following arguments are already used: "+login $SteamUserName $SteamPassword +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"</maml:para>
+          <maml:para>If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -695,13 +695,25 @@
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="10" aliases="none">
-          <maml:name>TimeoutLimit</maml:name>
+          <maml:name>AlwaysNotify</maml:name>
           <maml:Description>
-            <maml:para>Number of times the cmdlet checks if the server is online or offline. When the limit is reached an error is thrown.</maml:para>
+            <maml:para>Always receive a notification when a server has been updated. Default is only to send on errors.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="11" aliases="none">
+          <maml:name>TimeoutLimit</maml:name>
+          <maml:Description>
+            <maml:para>Number of times the cmdlet checks if the server is online or offline. When the limit is reached an error is thrown.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>10</dev:defaultValue>
@@ -752,9 +764,21 @@
             <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>"C:\DedicatedServers\$($ServiceName)"</dev:defaultValue>
+          <dev:defaultValue>"C:\DedicatedServers\$ServiceName"</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
+          <maml:name>Credential</maml:name>
+          <maml:Description>
+            <maml:para>If the app requires login to install or update, enter your Steam username and password.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+          <dev:type>
+            <maml:name>PSCredential</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>[System.Management.Automation.PSCredential]::Empty</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="none">
           <maml:name>Arguments</maml:name>
           <maml:Description>
             <maml:para>Enter any additional arguments here.</maml:para>
@@ -766,7 +790,7 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="LogLocation">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="8" aliases="LogLocation">
           <maml:name>LogPath</maml:name>
           <maml:Description>
             <maml:para>Specify the location of the log files.</maml:para>
@@ -776,24 +800,12 @@
             <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>"C:\DedicatedServers\Logs\$($ServiceName)\$($ServiceName)_$((Get-Date).ToShortDateString()).log"</dev:defaultValue>
+          <dev:defaultValue>"C:\DedicatedServers\Logs\$ServiceName\$($ServiceName)_$((Get-Date).ToShortDateString()).log"</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="8" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="9" aliases="none">
           <maml:name>DiscordWebhookUri</maml:name>
           <maml:Description>
             <maml:para>Enter a Discord Webhook Uri if you wish to get notifications about the server update.</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="9" aliases="none">
-          <maml:name>AlwaysNotify</maml:name>
-          <maml:Description>
-            <maml:para>Always receive a notification when a server has been updated. Default is only to send on errors.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -885,9 +897,21 @@
           <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>"C:\DedicatedServers\$($ServiceName)"</dev:defaultValue>
+        <dev:defaultValue>"C:\DedicatedServers\$ServiceName"</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="6" aliases="none">
+        <maml:name>Credential</maml:name>
+        <maml:Description>
+          <maml:para>If the app requires login to install or update, enter your Steam username and password.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+        <dev:type>
+          <maml:name>PSCredential</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>[System.Management.Automation.PSCredential]::Empty</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="none">
         <maml:name>Arguments</maml:name>
         <maml:Description>
           <maml:para>Enter any additional arguments here.</maml:para>
@@ -899,7 +923,7 @@
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="7" aliases="LogLocation">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="8" aliases="LogLocation">
         <maml:name>LogPath</maml:name>
         <maml:Description>
           <maml:para>Specify the location of the log files.</maml:para>
@@ -909,9 +933,9 @@
           <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>"C:\DedicatedServers\Logs\$($ServiceName)\$($ServiceName)_$((Get-Date).ToShortDateString()).log"</dev:defaultValue>
+        <dev:defaultValue>"C:\DedicatedServers\Logs\$ServiceName\$($ServiceName)_$((Get-Date).ToShortDateString()).log"</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="8" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="9" aliases="none">
         <maml:name>DiscordWebhookUri</maml:name>
         <maml:Description>
           <maml:para>Enter a Discord Webhook Uri if you wish to get notifications about the server update.</maml:para>
@@ -923,7 +947,7 @@
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="9" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="10" aliases="none">
         <maml:name>AlwaysNotify</maml:name>
         <maml:Description>
           <maml:para>Always receive a notification when a server has been updated. Default is only to send on errors.</maml:para>
@@ -935,14 +959,14 @@
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="10" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="11" aliases="none">
         <maml:name>TimeoutLimit</maml:name>
         <maml:Description>
           <maml:para>Number of times the cmdlet checks if the server is online or offline. When the limit is reached an error is thrown.</maml:para>
         </maml:Description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>Int32</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>10</dev:defaultValue>

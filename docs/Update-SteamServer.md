@@ -14,8 +14,9 @@ Update a Steam based game server.
 
 ```
 Update-SteamServer [-AppID] <Int32> [-ServiceName] <String> [-IPAddress] <IPAddress> [-Port] <Int32>
- [[-Path] <String>] [[-Arguments] <String>] [[-LogPath] <String>] [[-DiscordWebhookUri] <String>]
- [[-AlwaysNotify] <String>] [[-TimeoutLimit] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-Path] <String>] [[-Credential] <PSCredential>] [[-Arguments] <String>] [[-LogPath] <String>]
+ [[-DiscordWebhookUri] <String>] [[-AlwaysNotify] <String>] [[-TimeoutLimit] <Int32>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -102,7 +103,22 @@ Aliases: ApplicationPath
 
 Required: False
 Position: 5
-Default value: "C:\DedicatedServers\$($ServiceName)"
+Default value: "C:\DedicatedServers\$ServiceName"
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Credential
+If the app requires login to install or update, enter your Steam username and password.
+
+```yaml
+Type: PSCredential
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: [System.Management.Automation.PSCredential]::Empty
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -116,7 +132,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -131,8 +147,8 @@ Parameter Sets: (All)
 Aliases: LogLocation
 
 Required: False
-Position: 7
-Default value: "C:\DedicatedServers\Logs\$($ServiceName)\$($ServiceName)_$((Get-Date).ToShortDateString()).log"
+Position: 8
+Default value: "C:\DedicatedServers\Logs\$ServiceName\$($ServiceName)_$((Get-Date).ToShortDateString()).log"
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -147,7 +163,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -164,7 +180,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -176,12 +192,12 @@ When
 the limit is reached an error is thrown.
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 11
 Default value: 10
 Accept pipeline input: False
 Accept wildcard characters: False
