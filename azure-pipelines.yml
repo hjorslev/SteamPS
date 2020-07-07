@@ -12,6 +12,7 @@ pr:
 stages:
   - stage: Windows_Tests_PS
     displayName: "Windows - PS"
+    dependsOn: []
     jobs:
       - job: Windows_Tests_PS
         pool:
@@ -30,6 +31,7 @@ stages:
               testRunTitle: "ps_winLatest"
   - stage: Windows_Tests_PWSH
     displayName: "Windows - PWSH"
+    dependsOn: []
     jobs:
       - job: Windows_Tests_PWSH
         pool:
