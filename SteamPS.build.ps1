@@ -22,8 +22,6 @@ Add-BuildTask Test {
     if ($PesterResults.FailedCount -gt 0) {
         throw "$($PesterResults.FailedCount) tests failed."
     }
-    Remove-Item -Path "$env:BHProjectPath\coverage.xml" -Force
-    Remove-Item -Path "$env:BHProjectPath\testResults.xml" -Force
 }
 
 # Synopsis: Build manifest
@@ -126,6 +124,10 @@ Add-BuildTask DeployGHRelease {
 
 # Synopsis: Push changes to GitHub
 Add-BuildTask PushChangesGitHub {
+    # Remove files we don't want to be pushed to GitHub
+    Remove-Item -Path "$env:BHProjectPath\coverage.xml" -Force
+    Remove-Item -Path "$env:BHProjectPath\testResults.xml" -Force
+
     # Publish the new version back to Master on GitHub
     try {
         $ErrorActionPreference = 'Continue'
@@ -149,13 +151,13 @@ Add-BuildTask PushChangesGitHub {
     }
 }
 
-if ($env:BHBuildSystem -ne 'Unknown' -and $env:BHBranchName -eq 'master' -and $env:BHCommitMessage -like "*!deploy*") {
+if ($env:BHBuildSystem -eq 'AppVeyor' -and $env:BHBranchName -eq 'master' -and $env:BHCommitMessage -like "*!deploy*") {
     # Synopsis: Entire build pipeline
     Add-BuildTask . Init, Test, BuildManifest, BuildDocs, DeployPSGallery, DeployGHRelease, PushChangesGitHub
 } else {
     Add-BuildTask . Init, Test
     Write-Host -Object "Skipping deployment: To deploy, ensure that...`n"
-    Write-Host -Object "`t* You are in a known build system (Current: $env:BHBuildSystem)`n"
+    Write-Host -Object "`t* You are in build system 'AppVeyor' (Current: $env:BHBuildSystem)`n"
     Write-Host -Object "`t* You are committing to the master branch (Current: $env:BHBranchName) `n"
     Write-Host -Object "`t* Your commit message includes '!deploy' (Current: $env:BHCommitMessage) `n"
 }

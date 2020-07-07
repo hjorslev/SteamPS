@@ -1,0 +1,32 @@
+jobs:
+  - job: Windows_Tests_PS
+    pool:
+      vmImage: windows-latest
+    steps:
+      - powershell: |
+          Install-Module -Name InvokeBuild -Force
+          Install-Module -Name PSDepend -Force
+          Invoke-PSDepend -Force
+          Invoke-Build
+        displayName: "Build and Test - Windows PowerShell"
+      - task: PublishTestResults@2
+        inputs:
+          testRunner: "NUnit"
+          testResultsFiles: "testResults.xml"
+          testRunTitle: "ps_winLatest"
+
+  - job: Windows_Tests_PWSH
+    pool:
+      vmImage: windows-latest
+    steps:
+      - pwsh: |
+          Install-Module -Name InvokeBuild -Force
+          Install-Module -Name PSDepend -Force
+          Invoke-PSDepend -Force
+          Invoke-Build
+        displayName: "Build and Test - Windows PWSH"
+      - task: PublishTestResults@2
+        inputs:
+          testRunner: "NUnit"
+          testResultsFiles: "testResults.xml"
+          testRunTitle: "pwsh_winLatest"
