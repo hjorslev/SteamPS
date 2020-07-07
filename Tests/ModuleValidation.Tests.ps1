@@ -36,4 +36,18 @@
             $Script | Should -Not -Throw
         }
     }
+
+    if (((Get-BuildEnvironment).BranchName -eq 'master') -and ($env:BHCommitMessage -like "*!deploy*")) {
+        Context 'Changelog' {
+            It 'Version in Changelog should be greater than version in Manifest' {
+                # Expects that the latest version is located at line 8.
+                [version]((Get-Content -Path "$env:BHProjectPath\CHANGELOG.md")[7]).Substring(4, 5) | Should -BeGreaterThan (Import-PowerShellDataFile -Path $env:BHPSModuleManifest).ModuleVersion
+            }
+            It 'Should not be Unreleased, but display a date' {
+                ((Get-Content -Path "$env:BHProjectPath\CHANGELOG.md")[7]).Substring(13) | Should -not -BeExactly 'Unreleased'
+            }
+        } # Context: Changelog
+    } else {
+        Write-Verbose -Message "Skipping checking for 'Unreleased' string since we are on dev branch."
+    }
 } # Describe
