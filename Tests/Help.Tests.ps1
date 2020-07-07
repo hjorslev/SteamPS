@@ -49,7 +49,7 @@ Describe "$env:BHProjectName Comment Based Help" -Tags "Module" {
     It "has a description for all parameters of <Name>" -TestCases $FunctionList {
         # Candidate for using ShouldActionPreference = Continue
         foreach ($param in $Parameters) {
-            $param.Description | Should -Not -BeNullOrEmpty -Because "parameter $($param.Name) should have a description"
+            $param.Description | Should -Not -BeNullOrEmpty -Because "parameter $($param.Name) should have a description!"
         }
     }
 
@@ -57,7 +57,7 @@ Describe "$env:BHProjectName Comment Based Help" -Tags "Module" {
         $Help.Examples.Example.Code.Count | Should -BeGreaterOrEqual 1
     }
 
-    It "lists a description for all examples" {
+    It "lists a description for all examples" -TestCases $FunctionList {
         # Candidate for using ShouldActionPreference = Continue
         foreach ($Example in $Help.Examples.Example) {
             $Example.Remarks | Should -Not -BeNullOrEmpty -Because "example $($Example.Title) should have a description!"
