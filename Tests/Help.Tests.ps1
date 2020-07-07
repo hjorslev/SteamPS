@@ -43,7 +43,7 @@ Describe "$env:BHProjectName Comment Based Help" -Tags "Module" {
     }
 
     It "has a help entry for each parameter of <Name>" -TestCases $FunctionList {
-        $Parameters.Count | Should -Be $Ast.Body.ParamBlock.Parameters.Count -Because 'the number of parameters in the help should match the number in the function script'
+        ($Parameters | Measure-Object).Count | Should -Be $Ast.Body.ParamBlock.Parameters.Count -Because 'the number of parameters in the help should match the number in the function script'
     }
 
     It "has a description for all parameters of <Name>" -TestCases $FunctionList {

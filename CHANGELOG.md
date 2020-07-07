@@ -29,7 +29,7 @@ cmdlet `Use-Module`.
 
 ### Removed
 
-Remove private cmdlet Use-Module.
+ - Remove private cmdlet Use-Module.
 
 ## [3.0.0] - 19/05-2020
 
