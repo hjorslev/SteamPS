@@ -23,7 +23,7 @@ cmdlet `Use-Module`.
 - Update-SteamServer
   - Fix minor issue with TimeoutLimit being hardcoded when writing to the log
   instead of using the value defined in the parameter $TimeoutLimit.
-- Update tests to Pester 5. Thanks @vexx32!
+- Update tests to Pester 5. Thanks [Joel Sallow](https://github.com/vexx32/)!
   - ModuleValidation
   - Help
 
