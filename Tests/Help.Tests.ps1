@@ -1,58 +1,66 @@
 ﻿# https://lazywinadmin.com/2016/05/using-pester-to-test-your-comment-based.html
+# Refactored by Joel Sallow - https://github.com/vexx32/
 
-Import-Module "$env:BHModulePath\$env:BHProjectName.psm1"
+BeforeAll {
+    Import-Module $env:BHPSModuleManifest
+}
 
-Describe "$ModuleName Comment Based Help" -Tags "Module" {
-    $FunctionsList = (Get-ChildItem -Path "$env:BHModulePath\Public").BaseName
+Describe "$env:BHProjectName Comment Based Help" -Tags "Module" {
+    #region Discovery
+    Import-Module $env:BHPSModuleManifest
 
-    foreach ($Function in $FunctionsList) {
-        # Retrieve the Help of the function
-        $Help = Get-Help -Name $Function -Full
+    $ShouldProcessParameters = 'WhatIf', 'Confirm'
 
-        $Notes = ($Help.AlertSet.Alert.Text -split '\n')
+    # Generate function test cases
+    $FunctionList = Get-ChildItem -Path "$env:BHModulePath\Public" | ForEach-Object {
+        # The data in these hashtables will map to variables in each It according to the current TestCase (per function)
+        @{
+            Name       = $_.BaseName
+            Path       = $_.FullName
+            Ast        = (Get-Content -Path "function:/$($_.BaseName)").Ast
+            Help       = Get-Help -Name $_.BaseName -Full
+            Parameters = Get-Help $_.BaseName -Parameter * |
+            Where-Object { $_.Name -and $_.Name -notin $ShouldProcessParameters }
+        }
+    }
+    #endregion Discovery
 
-        # Parse the function using AST
-        $AST = [System.Management.Automation.Language.Parser]::ParseInput((Get-Content function:$Function), [ref]$null, [ref]$null)
+    It "has help content for <Name>" -TestCases $FunctionList {
+        $Help | Should -Not -BeNullOrEmpty
+    }
 
-        Context "$Function - Help" {
+    It "contains a synopsis for <Name>" -TestCases $FunctionList {
+        $Help.Synopsis | Should -Not -BeNullOrEmpty
+    }
 
-            It "Synopsis" { $Help.Synopsis | Should -not -BeNullOrEmpty }
-            It "Description" { $Help.Description | Should -not -BeNullOrEmpty }
-            It "Notes - Author" { $Notes[0].trim() | Should -BeLike "Author: *" }
-            #It "Notes - Site" { $Notes[1].trim() | Should Be "hjorslev.com" }
+    It "contains a description for <Name>" -TestCases $FunctionList {
+        $Help.Description | Should -Not -BeNullOrEmpty
+    }
 
-            # Get the Parameters declared in the Comment Based Help
-            $RiskMitigationParameters = 'Whatif', 'Confirm'
-            $HelpParameters = $Help.Parameters.Parameter | Where-Object Name -NotIn $RiskMitigationParameters
+    It "lists the function author in the Notes section for <Name>" -TestCases $FunctionList {
+        $Notes = $Help.AlertSet.Alert.Text -split '\n'
+        $Notes[0].Trim() | Should -BeLike "Author: *"
+    }
 
-            # Get the Parameters declared in the AST PARAM() Block
-            $ASTParameters = $ast.ParamBlock.Parameters.Name.VariablePath.UserPath
+    It "has a help entry for each parameter of <Name>" -TestCases $FunctionList {
+        ($Parameters | Measure-Object).Count | Should -Be $Ast.Body.ParamBlock.Parameters.Count -Because 'the number of parameters in the help should match the number in the function script'
+    }
 
-            It "Parameter - Compare Count Help/AST" {
-                $HelpParameters.Name.Count -eq $ASTParameters.Count | Should -Be $true
-            }
+    It "has a description for all parameters of <Name>" -TestCases $FunctionList {
+        # Candidate for using ShouldActionPreference = Continue
+        foreach ($param in $Parameters) {
+            $param.Description | Should -Not -BeNullOrEmpty -Because "parameter $($param.Name) should have a description!"
+        }
+    }
 
-            # Parameter Description
-            If (-not [String]::IsNullOrEmpty($ASTParameters)) {
-                # IF ASTParameters are found
-                $HelpParameters | ForEach-Object {
-                    It "Parameter $($_.Name) - Should contain description" {
-                        $_.Description | Should -not -BeNullOrEmpty
-                    }
-                }
-            }
+    It "has at least one usage example for <Name>" -TestCases $FunctionList {
+        $Help.Examples.Example.Code.Count | Should -BeGreaterOrEqual 1
+    }
 
-            # Examples
-            it "Example - Count should be greater than 0" {
-                $Help.Examples.Example.Code.Count | Should -BeGreaterThan 0
-            }
-
-            # Examples - Remarks (small description that comes with the example)
-            foreach ($Example in $Help.Examples.Example) {
-                It "Example - Remarks on $($Example.Title)" {
-                    $Example.Remarks | Should -not -BeNullOrEmpty
-                }
-            }
-        } # Context: $Function - Help
-    } # foreach
+    It "lists a description for all examples" -TestCases $FunctionList {
+        # Candidate for using ShouldActionPreference = Continue
+        foreach ($Example in $Help.Examples.Example) {
+            $Example.Remarks | Should -Not -BeNullOrEmpty -Because "example $($Example.Title) should have a description!"
+        }
+    }
 } # Describe
