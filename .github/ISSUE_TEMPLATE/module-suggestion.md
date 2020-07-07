@@ -7,7 +7,7 @@ labels: Category-Module, Issue-Suggestion
 
 # Describe "Functionality"
 
-<!-- A clear and concise description of the functionality, module commands, parameters, etc.,  you're suggesting. -->
+<!-- A clear and concise description of the functionality, module commands, parameters, etc., you're suggesting. -->
 
 ## Context "Private or Public? What are the use cases? Parameters? Options?"
 
