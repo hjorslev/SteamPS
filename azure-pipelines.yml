@@ -26,7 +26,7 @@ stages:
           - task: PublishTestResults@2
             inputs:
               testRunner: "NUnit"
-              testResultsFiles: "testResults.xml"
+              testResultsFiles: "**/testResults.xml"
               testRunTitle: "ps_winLatest"
   - stage: Windows_Tests_PWSH
     displayName: "Windows - PWSH"
@@ -44,5 +44,5 @@ stages:
           - task: PublishTestResults@2
             inputs:
               testRunner: "NUnit"
-              testResultsFiles: "testResults.xml"
+              testResultsFiles: "**/testResults.xml"
               testRunTitle: "pwsh_winLatest"
