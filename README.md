@@ -21,7 +21,7 @@ letting you choose the right application to install.
 
 ## Requirements
 
-PowerShell 5.1
+PowerShell 5.1 or later.
 
 You can find your version of PowerShell by using:
 

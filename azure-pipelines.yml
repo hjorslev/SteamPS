@@ -11,7 +11,7 @@ stages:
     displayName: "Windows - PS"
     dependsOn: []
     jobs:
-      - job: Pester_Tests_PS
+      - job: PesterTests
         pool:
           vmImage: windows-latest
         steps:
@@ -30,7 +30,7 @@ stages:
     displayName: "Windows - PWSH"
     dependsOn: []
     jobs:
-      - job: Pester_Tests_PWSH
+      - job: PesterTests
         pool:
           vmImage: windows-latest
         steps:
