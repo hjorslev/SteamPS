@@ -2,9 +2,6 @@ trigger:
   branches:
     include:
       - master
-  tags:
-    include:
-      - "*"
 
 pr:
   - master
@@ -14,7 +11,7 @@ stages:
     displayName: "Windows - PS"
     dependsOn: []
     jobs:
-      - job: Windows_Tests_PS
+      - job: Pester_Tests_PS
         pool:
           vmImage: windows-latest
         steps:
@@ -33,7 +30,7 @@ stages:
     displayName: "Windows - PWSH"
     dependsOn: []
     jobs:
-      - job: Windows_Tests_PWSH
+      - job: Pester_Tests_PWSH
         pool:
           vmImage: windows-latest
         steps:
