@@ -1,7 +1,5 @@
 ﻿# SteamPS
 
-## Build Status
-
 [![AppVeyor master](https://img.shields.io/appveyor/ci/hjorslev/SteamPS/master?label=AppVeyor&logo=appveyor&style=flat)](https://ci.appveyor.com/project/hjorslev/steamps)
 [![Azure DevOps builds](https://img.shields.io/azure-devops/build/fhjorslev/69d18b04-0023-433d-a649-bcf821875235/5?label=Azure+Pipelines&logo=azure-pipelines)](https://dev.azure.com/fhjorslev/SteamPS/_build/latest?definitionId=5&branchName=master)
 [![AppVeyor tests (master)](https://img.shields.io/appveyor/tests/hjorslev/SteamPS/master?label=master&logo=appveyor&style=flat)](https://ci.appveyor.com/project/hjorslev/steamps/build/tests)
@@ -12,16 +10,28 @@
 [![PowerShell Version](https://img.shields.io/powershellgallery/v/SteamPS.svg?style=flat&logo=PowerShell)](https://www.powershellgallery.com/packages/SteamPS)
 [![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/SteamPS?style=flat)](https://www.powershellgallery.com/packages/SteamPS)
 
-This cmdlet utilizes SteamCMD and eases the installation and updating of servers.
+SteamPS is a [PowerShell module](https://github.com/PowerShell/PowerShell/) that
+can interact with [SteamCMD](https://developer.valvesoftware.com/wiki/SteamCMD),
+a command-line version of the Steam client.
 
-Install or update a Steam application using SteamCMD.
-You can either enter the specific Application ID or search for the application
-by name. If there are multiple hits on the name, an Out-GridView will be presented
-letting you choose the right application to install.
+SteamPS is aimed at server administrators maintaining one or more servers. It can
+be used to install SteamCMD, update game servers, query Steam based game servers
+for server information and more.
 
-## Requirements
+## Command Reference
 
-PowerShell 5.1 or later.
+| Cmdlet                                             | Description                                                     |
+| -------------------------------------------------- | --------------------------------------------------------------- |
+| [Find-SteamAppID](docs/Find-SteamAppID.md)         | Find a Steam AppID by searching the name of the application.    |
+| [Get-SteamServerInfo](docs/Get-SteamServerInfo.md) | Query a running Steam based game server.                        |
+| [Install-SteamCMD](docs/Install-SteamCMD.md)       | Install SteamCMD.                                               |
+| [Update-SteamApp](docs/Update-SteamApp.md)         | Install or update a Steam application using SteamCMD.           |
+| [Update-SteamServer](docs/Update-SteamServer.md)   | Update a Steam based game server through a particular workflow. |
+
+## Prerequisites
+
+- Windows based OS
+- Windows PowerShell 5.1 / PowerShell 6+
 
 You can find your version of PowerShell by using:
 
@@ -29,15 +39,23 @@ You can find your version of PowerShell by using:
 $PSVersionTable.PSVersion
 ```
 
-## Installation
+## Getting Started
+
+### Install from PowerShell Gallery
 
 The module is published in the [PowerShell Gallery](https://www.powershellgallery.com/packages/SteamPS).
 
-Run the following in an elevated prompt:
+Run the following in an elevated prompt to install the module for all users on
+the server:
 
 ```powershell
 Install-Module -Name SteamPS
 ```
+
+The module can also be installed in the current user's scope by adding
+`-Scope CurrentUser` to the above. If you are multiple administrators
+it can be easier to maintain the module by having SteamPS installed in
+one location.
 
 When SteamPS is installed we will need to use the cmdlet `Install-SteamCMD` from
 the module to install SteamCMD. This is done by calling Install-SteamCMD from an
@@ -48,41 +66,62 @@ Install-SteamCMD
 ```
 
 By using the parameter `-InstallPath` you can specify an install location of SteamCMD.
+The default installation path is C:\Program Files\SteamCMD which is also added to
+the [PATH](https://en.wikipedia.org/wiki/PATH_(variable)).
 
-## Cmdlets
-
-| Cmdlet                                                                             | Description                                                     |
-| ---------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| [Find-SteamAppID](https://hjorslev.github.io/SteamPS/Find-SteamAppID.html)         | Find a Steam AppID by searching the name of the application.    |
-| [Get-SteamServerInfo](https://hjorslev.github.io/SteamPS/Get-SteamServerInfo.html) | Query a running steam based game server.                        |
-| [Install-SteamCMD](https://hjorslev.github.io/SteamPS/Install-SteamCMD.html)       | Install SteamCMD.                                               |
-| [Update-SteamApp](https://hjorslev.github.io/SteamPS/Update-SteamApp.html)         | Install or update a Steam application using SteamCMD.           |
-| [Update-SteamServer](https://hjorslev.github.io/SteamPS/Update-SteamServer.html)   | Update a Steam based game server through a particular workflow. |
-
-## Examples
-
-The cmdlets must be executed from an elevated prompt.
+### Usage
 
 ### Update single app / game server
 
-Add a game / server by searching for its name. Because there are multiple hits
-when searching for Arma 3, the user will be promoted to select the right application.
+The cmdlet `Update-SteamApp` is used to update an application as well as installing
+an application from scratch. You can either specify the name of the application or
+the application ID.
+
+#### Install / Update using ApplicationName
+
+Notice that if you e.g. enter *Ground Branch* as application name you will see
+both the game itself as well as the dedicated server. You will have to select the
+correct application from the popup box.
+
+![Select application](assets/images/select-application.png | width=300)
+
+In the example below we typed the entire name of the application which does not
+yield a popup box.
 
 ```powershell
-Update-SteamApp -GameName 'Arma 3' -Credential Toby -Path 'C:\Servers\Arma3'
+Update-SteamApp -ApplicationName 'Ground Branch Dedicated Server' -Path 'C:\DedicatedServers\GB'
 ```
 
-Here we use anonymous login because the particular application
-(ARK: SurvivalEvolved Dedicated Server) doesn't require authentication to install
-the server.
+#### Install / Update using AppID
+
+In this example we install *ARK: SurvivalEvolved Dedicated Server* by using its
+AppID. The AppID can be found by using a database such as
+[Steam Database](https://steamdb.info/) or by searching for it with the cmdlet
+`Find-SteamAppID`.
 
 ```powershell
-Update-SteamApp -AppID 376030 -Path 'C:\Servers\ARK-SurvivalEvolved'
+Update-SteamApp -AppID 376030 -Path 'C:\DedicatedServers\ARK-SurvivalEvolved'
 ```
+
+#### Authenticating
+
+The two previous example does not require authentication to install. Before being
+able to install some application you might need a Steam account.
+
+To authenticate you can use the parameter `-Credential`:
+
+```powershell
+Update-SteamApp -ApplicationName 'Ground Branch Dedicated Server' -Path 'C:\DedicatedServers\GB' -Credential SAS_Admin
+```
+
+This will present you with an option to type in your password.
+
+In case you need to authenticate and want to run the script unattended avoid writing
+the password in plaintext in the script. See [Store Credentials in PowerShell Script](https://pscustomobject.github.io/powershell/howto/Store-Credentials-in-PowerShell-Script/#store-encrypted-password-in-an-external-file)
 
 ### Update Steam server automatically
 
-The cmdlet Update-SteamServer is, at least for my own use case, applied to automatically
+The cmdlet `Update-SteamServer` is, at least for my own use case, applied to automatically
 keep a server up-to-date. It will check the if the server is empty before updating
 it.
 
