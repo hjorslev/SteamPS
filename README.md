@@ -20,13 +20,13 @@ for server information and more.
 
 ## Command Reference
 
-| Cmdlet                                             | Description                                                     |
-| -------------------------------------------------- | --------------------------------------------------------------- |
-| [Find-SteamAppID](docs/Find-SteamAppID.md)         | Find a Steam AppID by searching the name of the application.    |
-| [Get-SteamServerInfo](docs/Get-SteamServerInfo.md) | Query a running Steam based game server.                        |
-| [Install-SteamCMD](docs/Install-SteamCMD.md)       | Install SteamCMD.                                               |
-| [Update-SteamApp](docs/Update-SteamApp.md)         | Install or update a Steam application using SteamCMD.           |
-| [Update-SteamServer](docs/Update-SteamServer.md)   | Update a Steam based game server through a particular workflow. |
+| Cmdlet                                             | Description                                                  |
+| -------------------------------------------------- | ------------------------------------------------------------ |
+| [Find-SteamAppID](docs/Find-SteamAppID.md)         | Find a Steam AppID by searching the name of the application. |
+| [Get-SteamServerInfo](docs/Get-SteamServerInfo.md) | Query a running Steam based game server.                     |
+| [Install-SteamCMD](docs/Install-SteamCMD.md)       | Install SteamCMD.                                            |
+| [Update-SteamApp](docs/Update-SteamApp.md)         | Install or update a Steam application using SteamCMD.        |
+| [Update-SteamServer](docs/Update-SteamServer.md)   | Update a Steam based game server through a workflow.         |
 
 ## Prerequisites
 
@@ -54,7 +54,7 @@ Install-Module -Name SteamPS
 
 The module can also be installed in the current user's scope by adding
 `-Scope CurrentUser` to the above command. If multiple people are administrating
-the server it can be easier to maintain the module by having SteamPS installed in
+the server, it can be easier to maintain the module by having SteamPS installed in
 just one location.
 
 Furthermore, if you plan to use cmdlets from the module to run unattended
@@ -115,8 +115,8 @@ Update-SteamApp -AppID 376030 -Path 'C:\DedicatedServers\ARK-SurvivalEvolved'
 
 #### Authenticating
 
-The two previous example does not require authentication to install. However, some
-application might require a Steam account. If that is the case you will need to
+The two previous examples do not require authentication to install. However, some
+application might require a Steam account. If that is the case, you will need to
 use the parameter `-Credential` to authenticate:
 
 ```powershell
@@ -132,7 +132,7 @@ the password in plaintext in the script. See how this can be achieved:
 ### Update Steam server automatically
 
 The cmdlet `Update-SteamServer` is, at least for my own use case, applied to automatically
-keep a server up-to-date. It will check the if the server is empty before updating
+keep a server up to date. It will check the if the server is empty before updating
 it.
 
 Please see the wiki for further information: [Update Steam server automatically](https://github.com/hjorslev/SteamPS/wiki/Update-Steam-server-automatically)
