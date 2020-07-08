@@ -70,7 +70,7 @@ elevated prompt:
 Install-SteamCMD
 ```
 
-<img src="assets/images/install-steamcmd.gif" alt="Select application" width="700px"/>
+<img src="/assets/images/install-steamcmd.gif" alt="Select application" width="700px"/>
 
 By using the parameter `-InstallPath` you can specify an install location of SteamCMD.
 The default installation path is C:\Program Files\SteamCMD. The install path,
@@ -93,7 +93,7 @@ correct application from the popup box.
 Update-SteamApp -ApplicationName 'Ground Branch' -Path 'C:\DedicatedServers\GB'
 ```
 
-<img src="assets/images/select-application.png" alt="Select application" width="700px"/>
+<img src="/assets/images/select-application.png" alt="Select application" width="700px"/>
 
 You can narrow down the search by typing an application name that is more specific
 than simply *Ground Branch* e.g. *Ground Branch Dedi* or type it out
@@ -104,7 +104,7 @@ a popup.
 Update-SteamApp -ApplicationName 'Ground Branch Dedicated Server' -Path 'C:\DedicatedServers\GB'
 ```
 
-<img src="assets/images/update-steamapp.gif" alt="Select application" width="700px"/>
+<img src="/assets/images/update-steamapp.gif" alt="Select application" width="700px"/>
 
 #### Install / Update using AppID
 
