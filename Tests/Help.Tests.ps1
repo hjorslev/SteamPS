@@ -28,7 +28,7 @@ Describe "$env:BHProjectName Sanity Tests - Help Content" -Tags 'Module' {
             #region Discovery
 
             $Help = @{ Help = Get-Help -Name $Command -Full }
-            $Parameters = Get-Help -Name $Command -Parameter * |
+            $Parameters = Get-Help -Name $Command -Parameter * -ErrorAction Ignore |
             Where-Object { $_.Name -and $_.Name -notin $ShouldProcessParameters } |
             ForEach-Object {
                 @{
@@ -63,11 +63,11 @@ Describe "$env:BHProjectName Sanity Tests - Help Content" -Tags 'Module' {
             }
 
             # This will be skipped for compiled commands ($Ast.Ast will be $null)
-            It "has a help entry for all parameters of $Command" -TestCases $Ast -Skip:(-not $Ast.Ast) {
+            It "has a help entry for all parameters of $Command" -TestCases $Ast -Skip:(-not ($Parameters -and $Ast.Ast)) {
                 ($Parameters | Measure-Object).Count | Should -Be $Ast.Body.ParamBlock.Parameters.Count -Because 'the number of parameters in the help should match the number in the function script'
             }
 
-            It "has a description for $Command parameter -<Name>" -TestCases $Parameters {
+            It "has a description for $Command parameter -<Name>" -TestCases $Parameters -Skip:(-not $Parameters) {
                 $Description | Should -Not -BeNullOrEmpty -Because "parameter $Name should have a description"
             }
 
