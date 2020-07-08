@@ -11,6 +11,7 @@ skip_commits:
     - CONTRIBUTING.md
     - README.md
     - .editorconfig
+    - azure-pipelines.yml
 environment:
   NuGetApiKey:
     secure: yiHR8ZR5W9xQwiXuE5/62mj7XvrJcdB26oPHaZ6BEfFQWQyAi21eZhk7eeEXQH53

@@ -2,6 +2,18 @@ trigger:
   branches:
     include:
       - master
+  paths:
+    exclude:
+      - .vscode/*
+      - appveyor.yml
+      - CHANGELOG.md
+      - CONTRIBUTING.md
+      - README.md
+      - .editorconfig
+      - azure-pipelines.yml
+  tags:
+    exclude:
+      - v*
 
 pr:
   - master
