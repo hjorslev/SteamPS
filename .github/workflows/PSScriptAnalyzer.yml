@@ -5,7 +5,7 @@ jobs:
     name: PSScriptAnalyzer
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: PSScriptAnalyzer
         uses: devblackops/github-action-psscriptanalyzer@v2.0.0
         with:

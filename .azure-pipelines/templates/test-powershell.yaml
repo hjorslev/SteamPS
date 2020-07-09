@@ -1,0 +1,16 @@
+steps:
+  - task: PowerShell@2
+    displayName: "Test"
+    inputs:
+      targetType: inline
+      pwsh: false
+      script: |
+        Install-Module -Name InvokeBuild -Force
+        Install-Module -Name PSDepend -Force
+        Invoke-PSDepend -Force
+        Invoke-Build
+  - task: PublishTestResults@2
+    inputs:
+      testRunner: NUnit
+      testResultsFiles: "testResults.xml"
+    condition: succeededOrFailed()
