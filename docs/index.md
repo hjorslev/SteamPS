@@ -5,6 +5,19 @@
 [![AppVeyor tests (master)](https://img.shields.io/appveyor/tests/hjorslev/SteamPS/master?label=master&logo=appveyor&style=flat)](https://ci.appveyor.com/project/hjorslev/steamps/build/tests)
 [![Codacy master grade](https://img.shields.io/codacy/grade/bf0bb30dfc904b2f885c4f0ccdf1ea78/master?label=master&style=flat)](https://app.codacy.com/manual/hjorslev/SteamPS/dashboard?bid=13716491)
 
+- [SteamPS](#steamps)
+  - [Introduction](#introduction)
+  - [Command Reference](#command-reference)
+  - [Prerequisites](#prerequisites)
+  - [Getting Started](#getting-started)
+    - [Install from PowerShell Gallery](#install-from-powershell-gallery)
+    - [Usage](#usage)
+      - [Update single app / game server](#update-single-app--game-server)
+      - [Install / Update using ApplicationName](#install--update-using-applicationname)
+      - [Install / Update using AppID](#install--update-using-appid)
+      - [Authenticating](#authenticating)
+  - [Update Steam server automatically](#update-steam-server-automatically)
+
 ## Introduction
 
 [![PowerShell Version](https://img.shields.io/powershellgallery/v/SteamPS.svg?style=flat&logo=PowerShell)](https://www.powershellgallery.com/packages/SteamPS)
@@ -53,17 +66,17 @@ Install-Module -Name SteamPS
 ```
 
 The module can also be installed in the current user's scope by adding
-`-Scope CurrentUser` to the above command. If multiple people are administrating
+`-Scope CurrentUser` to the above mentioned command. If multiple people are administrating
 the server, it can be easier to maintain the module by having SteamPS installed in
 just one location.
 
-Furthermore, if you plan to use cmdlets from the module to run unattended
+Furthermore, if you plan to have cmdlets from the module running unattended
 you will need to make sure that the module is available to the user running it. This
-can be done by ensuring the module is installed for the user running it, or just
+can be achieved by ensuring the module is installed for the user running it, or just
 have it installed globally for all users as exemplified above.
 
 When SteamPS is installed you will need to use the cmdlet `Install-SteamCMD` from
-the module to install SteamCMD. This is done by calling Install-SteamCMD from an
+the module to install SteamCMD. This is done by calling `Install-SteamCMD` from an
 elevated prompt:
 
 ```powershell
@@ -74,7 +87,7 @@ Install-SteamCMD
 
 By using the parameter `-InstallPath` you can specify an install location of SteamCMD.
 The default installation path is C:\Program Files\SteamCMD. The install path,
-default or custom, are added to the [PATH](https://en.wikipedia.org/wiki/PATH_(variable)).
+default or custom, is added to the [PATH](https://en.wikipedia.org/wiki/PATH_(variable)).
 
 ### Usage
 
@@ -97,8 +110,8 @@ Update-SteamApp -ApplicationName 'Ground Branch' -Path 'C:\DedicatedServers\GB'
 
 You can narrow down the search by typing an application name that is more specific
 than simply *Ground Branch* e.g. *Ground Branch Dedi* or type it out
-*Ground Branch Dedicated Server*. This will only give one result and not display
-a popup.
+in its entirety as *Ground Branch Dedicated Server*. This will only give one result
+and not display a popup.
 
 ```powershell
 Update-SteamApp -ApplicationName 'Ground Branch Dedicated Server' -Path 'C:\DedicatedServers\GB'
@@ -111,7 +124,7 @@ Update-SteamApp -ApplicationName 'Ground Branch Dedicated Server' -Path 'C:\Dedi
 In this example we install *ARK: SurvivalEvolved Dedicated Server* by using its
 AppID. The AppID can be found by using a database such as
 [Steam Database](https://steamdb.info/) or by searching for the AppID with the cmdlet
-`Find-SteamAppID` e.g. `Find-SteamAppID -ApplicationName 'Counter Strike'`.
+`Find-SteamAppID` e.g. `Find-SteamAppID -ApplicationName 'Counter-Strike'`.
 
 ```powershell
 Update-SteamApp -AppID 376030 -Path 'C:\DedicatedServers\ARK-SurvivalEvolved'
@@ -120,7 +133,7 @@ Update-SteamApp -AppID 376030 -Path 'C:\DedicatedServers\ARK-SurvivalEvolved'
 #### Authenticating
 
 The two previous examples do not require authentication to install. However, some
-application might require a Steam account. If that is the case, you will need to
+applications might require a Steam account. If that is the case, you will need to
 use the parameter `-Credential` to authenticate:
 
 ```powershell
@@ -131,12 +144,13 @@ This will present you with an option to type in your password.
 
 In case you need to authenticate and want to run the script unattended, avoid writing
 the password in plaintext in the script. See how this can be achieved:
-[Store Credentials in PowerShell Script](https://pscustomobject.github.io/powershell/howto/Store-Credentials-in-PowerShell-Script/#store-encrypted-password-in-an-external-file)
+[Store Credentials in PowerShell Script](https://pscustomobject.github.io/powershell/howto/Store-Credentials-in-PowerShell-Script/#store-encrypted-password-in-an-external-file).
 
-### Update Steam server automatically
+## Update Steam server automatically
 
 The cmdlet `Update-SteamServer` is, at least for my own use case, applied to automatically
-keep a server up to date. It will check the if the server is empty before updating
-it.
+keep a server up to date. It will check if the server is empty before updating
+it. The script is configured as a [Windows Task](https://o365reports.com/2019/08/02/schedule-powershell-script-task-scheduler/)
+and runs very night.
 
-Please see the wiki for further information: [Update Steam server automatically](https://github.com/hjorslev/SteamPS/wiki/Update-Steam-server-automatically)
+Please see the wiki for further information: [Update Steam server automatically](https://github.com/hjorslev/SteamPS/wiki/Update-Steam-server-automatically).
