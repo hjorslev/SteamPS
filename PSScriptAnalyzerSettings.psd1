@@ -21,7 +21,7 @@
     # the default rules except for those you exclude below.
     # Note: if a rule is in both IncludeRules and ExcludeRules, the rule
     # will be excluded.
-    ExcludeRules = @('PSAvoidUsingWriteHost', 'PSAvoidUsingComputerNameHardcoded')
+    ExcludeRules = @('PSAvoidUsingWriteHost', 'PSAvoidUsingComputerNameHardcoded', 'PSReviewUnusedParameter')
 
     # You can use rule configuration to configure rules that support it:
     #Rules = @{
