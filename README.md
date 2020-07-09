@@ -5,6 +5,19 @@
 [![AppVeyor tests (master)](https://img.shields.io/appveyor/tests/hjorslev/SteamPS/master?label=master&logo=appveyor&style=flat)](https://ci.appveyor.com/project/hjorslev/steamps/build/tests)
 [![Codacy master grade](https://img.shields.io/codacy/grade/bf0bb30dfc904b2f885c4f0ccdf1ea78/master?label=master&style=flat)](https://app.codacy.com/manual/hjorslev/SteamPS/dashboard?bid=13716491)
 
+- [SteamPS](#steamps)
+  - [Introduction](#introduction)
+  - [Command Reference](#command-reference)
+  - [Prerequisites](#prerequisites)
+  - [Getting Started](#getting-started)
+    - [Install from PowerShell Gallery](#install-from-powershell-gallery)
+    - [Usage](#usage)
+      - [Update single app / game server](#update-single-app--game-server)
+      - [Install / Update using ApplicationName](#install--update-using-applicationname)
+      - [Install / Update using AppID](#install--update-using-appid)
+      - [Authenticating](#authenticating)
+    - [Update Steam server automatically](#update-steam-server-automatically)
+
 ## Introduction
 
 [![PowerShell Version](https://img.shields.io/powershellgallery/v/SteamPS.svg?style=flat&logo=PowerShell)](https://www.powershellgallery.com/packages/SteamPS)
