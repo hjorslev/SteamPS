@@ -3,9 +3,11 @@ install:
   - ps: Install-Module -Name PSDepend -Force
   - ps: Invoke-PSDepend -Force
 skip_commits:
-  message: /update ci.*|update readme.*|update changelog.*|update docs.*|update version.*/
+  message: /skip ci.*|update readme.*|update changelog.*|update docs.*|update version.*/
   files:
+    - .github/*
     - .vscode/*
+    - docs/*
     - appveyor.yml
     - CHANGELOG.md
     - CONTRIBUTING.md
