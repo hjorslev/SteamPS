@@ -56,15 +56,15 @@
     process {
         $SteamApps = $SteamApps | Where-Object -FilterScript { $PSItem.name -like "$ApplicationName*" }
 
-        # If only one game is found when searching by game name.
+        # If only one application is found when searching by application name.
         if (($SteamApps | Measure-Object).Count -eq 1) {
-            Write-Verbose -Message "Only one game found: $($SteamApps.name) - $($SteamApps.appid)."
+            Write-Verbose -Message "Only one application found: $($SteamApps.name) - $($SteamApps.appid)."
             Write-Output -InputObject $SteamApps
         }
-        # If more than one game is found the user is promted to select the exact game.
+        # If more than one application is found the user is prompted to select the exact application.
         elseif (($SteamApps | Measure-Object).Count -ge 1) {
             # An OutGridView is presented to the user where the exact AppID can be located. This variable contains the AppID selected in the Out-GridView.
-            $SteamApp = $SteamApps | Out-GridView -Title 'Select the game' -PassThru
+            $SteamApp = $SteamApps | Out-GridView -Title 'Select application' -PassThru
             Write-Verbose -Message "$(($SteamApp).name) - $(($SteamApp).appid) selected from Out-GridView."
             Write-Output -InputObject $SteamApp
         }
