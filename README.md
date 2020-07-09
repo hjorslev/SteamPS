@@ -16,7 +16,7 @@
       - [Install / Update using ApplicationName](#install--update-using-applicationname)
       - [Install / Update using AppID](#install--update-using-appid)
       - [Authenticating](#authenticating)
-    - [Update Steam server automatically](#update-steam-server-automatically)
+  - [Update Steam server automatically](#update-steam-server-automatically)
 
 ## Introduction
 
@@ -146,7 +146,7 @@ In case you need to authenticate and want to run the script unattended, avoid wr
 the password in plaintext in the script. See how this can be achieved:
 [Store Credentials in PowerShell Script](https://pscustomobject.github.io/powershell/howto/Store-Credentials-in-PowerShell-Script/#store-encrypted-password-in-an-external-file).
 
-### Update Steam server automatically
+## Update Steam server automatically
 
 The cmdlet `Update-SteamServer` is, at least for my own use case, applied to automatically
 keep a server up to date. It will check if the server is empty before updating
