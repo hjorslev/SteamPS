@@ -5,7 +5,6 @@ steps:
       targetType: inline
       pwsh: true
       script: |
-        Install-Module -Name InvokeBuild -Force
         Install-Module -Name PSDepend -Force
         Invoke-PSDepend -Force
         Invoke-Build
