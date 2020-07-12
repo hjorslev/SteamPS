@@ -141,7 +141,7 @@ Add-BuildTask PushChangesGitHub {
         git checkout master
         git add --all
         git status
-        git commit -s -m ":rocket: Update version to $NewVersion"
+        git commit -s -m ":rocket: [skip ci] Update version to $NewVersion"
         git push origin master
 
         $ErrorActionPreference = 'Stop'
