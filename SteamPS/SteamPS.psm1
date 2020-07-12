@@ -24,7 +24,7 @@ enum ServerType {
     NonDedicated = 0x6C #l
     SourceTV = 0x70     #p
 }
-enum Environment {
+enum OSType {
     Linux = 108   #l
     Windows = 119 #w
     Mac = 109     #m

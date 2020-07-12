@@ -104,7 +104,7 @@
             MaxPlayers    = [int]$Stream.ReadByte()
             Bots          = $Stream.ReadByte()
             ServerType    = [ServerType]$Stream.ReadByte()
-            Environment   = [Environment]$Stream.ReadByte()
+            Environment   = [OSType]$Stream.ReadByte()
             Visibility    = [Visibility]$Stream.ReadByte()
             VAC           = [VAC]$Stream.ReadByte()
             Version       = Get-PacketString -Stream $Stream

@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [3.1.1] - 12/07-2020
+
+### Fixed
+
+- Fix issue with error being thrown when adding SteamCMD location to PATH (#24).
+
 ## [3.1.0] - 07/07-2020
 
 ### Added
