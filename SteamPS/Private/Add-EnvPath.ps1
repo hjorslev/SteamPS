@@ -7,10 +7,10 @@
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
-        [string] $Path,
+        [string]$Path,
 
         [ValidateSet('Machine', 'User', 'Session')]
-        [string] $Container = 'Session'
+        [string]$Container = 'Session'
     )
 
     process {
@@ -24,18 +24,21 @@
 
             $persistedPaths = [Environment]::GetEnvironmentVariable('Path', $containerType) -split ';'
             if ($persistedPaths -notcontains $Path) {
-                $persistedPaths = $persistedPaths + $Path | Where-Object { $_ }
+                $persistedPaths = $persistedPaths + $Path | Where-Object -FilterScript { $_ }
                 [Environment]::SetEnvironmentVariable('Path', $persistedPaths -join ';', $containerType)
+                Write-Verbose -Message "Adding $Path to environment path."
+            } else {
+                Write-Verbose -Message "$Path is already located in env:Path."
             }
-            Write-Verbose -Message "Adding $Path to environment path."
         }
 
         $envPaths = $env:Path -split ';'
-        Write-Verbose -Message "Current environment paths: $envPaths"
         if ($envPaths -notcontains $Path) {
-            $envPaths = $envPaths + $Path | Where-Object { $_ }
+            $envPaths = $envPaths + $Path | Where-Object -FilterScript { $_ }
             $env:Path = $envPaths -join ';'
             Write-Verbose -Message "Adding $Path to environment path."
+        } else {
+            Write-Verbose -Message "$Path is already located in env:Path."
         }
     } # Process
 } # Cmdlet
