@@ -20,6 +20,14 @@ trigger:
 pr:
   - master
 
+variables:
+  ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
+    Trigger: "$(SourceBranchName)"
+  ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+    Trigger: "PR #$(System.PullRequest.PullRequestNumber)"
+
+name: "$(BuildID)-$(Date:yyyy-MM-dd)$(Rev:.r) $(TeamProject) (${{ variables.Trigger }})"
+
 stages:
   - stage: Test
     jobs:
