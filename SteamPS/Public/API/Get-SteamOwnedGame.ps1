@@ -23,7 +23,7 @@
     list on the Steam Community.
 
     .PARAMETER OutputFormat
-    Output format. json (default), xml or vdf.
+    Format of the output. Options are json (default), xml or vdf.
 
     .EXAMPLE
     Get-SteamOwnedGame -SteamID 76561197960434622
@@ -62,7 +62,7 @@
     Author: Frederik Hjorslev Poulsen
 
     .LINK
-    https://hjorslev.github.io/SteamPS/Get-SteamOwnedGames.html
+    https://hjorslev.github.io/SteamPS/Get-SteamOwnedGame.html
     #>
 
     [CmdletBinding()]
@@ -85,7 +85,7 @@
         [int[]]$AppIDsFilter,#>
 
         [Parameter(Mandatory = $false,
-            HelpMessage = 'Output format. json (default), xml or vdf.')]
+            HelpMessage = 'Format of the output. Options are json (default), xml or vdf.')]
         [ValidateSet('json', 'xml', 'vdf')]
         [string]$OutputFormat = 'json'
     )

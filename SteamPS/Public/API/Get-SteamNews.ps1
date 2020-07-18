@@ -1,4 +1,4 @@
-﻿function Get-SteamNewsForApp {
+﻿function Get-SteamNews {
     <#
     .SYNOPSIS
     Returns the latest news of a game specified by its AppID.
@@ -16,15 +16,15 @@
     Maximum length of each news entry.
 
     .PARAMETER OutputFormat
-    Output format. json (default), xml or vdf.
+    Format of the output. Options are json (default), xml or vdf.
 
     .EXAMPLE
-    Get-SteamNewsForApp -AppID 440
+    Get-SteamNews -AppID 440
 
     Lists number of news that are available for the AppID.
 
     .EXAMPLE
-    Get-SteamNewsForApp -AppID 440 -Count 1
+    Get-SteamNews -AppID 440 -Count 1
 
     Retrieves 1 (the latest) news item for the AppID 440.
 
@@ -40,15 +40,14 @@
 
     newsitems, an array of news item information:
     - An ID, title and url.
-    - A shortened excerpt of the contents (to maxlength characters), terminated
-    by "..." if longer than maxlength.
+    - A shortened excerpt of the contents (to maxlength characters), terminated by "..." if longer than maxlength.
     - A comma-separated string of labels and UNIX timestamp.
 
     .NOTES
     Author: Frederik Hjorslelv Poulsen
 
     .LINK
-    https://hjorslev.github.io/SteamPS/Get-SteamNewsForApp.html
+    https://hjorslev.github.io/SteamPS/Get-SteamNews.html
     #>
 
     [CmdletBinding()]
@@ -66,7 +65,7 @@
         [int]$MaxLength,
 
         [Parameter(Mandatory = $false,
-            HelpMessage = 'Output format. json (default), xml or vdf.')]
+            HelpMessage = 'Format of the output. Options are json (default), xml or vdf.')]
         [ValidateSet('json', 'xml', 'vdf')]
         [string]$OutputFormat = 'json'
     )

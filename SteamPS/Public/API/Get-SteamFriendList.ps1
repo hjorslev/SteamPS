@@ -14,7 +14,7 @@
     Relationship filter. Possibles values: all, friend.
 
     .PARAMETER OutputFormat
-    Output format. json (default), xml or vdf.
+    Format of the output. Options are json (default), xml or vdf.
 
     .EXAMPLE
     Get-SteamFriendList -SteamID 76561197960435530
@@ -37,12 +37,9 @@
     if the profile is private.
 
     In the array, the following three properties are returned:
-
-    1) steamid: 64 bit Steam ID of the friend.
-
-    2) relationship: Relationship qualifier.
-
-    3) friend_since: Unix timestamp of the time when the relationship was created.
+    - steamid: 64 bit Steam ID of the friend.
+    - relationship: Relationship qualifier.
+    - friend_since: Unix timestamp of the time when the relationship was created.
 
     .NOTES
     Author: Frederik Hjorslev Poulsen
@@ -63,7 +60,7 @@
         [string]$Relationship,
 
         [Parameter(Mandatory = $false,
-            HelpMessage = 'Output format. json (default), xml or vdf.')]
+            HelpMessage = 'Format of the output. Options are json (default), xml or vdf.')]
         [ValidateSet('json', 'xml', 'vdf')]
         [string]$OutputFormat = 'json'
     )

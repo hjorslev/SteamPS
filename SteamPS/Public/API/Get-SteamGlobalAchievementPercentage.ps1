@@ -1,5 +1,20 @@
-﻿﻿function Get-SteamGlobalStatsForGame {
+﻿function Get-SteamGlobalAchievementPercentage {
     <#
+    .SYNOPSIS
+    Returns on global achievements overview of a specific game in percentages.
+
+    .DESCRIPTION
+    Returns on global achievements overview of a specific game in percentages.
+
+    .PARAMETER AppID
+    AppID of the game you want the percentages of.
+
+    .PARAMETER OutputFormat
+    Format of the output. Options are json (default), xml or vdf.
+
+    .EXAMPLE
+    Get-SteamGlobalAchievementPercentage -AppID 400
+
     .INPUTS
     int64
 
@@ -10,7 +25,7 @@
     Author: Frederik Hjorslev Poulsen
 
     .LINK
-    https://hjorslev.github.io/SteamPS/Get-SteamGlobalAchievementPercentagesForApp.html
+    https://hjorslev.github.io/SteamPS/Get-SteamGlobalAchievementPercentage.html
     #>
 
     [CmdletBinding()]
@@ -19,12 +34,8 @@
             HelpMessage = 'AppID of the game you want the percentages of.')]
         [int]$AppID,
 
-        [Parameter(Mandatory = $true,
-            HelpMessage = 'Length of the array of global stat names you will be passing.')]
-        [int]$Count,
-
         [Parameter(Mandatory = $false,
-            HelpMessage = 'Output format. json (default), xml or vdf.')]
+            HelpMessage = 'Format of the output. Options are json (default), xml or vdf.')]
         [ValidateSet('json', 'xml', 'vdf')]
         [string]$OutputFormat = 'json'
     )
