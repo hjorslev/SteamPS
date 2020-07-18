@@ -13,6 +13,7 @@
     https://hjorslev.github.io/SteamPS/Get-SteamGlobalStats.html
     #>
 
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', '', Justification='')]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true,
