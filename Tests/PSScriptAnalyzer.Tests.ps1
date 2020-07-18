@@ -1,4 +1,4 @@
-﻿Describe 'PSScriptAnalyzer analysis' {
+﻿Describe 'PSScriptAnalyzer analysis' -Tag 'PSScriptAnalyzer' {
     #region Discovery
     $PowerShellFiles = Get-ChildItem -Path $env:BHModulePath -Recurse -Filter "*.ps*1"
     #endregion Discovery
