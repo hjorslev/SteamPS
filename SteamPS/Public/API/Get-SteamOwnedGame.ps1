@@ -1,4 +1,4 @@
-﻿﻿function Get-SteamOwnedGame {
+﻿function Get-SteamOwnedGame {
     <#
     .SYNOPSIS
     Returns a list of games a player owns along with some playtime information.

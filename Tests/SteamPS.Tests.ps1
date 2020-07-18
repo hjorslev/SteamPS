@@ -7,7 +7,7 @@
 
 Describe 'SteamCMD cmdlets' {
     BeforeAll {
-        . "$env:BHModulePath\Private\Add-EnvPath.ps1"
+        . "$env:BHModulePath\Private\Server\Add-EnvPath.ps1"
         Add-EnvPath -Path 'TestDrive:\Test\SteamCMD'
 
         Install-SteamCMD -InstallPath 'TestDrive:\Test' -Force

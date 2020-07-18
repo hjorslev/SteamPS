@@ -1,4 +1,4 @@
-﻿﻿function Get-SteamAPIKey {
+﻿function Get-SteamAPIKey {
     <#
     .SYNOPSIS
     Grabs API key secure string from file and converts back to plaintext.
