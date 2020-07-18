@@ -1,4 +1,4 @@
-﻿﻿function Get-SteamFriendList {
+﻿function Get-SteamFriendList {
     <#
     .SYNOPSIS
     Returns the friend list of any Steam user.
