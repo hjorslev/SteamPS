@@ -1,4 +1,4 @@
-﻿﻿function Get-SteamGlobalAchievementPercentagesForApp {
+﻿function Get-SteamGlobalAchievementPercentagesForApp {
     <#
     .SYNOPSIS
     Returns on global achievements overview of a specific game in percentages.

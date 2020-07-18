@@ -76,9 +76,9 @@
         $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=$(Get-SteamAPIKey)&steamid=$SteamID&relationship=friend&format=$OutputFormat"
 
         Write-Output -InputObject $Request.Content
-    }
+    } # Process
 
     end {
         Write-Verbose -Message "[END    ] Ending: $($MyInvocation.MyCommand)"
     }
-}
+} # Cmdlet
