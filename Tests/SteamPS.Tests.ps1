@@ -1,7 +1,7 @@
 ﻿Describe "Get-SteamServerInfo" {
     It 'Finds information about a Steam based game server' {
         $ServerInfo = Get-SteamServerInfo -IPAddress '185.15.73.207' -Port 27015
-        $ServerInfo.ServerName | Should -Be 'SAS Proving Ground 10 (EU)'
+        $ServerInfo.ServerName | Should -BeLike "*SAS Proving Ground*"
     }
 }
 
