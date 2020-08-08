@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Fixed
 
 - Fix issue with error being thrown when adding SteamCMD location to PATH (#24).
+- Find-SteamAppID
+  - Fix changed API url.
 
 ## [3.1.0] - 07/07-2020
 
