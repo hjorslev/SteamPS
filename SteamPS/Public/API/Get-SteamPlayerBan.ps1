@@ -6,14 +6,14 @@
     .DESCRIPTION
     Returns Community, VAC, and Economy ban statuses for given players.
 
-    .PARAMETER SteamID
+    .PARAMETER SteamID64
     Comma-delimited list of 64 bit Steam IDs to return player ban information for.
 
     .PARAMETER OutputFormat
     Format of the output. Options are json (default), xml or vdf.
 
     .EXAMPLE
-    Get-SteamPlayerBan -SteamID 76561197960435530, 76561197960434622
+    Get-SteamPlayerBan -SteamID64 76561197960435530, 76561197960434622
 
     .INPUTS
     Array of int64.
@@ -31,7 +31,7 @@
     - EconomyBan (string) The player's ban status in the economy. If the player has no bans on record the string will be "none", if the player is on probation it will say "probation", etc.
 
     .NOTES
-    Author: Frederik Hjorslev Poulsen
+    Author: Frederik Hjorslev Nylander
 
     .LINK
     https://hjorslev.github.io/SteamPS/Get-SteamPlayerBan.html
@@ -40,8 +40,9 @@
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true,
-            HelpMessage = '64 bit Steam ID to return player bans for.')]
-        [int64[]]$SteamID,
+            HelpMessage = '64 bit Steam ID to return player bans for.',
+            ValueFromPipelineByPropertyName = $true)]
+        [int64[]]$SteamID64,
 
         [Parameter(Mandatory = $false,
             HelpMessage = 'Format of the output. Options are json (default), xml or vdf.')]
@@ -54,7 +55,7 @@
     }
 
     process {
-        $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?format=$OutputFormat&key=$(Get-SteamAPIKey)&steamids=$($SteamID -join ',')"
+        $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?format=$OutputFormat&key=$(Get-SteamAPIKey)&steamids=$($SteamID64 -join ',')" -UseBasicParsing
 
         Write-Output -InputObject $Request.Content
     } # Process

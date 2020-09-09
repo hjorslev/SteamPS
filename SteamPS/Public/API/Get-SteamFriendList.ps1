@@ -7,7 +7,7 @@
     Returns the friend list of any Steam user, provided their Steam Community
     profile visibility is set to "Public".
 
-    .PARAMETER SteamID
+    .PARAMETER SteamID64
     64 bit Steam ID to return friend list for.
 
     .PARAMETER Relationship
@@ -17,12 +17,12 @@
     Format of the output. Options are json (default), xml or vdf.
 
     .EXAMPLE
-    Get-SteamFriendList -SteamID 76561197960435530
+    Get-SteamFriendList -SteamID64 76561197960435530
 
     Outputs the user's friends list, as an array of friends.
 
     .EXAMPLE
-    Get-SteamFriendList -SteamID 76561197960435530 | ConvertFrom-Json
+    Get-SteamFriendList -SteamID64 76561197960435530 | ConvertFrom-Json
 
     Outputs the user's friends list, as an array of friends and converts it from
     Json to PSCustomObjects.
@@ -42,7 +42,7 @@
     - friend_since: Unix timestamp of the time when the relationship was created.
 
     .NOTES
-    Author: Frederik Hjorslev Poulsen
+    Author: Frederik Hjorslev Nylander
 
     .LINK
     https://hjorslev.github.io/SteamPS/Get-SteamFriendList.html
@@ -51,8 +51,9 @@
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true,
-            HelpMessage = '64 bit Steam ID to return friend list for.')]
-        [int64]$SteamID,
+            HelpMessage = '64 bit Steam ID to return friend list for.',
+            ValueFromPipelineByPropertyName = $true)]
+        [int64]$SteamID64,
 
         [Parameter(Mandatory = $false,
             HelpMessage = 'Relationship filter. Possibles values: all, friend.')]
@@ -70,7 +71,7 @@
     }
 
     process {
-        $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=$(Get-SteamAPIKey)&steamid=$SteamID&relationship=friend&format=$OutputFormat"
+        $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/GetFriendList/v1/?key=$(Get-SteamAPIKey)&steamid=$SteamID64&relationship=friend&format=$OutputFormat" -UseBasicParsing
 
         Write-Output -InputObject $Request.Content
     } # Process

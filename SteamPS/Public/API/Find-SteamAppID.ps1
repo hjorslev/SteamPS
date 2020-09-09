@@ -30,7 +30,7 @@
     Output is the AppID and name of the application.
 
     .NOTES
-    Author: Frederik Hjorslev Poulsen
+    Author: Frederik Hjorslev Nylander
 
     .LINK
     https://hjorslev.github.io/SteamPS/Find-SteamAppID.html

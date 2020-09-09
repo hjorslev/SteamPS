@@ -60,8 +60,9 @@ Add-BuildTask BuildManifest {
         $UpdateAppVeyor | ForEach-Object { $AppVeyor[$_.Key] = "$($NewVersion).{build}" }
         ConvertTo-Yaml -Data $AppVeyor -OutFile "$env:BHProjectPath\appveyor.yml" -Force
 
-        # Update FunctionsToExport in Manifest.
-        Set-ModuleFunction
+        # Populate FunctionsToExport with BaseNames found within the Public and Private folders.
+        $PublicFunctions = ((Get-ChildItem -Path "$env:BHModulePath\Public\*.ps1" -Recurse).BaseName) | Sort-Object
+        Set-ModuleFunction -FunctionsToExport $PublicFunctions
         Get-ModuleFunction
 
         # Update copyright notice.

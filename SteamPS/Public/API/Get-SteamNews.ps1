@@ -44,7 +44,7 @@
     - A comma-separated string of labels and UNIX timestamp.
 
     .NOTES
-    Author: Frederik Hjorslelv Poulsen
+    Author: Frederik Hjorslelv Nylander
 
     .LINK
     https://hjorslev.github.io/SteamPS/Get-SteamNews.html
@@ -75,7 +75,7 @@
     }
 
     process {
-        $Request = Invoke-WebRequest -Uri "http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=$AppID&count=$Count&maxlength=$MaxLength&format=$OutputFormat"
+        $Request = Invoke-WebRequest -Uri "http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=$AppID&count=$Count&maxlength=$MaxLength&format=$OutputFormat" -UseBasicParsing
 
         Write-Output -InputObject $Request.Content
     } # Process

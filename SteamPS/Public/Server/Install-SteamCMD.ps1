@@ -25,7 +25,7 @@ function Install-SteamCMD {
     Installs SteamCMD in C:\SteamCMD.
 
     .NOTES
-    Author: Frederik Hjorslev Poulsen
+    Author: Frederik Hjorslev Nylander
 
     .LINK
     https://hjorslev.github.io/SteamPS/Install-SteamCMD.html

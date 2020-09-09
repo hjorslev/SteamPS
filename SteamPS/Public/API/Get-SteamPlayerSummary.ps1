@@ -6,7 +6,7 @@
     .DESCRIPTION
     Returns basic profile information for a list of 64-bit Steam IDs.
 
-    .PARAMETER SteamID
+    .PARAMETER SteamID64
     Comma-delimited list of 64 bit Steam IDs to return profile information for.
     Up to 100 Steam IDs can be requested.
 
@@ -14,7 +14,7 @@
     Format of the output. Options are json (default), xml or vdf.
 
     .EXAMPLE
-    Get-SteamPlayerSummary -SteamID 76561197960435530, 76561197960434622
+    Get-SteamPlayerSummary -SteamID64 76561197960435530, 76561197960434622
 
     .INPUTS
     Array of int64.
@@ -52,7 +52,7 @@
     - loccityid: An internal code indicating the user's city of residence. A future update will provide this data in a more useful way. steam_location gem/package makes player location data readable for output.
 
     .NOTES
-    Author: Frederik Hjorslev Poulsen
+    Author: Frederik Hjorslev Nylander
 
     .LINK
     https://hjorslev.github.io/SteamPS/Get-SteamPlayerSummary.html
@@ -61,8 +61,9 @@
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true,
-            HelpMessage = '64 bit Steam ID to return player summary for.')]
-        [int64[]]$SteamID,
+            HelpMessage = '64 bit Steam ID to return player summary for.',
+            ValueFromPipelineByPropertyName = $true)]
+        [int64[]]$SteamID64,
 
         [Parameter(Mandatory = $false,
             HelpMessage = 'Format of the output. Options are json (default), xml or vdf.')]
@@ -75,7 +76,7 @@
     }
 
     process {
-        $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?format=$OutputFormat&key=$(Get-SteamAPIKey)&steamids=$($SteamID -join ',')"
+        $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?format=$OutputFormat&key=$(Get-SteamAPIKey)&steamids=$($SteamID64 -join ',')" -UseBasicParsing
 
         Write-Output -InputObject $Request.Content
     }

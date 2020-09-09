@@ -19,7 +19,7 @@ function Connect-SteamAPI {
     None. Nothing is returned when calling Connect-SteamAPI.
 
     .NOTES
-    Author: sysgoblin (https://github.com/sysgoblin) and Frederik Hjorslev Poulsen
+    Author: sysgoblin (https://github.com/sysgoblin) and Frederik Hjorslev Nylander
 
     .LINK
     https://hjorslev.github.io/SteamPS/Connect-SteamAPI.html
