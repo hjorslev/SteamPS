@@ -8,8 +8,6 @@ steps:
         Install-Module -Name PSDepend -Force
         Invoke-PSDepend -Force
         Invoke-Build
-      env:
-        SteamWebAPI: $(SteamWebAPI)
   - task: PublishTestResults@2
     inputs:
       testRunner: NUnit
