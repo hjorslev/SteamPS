@@ -53,6 +53,8 @@
     https://hjorslev.github.io/SteamPS/Update-SteamServer.html
     #>
 
+    # TODO: Implement support for ShouldContinue. Due to compatibility we wait with this.
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSShouldProcess', '')]
     [CmdletBinding(SupportsShouldProcess = $true,
         ConfirmImpact = 'High')]
 
