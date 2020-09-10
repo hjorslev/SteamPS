@@ -25,7 +25,6 @@ variables:
     Trigger: "$(SourceBranchName)"
   ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
     Trigger: "PR #$(System.PullRequest.PullRequestNumber)"
-  SteamWebAPI: $(SteamWebAPI)
 
 name: "$(BuildID)-$(Date:yyyy-MM-dd)$(Rev:.r) $(TeamProject) (${{ variables.Trigger }})"
 
