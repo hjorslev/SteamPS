@@ -30,8 +30,6 @@ name: "$(BuildID)-$(Date:yyyy-MM-dd)$(Rev:.r) $(TeamProject) (${{ variables.Trig
 
 stages:
   - stage: Test
-    env:
-      SteamWebAPI: $(SteamAPI)
     jobs:
       - job:
         strategy:
