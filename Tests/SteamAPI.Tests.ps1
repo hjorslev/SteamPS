@@ -1,6 +1,4 @@
-﻿$script:SteamWebAPI = $env:SteamWebAPI
-
-Describe "Find-SteamAppID" {
+﻿Describe "Find-SteamAppID" {
     It "Finds game 'Ground Branch'" {
         $GB = Find-SteamAppID -ApplicationName 'Ground Branch Dedicated Server'
         $GB.appid | Should -Be 476400
@@ -12,7 +10,7 @@ Describe 'Resolve-VanityURL' {
     BeforeEach {
         function Get-SteamAPIKey {}
         Mock -CommandName Get-SteamAPIKey -MockWith {
-            Write-Output -InputObject $SteamWebAPI
+            Write-Output -InputObject $env:SteamWebAPI
         }
     }
     It "Resolves an individual profile" {
