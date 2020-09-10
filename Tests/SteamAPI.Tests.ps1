@@ -9,6 +9,11 @@ Describe "Find-SteamAppID" {
 }
 
 Describe 'Resolve-VanityURL' {
+    BeforeEach {
+        Mock -CommandName Get-SteamAPIKey -MockWith {
+            Write-Output -InputObject $SteamWebAPI
+        }
+    }
     It "Resolves an individual profile" {
         (Resolve-VanityURL -VanityURL 'hjorslev').SteamID64 | Should -BeExactly 76561197983367235
     }
