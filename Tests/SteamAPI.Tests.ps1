@@ -9,8 +9,10 @@
 Describe 'Resolve-VanityURL' {
     BeforeEach {
         function Get-SteamAPIKey {}
-        Mock -CommandName Get-SteamAPIKey -MockWith {
-            Write-Output -InputObject $env:SteamWebAPI
+        InModuleScope $env:BHProjectName {
+            Mock -CommandName Get-SteamAPIKey -MockWith {
+                Write-Output -InputObject $env:SteamWebAPI
+            }
         }
     }
     It "Resolves an individual profile" {
