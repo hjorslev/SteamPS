@@ -11,7 +11,7 @@ Describe 'Resolve-VanityURL' {
         function Get-SteamAPIKey {}
         InModuleScope $env:BHProjectName {
             Mock -CommandName Get-SteamAPIKey -MockWith {
-                Write-Output -InputObject $env:SteamWebAPI
+                Write-Output -InputObject $env:STEAMWEBAPI
             }
         }
     }
