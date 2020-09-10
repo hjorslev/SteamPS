@@ -10,6 +10,7 @@ Describe "Find-SteamAppID" {
 
 Describe 'Resolve-VanityURL' {
     BeforeEach {
+        function Get-SteamAPIKey {}
         Mock -CommandName Get-SteamAPIKey -MockWith {
             Write-Output -InputObject $SteamWebAPI
         }
