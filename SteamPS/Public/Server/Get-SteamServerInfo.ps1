@@ -41,7 +41,7 @@
     ```
 
     .NOTES
-    Author: Jordan Borean, Chris Dent and Frederik Hjorslev Poulsen
+    Author: Jordan Borean, Chris Dent and Frederik Hjorslev Nylander
 
     .LINK
     https://hjorslev.github.io/SteamPS/Get-SteamServerInfo.html

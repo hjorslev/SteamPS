@@ -47,12 +47,14 @@
     Update-SteamServer -AppID 476400 -ServiceName GB-PG10 -IPAddress '185.15.73.207' -Port 27015
 
     .NOTES
-    Author: Frederik Hjorslev Poulsen
+    Author: Frederik Hjorslev Nylander
 
     .LINK
     https://hjorslev.github.io/SteamPS/Update-SteamServer.html
     #>
 
+    # TODO: Implement support for ShouldContinue. Due to compatibility we wait with this.
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSShouldProcess', '')]
     [CmdletBinding(SupportsShouldProcess = $true,
         ConfirmImpact = 'High')]
 

@@ -42,7 +42,7 @@ function Update-SteamApp {
     Here we use anonymous login because the particular application (ARK: Survival Evolved Dedicated Server) doesn't require login.
 
     .NOTES
-    Author: Frederik Hjorslev Poulsen
+    Author: Frederik Hjorslev Nylander
 
     SteamCMD CLI parameters: https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_4
 

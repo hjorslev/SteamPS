@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: PSScriptAnalyzer
-        uses: devblackops/github-action-psscriptanalyzer@v2.0.0
+        uses: devblackops/github-action-psscriptanalyzer@master
         with:
           rootPath: SteamPS
           settingsPath: PSScriptAnalyzerSettings.psd1

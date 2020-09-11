@@ -9,8 +9,6 @@
   "files.trimTrailingWhitespace": true,
   "powershell.codeFormatting.preset": "OTBS",
   "powershell.scriptAnalysis.settingsPath": ".\\PSScriptAnalyzerSettings.psd1",
-  "cSpell.words": [
-    "cmdlet",
-    "cmdlets"
-  ]
+  "powershell.codeFormatting.addWhitespaceAroundPipe": true,
+  "cSpell.words": ["cmdlet", "cmdlets"]
 }

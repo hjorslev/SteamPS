@@ -30,7 +30,7 @@
     Output is the AppID and name of the application.
 
     .NOTES
-    Author: Frederik Hjorslev Poulsen
+    Author: Frederik Hjorslev Nylander
 
     .LINK
     https://hjorslev.github.io/SteamPS/Find-SteamAppID.html
@@ -49,7 +49,7 @@
     begin {
         # Get most recent list with all Steam Apps ID and corresponding title and put it into a variable.
         Write-Verbose -Message "Getting all applications and the corresponding ID."
-        $SteamApps = ((Invoke-WebRequest -Uri 'https://api.steampowered.com/ISteamApps/GetAppList/v0002/' -UseBasicParsing).Content | ConvertFrom-Json).applist.apps
+        $SteamApps = ((Invoke-WebRequest -Uri 'https://api.steampowered.com/ISteamApps/GetAppList/v2/' -UseBasicParsing).Content | ConvertFrom-Json).applist.apps
     }
 
     process {

@@ -1,4 +1,4 @@
-﻿Describe 'Static Analysis: Module & Repository Files' {
+﻿Describe 'Static Analysis: Module & Repository Files' -Tags 'Module' {
     #region Discovery
     $FileSearch = @{
         Path    = $env:BHProjectPath
