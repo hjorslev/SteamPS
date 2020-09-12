@@ -10,6 +10,7 @@ skip_commits:
     - appveyor.yml
     - CHANGELOG.md
     - CONTRIBUTING.md
+    - LICENSE.md
     - README.md
     - .editorconfig
     - .azure-pipelines/*
