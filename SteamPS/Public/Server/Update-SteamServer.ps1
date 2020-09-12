@@ -123,20 +123,27 @@
 
     process {
         # Get server status and output it.
-        $ServerStatus = Get-SteamServerInfo -IPAddress $IPAddress -Port $Port
-        Write-PSFMessage -Level Host -Message $ServerStatus -Tag 'ServerStatus' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
+        $ServerStatus = Get-SteamServerInfo -IPAddress $IPAddress -Port $Port -ErrorAction SilentlyContinue
 
-        # Waiting to server is empty. Checking every 60 seconds.
-        while ($ServerStatus.Players -ne 0) {
-            Write-PSFMessage -Level Host -Message 'Awaiting that the server is empty before updating.' -Tag 'ServerStatus' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
-            $ServerStatus = Get-SteamServerInfo -IPAddress $IPAddress -Port $Port
-            Write-PSFMessage -Level Host -Message $($ServerStatus | Select-Object -Property ServerName, Port, Players) -Tag 'ServerStatus' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
-            Start-Sleep -Seconds 60
+        # If server is alive we check it is empty before updating it.
+        if ($ServerStatus) {
+            Write-PSFMessage -Level Host -Message $ServerStatus -Tag 'ServerStatus' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
+
+            # Waiting to server is empty. Checking every 60 seconds.
+            while ($ServerStatus.Players -ne 0) {
+                Write-PSFMessage -Level Host -Message 'Awaiting that the server is empty before updating.' -Tag 'ServerStatus' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
+                $ServerStatus = Get-SteamServerInfo -IPAddress $IPAddress -Port $Port -ErrorAction SilentlyContinue
+                Write-PSFMessage -Level Host -Message $($ServerStatus | Select-Object -Property ServerName, Port, Players) -Tag 'ServerStatus' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
+                Start-Sleep -Seconds 60
+            }
+            # Server is now empty and we stop, update and start the server.
+            Write-PSFMessage -Level Host -Message "Stopping $ServiceName..." -Tag 'ServerUpdate' -ModuleName 'SteamPS' -Target $ServiceName
+            Stop-Service -Name $ServiceName
+            Write-PSFMessage -Level Host -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status)." -Tag 'ServerUpdate' -ModuleName 'SteamPS' -Target $ServiceName
+        } else {
+            Write-PSFMessage -Level Host -Message 'Server could not be reached.' -Tag 'ServerStatus' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
+            Write-PSFMessage -Level Host -Message 'Continuing with updating server.' -Tag 'ServerUpdate' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
         }
-        # Server is now empty and we stop, update and start the server.
-        Write-PSFMessage -Level Host -Message "Stopping $ServiceName" -Tag 'ServerUpdate' -ModuleName 'SteamPS' -Target $ServiceName
-        Stop-Service -Name $ServiceName
-        Write-PSFMessage -Level Host -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status)." -Tag 'ServerUpdate' -ModuleName 'SteamPS' -Target $ServiceName
 
         Write-PSFMessage -Level Host -Message "Updating $ServiceName..." -Tag 'ServerUpdate' -ModuleName 'SteamPS' -Target $ServiceName
         if ($null -ne $Credential) {
