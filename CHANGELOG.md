@@ -25,6 +25,10 @@ etc.
   sub directory preventing any logging until the directory is created (#29).
   - Fixed issue with the update workflow being corrupted if the server were online
   at the beginning of the update (#30).
+- Update-SteamApp
+  - Remove the validate parameter when calling SteamCMD. Validation will overwrite
+  any files that have been changed. This may cause issues with customized
+  servers (#33).
 
 ## [3.1.1] - 12/07-2020
 

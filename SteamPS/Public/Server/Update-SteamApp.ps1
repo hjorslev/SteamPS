@@ -24,20 +24,20 @@ function Update-SteamApp {
 
     Beware, the following arguments are already used:
 
-    If you use Steam login to install/upload the app the following arguments are already used: "+login $SteamUserName $SteamPassword +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"
+    If you use Steam login to install/upload the app the following arguments are already used: "+login $SteamUserName $SteamPassword +force_install_dir $Path +app_update $SteamAppID $Arguments +quit"
 
-    If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"
+    If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $Path +app_update $SteamAppID $Arguments +quit"
 
     .PARAMETER Force
     The Force parameter allows the user to skip the "Should Continue" box.
 
     .EXAMPLE
-    Update-SteamApp -ApplicationName 'Arma 3' -Credential 'Toby' -Path 'C:\Servers\Arma3'
+    Update-SteamApp -ApplicationName 'Arma 3' -Credential 'Toby' -Path 'C:\DedicatedServers\Arma3'
 
     Because there are multiple hits when searching for Arma 3, the user will be promoted to select the right application.
 
     .EXAMPLE
-    Update-SteamApp -AppID 376030 -Path 'C:\Servers'
+    Update-SteamApp -AppID 376030 -Path 'C:\DedicatedServers\ARK-SurvivalEvolved'
 
     Here we use anonymous login because the particular application (ARK: Survival Evolved Dedicated Server) doesn't require login.
 
@@ -110,7 +110,7 @@ function Update-SteamApp {
             # If Steam username and Steam password are not empty we use them for logging in.
             if ($null -ne $Credential.UserName) {
                 Write-Verbose -Message "Logging into Steam as $($Credential | Select-Object -ExpandProperty UserName)."
-                $SteamCMDProcess = Start-Process -FilePath (Get-SteamPath).Executable -NoNewWindow -ArgumentList "+login $($Credential.UserName) $($Credential.GetNetworkCredential().Password) +force_install_dir `"$Path`" +app_update $SteamAppID $Arguments validate +quit" -Wait -PassThru
+                $SteamCMDProcess = Start-Process -FilePath (Get-SteamPath).Executable -NoNewWindow -ArgumentList "+login $($Credential.UserName) $($Credential.GetNetworkCredential().Password) +force_install_dir `"$Path`" +app_update $SteamAppID $Arguments +quit" -Wait -PassThru
                 if ($SteamCMDProcess.ExitCode -ne 0) {
                     Write-Error -Message ("SteamCMD closed with ExitCode {0}" -f $SteamCMDProcess.ExitCode) -Category CloseError
                 }
@@ -118,7 +118,7 @@ function Update-SteamApp {
             # If Steam username and Steam password are empty we use anonymous login.
             elseif ($null -eq $Credential.UserName) {
                 Write-Verbose -Message 'Using SteamCMD as anonymous.'
-                $SteamCMDProcess = Start-Process -FilePath (Get-SteamPath).Executable -NoNewWindow -ArgumentList "+login anonymous +force_install_dir `"$Path`" +app_update $SteamAppID $Arguments validate +quit" -Wait -PassThru
+                $SteamCMDProcess = Start-Process -FilePath (Get-SteamPath).Executable -NoNewWindow -ArgumentList "+login anonymous +force_install_dir `"$Path`" +app_update $SteamAppID $Arguments +quit" -Wait -PassThru
                 if ($SteamCMDProcess.ExitCode -ne 0) {
                     Write-Error -Message ("SteamCMD closed with ExitCode {0}" -f $SteamCMDProcess.ExitCode) -Category CloseError
                 }
