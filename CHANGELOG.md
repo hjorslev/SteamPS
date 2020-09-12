@@ -23,6 +23,8 @@ etc.
 - Update-SteamServer
   - Fixed issue regarding the log file not being created due to a missing
   sub directory preventing any logging until the directory is created (#29).
+  - Fixed issue with the update workflow being corrupted if the server were online
+  at the beginning of the update (#30).
 
 ## [3.1.1] - 12/07-2020
 
