@@ -29,7 +29,7 @@
     Enter any additional arguments here.
 
     .PARAMETER LogPath
-    Specify the location of the log files.
+    Specify the directory of the log files.
 
     .PARAMETER DiscordWebhookUri
     Enter a Discord Webhook Uri if you wish to get notifications about the server
@@ -89,7 +89,7 @@
 
         [Parameter(Mandatory = $false)]
         [Alias('LogLocation')]
-        [string]$LogPath = "C:\DedicatedServers\Logs\$ServiceName\$($ServiceName)_$((Get-Date).ToShortDateString()).log",
+        [string]$LogPath = "C:\DedicatedServers\Logs",
 
         [Parameter(Mandatory = $false)]
         [string]$DiscordWebhookUri,
@@ -106,10 +106,15 @@
             throw 'SteamCMD could not be found in the env:Path. Have you executed Install-SteamCMD?'
         }
 
-        # Create a log file with information about the operation.
-        Set-LoggingDefaultLevel -Level 'INFO'
-        Add-LoggingTarget -Name Console
-        Add-LoggingTarget -Name File -Configuration @{ Path = $LogPath }
+        # Log settings
+        $PSFLoggingProvider = @{
+            Name          = 'logfile'
+            InstanceName  = '<taskname>'
+            FilePath      = "$LogPath\$ServiceName\$ServiceName-%Date%.csv"
+            Enabled       = $true
+            LogRotatePath = "$LogPath\$ServiceName\$ServiceName-*.csv"
+        }
+        Set-PSFLoggingProvider @PSFLoggingProvider
 
         # Variable that stores how many times the cmdlet has checked whether the
         # server is offline or online.
@@ -118,51 +123,59 @@
 
     process {
         # Get server status and output it.
-        $ServerStatus = Get-SteamServerInfo -IPAddress $IPAddress -Port $Port
-        Write-Log -Message $ServerStatus
+        $ServerStatus = Get-SteamServerInfo -IPAddress $IPAddress -Port $Port -ErrorAction SilentlyContinue
 
-        # Waiting to server is empty. Checking every 60 seconds.
-        while ($ServerStatus.Players -ne 0) {
-            Write-Log -Message "Awaiting that the server is empty before updating."
-            $ServerStatus = Get-SteamServerInfo -IPAddress $IPAddress -Port $Port
-            Write-Log -Message $ServerStatus | Select-Object -Property ServerName, Port, Players
-            Start-Sleep -Seconds 60
+        # If server is alive we check it is empty before updating it.
+        if ($ServerStatus) {
+            Write-PSFMessage -Level Host -Message $ServerStatus -Tag 'ServerStatus' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
+
+            # Waiting to server is empty. Checking every 60 seconds.
+            while ($ServerStatus.Players -ne 0) {
+                Write-PSFMessage -Level Host -Message 'Awaiting that the server is empty before updating.' -Tag 'ServerStatus' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
+                $ServerStatus = Get-SteamServerInfo -IPAddress $IPAddress -Port $Port -ErrorAction SilentlyContinue
+                Write-PSFMessage -Level Host -Message $($ServerStatus | Select-Object -Property ServerName, Port, Players) -Tag 'ServerStatus' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
+                Start-Sleep -Seconds 60
+            }
+            # Server is now empty and we stop, update and start the server.
+            Write-PSFMessage -Level Host -Message "Stopping $ServiceName..." -Tag 'ServerUpdate' -ModuleName 'SteamPS' -Target $ServiceName
+            Stop-Service -Name $ServiceName
+            Write-PSFMessage -Level Host -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status)." -Tag 'ServerUpdate' -ModuleName 'SteamPS' -Target $ServiceName
+        } else {
+            Write-PSFMessage -Level Host -Message 'Server could not be reached.' -Tag 'ServerStatus' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
+            Write-PSFMessage -Level Host -Message 'Continuing with updating server.' -Tag 'ServerUpdate' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
         }
-        # Server is now empty and we stop, update and start the server.
-        Write-Log -Message "Stopping $ServiceName"
-        Stop-Service -Name $ServiceName
-        Write-Log -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status)."
 
-        Write-Log -Message "Updating $ServiceName..."
+        Write-PSFMessage -Level Host -Message "Updating $ServiceName..." -Tag 'ServerUpdate' -ModuleName 'SteamPS' -Target $ServiceName
         if ($null -ne $Credential) {
             Update-SteamApp -AppID $AppID -Path $Path -Credential $Credential -Arguments "$Arguments" -Force
         } else {
             Update-SteamApp -AppID $AppID -Path $Path -Arguments "$Arguments" -Force
         }
 
-        Write-Log -Message "Starting $ServiceName"
+        Write-PSFMessage -Level Host -Message "Starting $ServiceName" -Tag 'ServerUpdate' -ModuleName 'SteamPS' -Target $ServiceName
         Start-Service -Name $ServiceName
-        Write-Log -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status)."
+        Write-PSFMessage -Level Host -Message "$($ServiceName): $((Get-Service -Name $ServiceName).Status)." -Tag 'ServerUpdate' -ModuleName 'SteamPS' -Target $ServiceName
 
         do {
             $TimeoutCounter++ # Add +1 for every loop.
-            Write-Log -Message 'Waiting for server to come online again.'
+            Write-PSFMessage -Level Host -Message 'Waiting for server to come online again.' -Tag 'ServerStatus' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
             Start-Sleep -Seconds 60
             # Getting new server information.
-            $ServerStatus = Get-SteamServerInfo -IPAddress $IPAddress -Port $Port | Select-Object -Property ServerName, Port, Players
-            Write-Log -Message $ServerStatus
-            Write-Log -Message "TimeoutCounter: $TimeoutCounter/$TimeoutLimit"
+            $ServerStatus = Get-SteamServerInfo -IPAddress $IPAddress -Port $Port -ErrorAction SilentlyContinue | Select-Object -Property ServerName, Port, Players
+            Write-PSFMessage -Level Host -Message $ServerStatus -Tag 'ServerStatus' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
+            Write-PSFMessage -Level Host -Message "No response from $($IPAddress):$($Port)." -Tag 'ServerStatus' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
+            Write-PSFMessage -Level Host -Message "TimeoutCounter: $TimeoutCounter/$TimeoutLimit" -Tag 'ServerStatus' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
             if ($TimeoutCounter -ge $TimeoutLimit) {
                 break
             }
         } until ($null -ne $ServerStatus.ServerName)
 
         if ($null -ne $ServerStatus.ServerName) {
-            Write-Log -Message "$($ServerStatus.ServerName) is now ONLINE."
+            Write-PSFMessage -Level Host -Message "$($ServerStatus.ServerName) is now ONLINE." -Tag 'ServerStatus' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
             $ServerState = 'ONLINE'
             $Color = 'Green'
         } else {
-            Write-Log -Level ERROR -Message "Server seems to be OFFLINE after the update..."
+            Write-PSFMessage -Level Critical -Message "Server seems to be OFFLINE after the update..." -Tag 'ServerStatus' -ModuleName 'SteamPS' -Target "$($IPAddress):$($Port)"
             $ServerState = 'OFFLINE'
             $Color = 'Red'
         }
@@ -171,9 +184,9 @@
     end {
         if ($null -ne $DiscordWebhookUri -and ($ServerState -eq 'OFFLINE' -or $AlwaysNotify -eq $true)) {
             # Send Message to Discord about the update.
-            $ServerFact = New-DiscordFact -Name 'Game Server Info' -Value $(Get-SteamServerInfo -IPAddress $IPAddress -Port $Port | Select-Object -Property ServerName, IP, Port, Players | Out-String)
+            $ServerFact = New-DiscordFact -Name 'Game Server Info' -Value $(Get-SteamServerInfo -IPAddress $IPAddress -Port $Port -ErrorAction SilentlyContinue | Select-Object -Property ServerName, IP, Port, Players | Out-String)
             $ServerStateFact = New-DiscordFact -Name 'Server State' -Value $(Write-Output -InputObject "Server is $ServerState!")
-            $LogFact = New-DiscordFact -Name 'Log Location' -Value $LogPath
+            $LogFact = New-DiscordFact -Name 'Log Location' -Value "$LogPath\$ServiceName\$ServiceName-%Date%.csv"
             $Section = New-DiscordSection -Title "$ServiceName - Update Script Executed" -Facts $ServerStateFact, $ServerFact, $LogFact -Color $Color
             Send-DiscordMessage -WebHookUrl $DiscordWebhookUri -Sections $Section
         }

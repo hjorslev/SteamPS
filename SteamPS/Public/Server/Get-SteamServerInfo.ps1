@@ -87,30 +87,32 @@
                 [System.Management.Automation.ErrorCategory]::ConnectionError,
                 $ReceivedData
             )
-            $PSCmdlet.ThrowTerminatingError($ErrorRecord)
+            $PSCmdlet.WriteError($ErrorRecord)
         }
 
-        # This is also a header - that will always be equal to 'I' (0x49).
-        $Stream.ReadByte() | Out-Null
-
-        [PSCustomObject]@{
-            Protocol      = [int]$Stream.ReadByte()
-            ServerName    = Get-PacketString -Stream $Stream
-            Map           = Get-PacketString -Stream $Stream
-            InstallDir    = Get-PacketString -Stream $Stream
-            GameName      = Get-PacketString -Stream $Stream
-            AppID         = [int]$Stream.ReadUInt16()
-            Players       = [int]$Stream.ReadByte()
-            MaxPlayers    = [int]$Stream.ReadByte()
-            Bots          = $Stream.ReadByte()
-            ServerType    = [ServerType]$Stream.ReadByte()
-            Environment   = [OSType]$Stream.ReadByte()
-            Visibility    = [Visibility]$Stream.ReadByte()
-            VAC           = [VAC]$Stream.ReadByte()
-            Version       = Get-PacketString -Stream $Stream
-            ExtraDataFlag = $Stream.ReadByte()
-            IPAddress     = $IPAddress
-            Port          = $Port
-        } # PSCustomObject
+        # If we cannot reach the server we will not display the empty object.
+        if ($Stream) {
+            # This is also a header - that will always be equal to 'I' (0x49).
+            $Stream.ReadByte() | Out-Null
+            [PSCustomObject]@{
+                Protocol      = [int]$Stream.ReadByte()
+                ServerName    = Get-PacketString -Stream $Stream
+                Map           = Get-PacketString -Stream $Stream
+                InstallDir    = Get-PacketString -Stream $Stream
+                GameName      = Get-PacketString -Stream $Stream
+                AppID         = [int]$Stream.ReadUInt16()
+                Players       = [int]$Stream.ReadByte()
+                MaxPlayers    = [int]$Stream.ReadByte()
+                Bots          = $Stream.ReadByte()
+                ServerType    = [ServerType]$Stream.ReadByte()
+                Environment   = [OSType]$Stream.ReadByte()
+                Visibility    = [Visibility]$Stream.ReadByte()
+                VAC           = [VAC]$Stream.ReadByte()
+                Version       = Get-PacketString -Stream $Stream
+                ExtraDataFlag = $Stream.ReadByte()
+                IPAddress     = $IPAddress
+                Port          = $Port
+            } # PSCustomObject
+        }
     } # Process
 } # Cmdlet
