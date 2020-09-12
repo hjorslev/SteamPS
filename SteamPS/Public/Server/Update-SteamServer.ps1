@@ -177,7 +177,7 @@
     end {
         if ($null -ne $DiscordWebhookUri -and ($ServerState -eq 'OFFLINE' -or $AlwaysNotify -eq $true)) {
             # Send Message to Discord about the update.
-            $ServerFact = New-DiscordFact -Name 'Game Server Info' -Value $(Get-SteamServerInfo -IPAddress $IPAddress -Port $Port | Select-Object -Property ServerName, IP, Port, Players | Out-String)
+            $ServerFact = New-DiscordFact -Name 'Game Server Info' -Value $(Get-SteamServerInfo -IPAddress $IPAddress -Port $Port -ErrorAction SilentlyContinue | Select-Object -Property ServerName, IP, Port, Players | Out-String)
             $ServerStateFact = New-DiscordFact -Name 'Server State' -Value $(Write-Output -InputObject "Server is $ServerState!")
             $LogFact = New-DiscordFact -Name 'Log Location' -Value "$LogPath\$ServiceName\$ServiceName-%Date%.csv"
             $Section = New-DiscordSection -Title "$ServiceName - Update Script Executed" -Facts $ServerStateFact, $ServerFact, $LogFact -Color $Color
