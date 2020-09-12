@@ -1,6 +1,8 @@
 steps:
   - task: PowerShell@2
     displayName: "Test"
+    env:
+      SteamWebAPI: $(SteamAPI)
     inputs:
       targetType: inline
       pwsh: true
