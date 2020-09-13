@@ -33,13 +33,19 @@ for server information and more.
 
 ## Command Reference
 
-| Cmdlet                                             | Description                                                  |
-| -------------------------------------------------- | ------------------------------------------------------------ |
-| [Find-SteamAppID](docs/Find-SteamAppID.md)         | Find a Steam AppID by searching the name of the application. |
-| [Get-SteamServerInfo](docs/Get-SteamServerInfo.md) | Query a running Steam based game server.                     |
-| [Install-SteamCMD](docs/Install-SteamCMD.md)       | Install SteamCMD.                                            |
-| [Update-SteamApp](docs/Update-SteamApp.md)         | Install or update a Steam application using SteamCMD.        |
-| [Update-SteamServer](docs/Update-SteamServer.md)   | Update a Steam based game server through a workflow.         |
+| Cmdlet                                                   | Description                                                         |
+| -------------------------------------------------------- | ------------------------------------------------------------------- |
+| [Connect-SteamAPI](docs/Connect-SteamAPI.md)             | Create or update the Steam Web API config file.                     |
+| [Find-SteamAppID](docs/Find-SteamAppID.md)               | Find a Steam AppID by searching the name of the application.        |
+| [Get-SteamFriendList](docs/Get-SteamFriendList.md)       | Returns the friend list of any Steam user.                          |
+| [Get-SteamNews](docs/Get-SteamNews.md)                   | Returns the latest news of a game specified by its AppID.           |
+| [Get-SteamPlayerBan](docs/Get-SteamPlayerBan.md)         | Returns Community, VAC, and Economy ban statuses for given players. |
+| [Get-SteamPlayerSummary](docs/Get-SteamPlayerSummary.md) | Returns basic profile information for a list of 64-bit Steam IDs.   |
+| [Get-SteamServerInfo](docs/Get-SteamServerInfo.md)       | Query a running Steam based game server.                            |
+| [Install-SteamCMD](docs/Install-SteamCMD.md)             | Downloads and installs SteamCMD.                                                   |
+| [Resolve-VanityURL](docs/Resolve-VanityURL.md)           | Resolve a vanity URL (also named custom URL).                       |
+| [Update-SteamApp](docs/Update-SteamApp.md)               | Install or update a Steam application using SteamCMD.               |
+| [Update-SteamServer](docs/Update-SteamServer.md)         | Update a Steam based game server through a workflow.                |
 
 ## Prerequisites
 
