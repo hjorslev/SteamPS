@@ -9,7 +9,7 @@
     }
 
     Context "Find-SteamAppID" {
-        BeforeEach {
+        BeforeAll {
             $Response = [PSCustomObject]@{
                 Content = Get-Content -Path "$env:BHProjectPath\Tests\data\applist.json"
             }
@@ -25,7 +25,7 @@
     }
 
     Context 'Get-SteamFriendList' {
-        BeforeEach {
+        BeforeAll {
             $Response = [PSCustomObject]@{
                 Content = Get-Content -Path "$env:BHProjectPath\Tests\data\friendlist.json"
             }
@@ -41,7 +41,7 @@
     }
 
     Context 'Get-SteamNews' {
-        BeforeEach {
+        BeforeAll {
             $Response = [PSCustomObject]@{
                 Content = Get-Content -Path "$env:BHProjectPath\Tests\data\appnews.json"
             }
@@ -57,7 +57,7 @@
     }
 
     Context 'Get-SteamPlayerBan' {
-        BeforeEach {
+        BeforeAll {
             $Response = [PSCustomObject]@{
                 Content = Get-Content -Path "$env:BHProjectPath\Tests\data\playerban.json"
             }
@@ -84,7 +84,7 @@
     }
 
     Context 'Get-SteamPlayerSummary' {
-        BeforeEach {
+        BeforeAll {
             $Response = [PSCustomObject]@{
                 Content = Get-Content -Path "$env:BHProjectPath\Tests\data\playersummary.json"
             }
@@ -100,7 +100,6 @@
     }
 
     Context 'Resolve-VanityURL' {
-
         It "Resolves an individual profile" {
             (Resolve-VanityURL -VanityURL 'hjorslev').SteamID64 | Should -BeExactly 76561197983367235
         }
