@@ -2,6 +2,65 @@
 <helpItems schema="maml" xmlns="http://msh">
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Connect-SteamAPI</command:name>
+      <command:verb>Connect</command:verb>
+      <command:noun>SteamAPI</command:noun>
+      <maml:description>
+        <maml:para>Create or update the Steam Web API config file.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Create or update the Steam Web API config file which contains the API key used to authenticate to those Steam Web API's that require authentication.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Connect-SteamAPI</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters />
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None. You cannot pipe objects to Connect-SteamAPI.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>None. Nothing is returned when calling Connect-SteamAPI.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>Author: sysgoblin (https://github.com/sysgoblin) and Frederik Hjorslev Nylander</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Connect-SteamAPI</dev:code>
+        <dev:remarks>
+          <maml:para>Prompts the user for a Steam Web API key and sets the specified input within the config file.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://hjorslev.github.io/SteamPS/Connect-SteamAPI.html</maml:linkText>
+        <maml:uri>https://hjorslev.github.io/SteamPS/Connect-SteamAPI.html</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Find-SteamAppID</command:name>
       <command:verb>Find</command:verb>
       <command:noun>SteamAppID</command:noun>
@@ -65,7 +124,7 @@
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Author: Frederik Hjorslev Poulsen</maml:para>
+        <maml:para>Author: Frederik Hjorslev Nylander</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -88,6 +147,892 @@
       <maml:navigationLink>
         <maml:linkText>https://hjorslev.github.io/SteamPS/Find-SteamAppID.html</maml:linkText>
         <maml:uri>https://hjorslev.github.io/SteamPS/Find-SteamAppID.html</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-SteamFriendList</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>SteamFriendList</command:noun>
+      <maml:description>
+        <maml:para>Returns the friend list of any Steam user.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Returns the friend list of any Steam user, provided their Steam Community profile visibility is set to "Public".</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-SteamFriendList</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+          <maml:name>SteamID64</maml:name>
+          <maml:Description>
+            <maml:para>64 bit Steam ID to return friend list for.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Int64</command:parameterValue>
+          <dev:type>
+            <maml:name>Int64</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>Relationship</maml:name>
+          <maml:Description>
+            <maml:para>Relationship filter. Possibles values: all, friend.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>OutputFormat</maml:name>
+          <maml:Description>
+            <maml:para>Format of the output. Options are json (default), xml or vdf.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>Json</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+        <maml:name>SteamID64</maml:name>
+        <maml:Description>
+          <maml:para>64 bit Steam ID to return friend list for.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Int64</command:parameterValue>
+        <dev:type>
+          <maml:name>Int64</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>Relationship</maml:name>
+        <maml:Description>
+          <maml:para>Relationship filter. Possibles values: all, friend.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>OutputFormat</maml:name>
+        <maml:Description>
+          <maml:para>Format of the output. Options are json (default), xml or vdf.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>Json</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>int64</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Returns a string that is either formatted as json, xml or vdf.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>The user's friends list, as an array of friends. Nothing will be returned</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>if the profile is private.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>In the array, the following three properties are returned:</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- steamid: 64 bit Steam ID of the friend.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- relationship: Relationship qualifier.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- friend_since: Unix timestamp of the time when the relationship was created.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>Author: Frederik Hjorslev Nylander</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Get-SteamFriendList -SteamID64 76561197960435530</dev:code>
+        <dev:remarks>
+          <maml:para>Outputs the user's friends list, as an array of friends.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Get-SteamFriendList -SteamID64 76561197960435530 | ConvertFrom-Json</dev:code>
+        <dev:remarks>
+          <maml:para>Outputs the user's friends list, as an array of friends and converts it from Json to PSCustomObjects.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://hjorslev.github.io/SteamPS/Get-SteamFriendList.html</maml:linkText>
+        <maml:uri>https://hjorslev.github.io/SteamPS/Get-SteamFriendList.html</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-SteamNews</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>SteamNews</command:noun>
+      <maml:description>
+        <maml:para>Returns the latest news of a game specified by its AppID.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Returns the latest news of a game specified by its AppID.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-SteamNews</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>AppID</maml:name>
+          <maml:Description>
+            <maml:para>AppID of the game you want the news of.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>Count</maml:name>
+          <maml:Description>
+            <maml:para>How many news entries you want to get returned.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>MaxLength</maml:name>
+          <maml:Description>
+            <maml:para>Maximum length of each news entry.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+          <maml:name>OutputFormat</maml:name>
+          <maml:Description>
+            <maml:para>Format of the output. Options are json (default), xml or vdf.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>Json</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>AppID</maml:name>
+        <maml:Description>
+          <maml:para>AppID of the game you want the news of.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>Count</maml:name>
+        <maml:Description>
+          <maml:para>How many news entries you want to get returned.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>MaxLength</maml:name>
+        <maml:Description>
+          <maml:para>Maximum length of each news entry.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+        <maml:name>OutputFormat</maml:name>
+        <maml:Description>
+          <maml:para>Format of the output. Options are json (default), xml or vdf.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>Json</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>int64</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Returns a string that is either formatted as json, xml or vdf.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>An appnews object containing:</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>appid, the AppID of the game you want news of</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>newsitems, an array of news item information:</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- An ID, title and url.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- A shortened excerpt of the contents (to maxlength characters), terminated by "..." if longer than maxlength.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- A comma-separated string of labels and UNIX timestamp.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>Author: Frederik Hjorslelv Nylander</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Get-SteamNews -AppID 440</dev:code>
+        <dev:remarks>
+          <maml:para>Lists number of news that are available for the AppID.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Get-SteamNews -AppID 440 -Count 1</dev:code>
+        <dev:remarks>
+          <maml:para>Retrieves 1 (the latest) news item for the AppID 440.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://hjorslev.github.io/SteamPS/Get-SteamNews.html</maml:linkText>
+        <maml:uri>https://hjorslev.github.io/SteamPS/Get-SteamNews.html</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-SteamPlayerBan</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>SteamPlayerBan</command:noun>
+      <maml:description>
+        <maml:para>Returns Community, VAC, and Economy ban statuses for given players.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Returns Community, VAC, and Economy ban statuses for given players.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-SteamPlayerBan</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+          <maml:name>SteamID64</maml:name>
+          <maml:Description>
+            <maml:para>Comma-delimited list of 64 bit Steam IDs to return player ban information for.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Int64[]</command:parameterValue>
+          <dev:type>
+            <maml:name>Int64[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>OutputFormat</maml:name>
+          <maml:Description>
+            <maml:para>Format of the output. Options are json (default), xml or vdf.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>Json</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+        <maml:name>SteamID64</maml:name>
+        <maml:Description>
+          <maml:para>Comma-delimited list of 64 bit Steam IDs to return player ban information for.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Int64[]</command:parameterValue>
+        <dev:type>
+          <maml:name>Int64[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>OutputFormat</maml:name>
+        <maml:Description>
+          <maml:para>Format of the output. Options are json (default), xml or vdf.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>Json</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>Array of int64.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Returns a string that is either formatted as json, xml or vdf.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>players: List of player ban objects for each 64 bit ID requested</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- SteamId (string) The player's 64 bit ID.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- CommunityBanned (bool) Indicates whether or not the player is banned from Steam Community.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- VACBanned (bool) Indicates whether or not the player has VAC bans on record.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- NumberOfVACBans (int) Number of VAC bans on record.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- DaysSinceLastBan (int) Number of days since the last ban.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- NumberOfGameBans (int) Number of bans in games, this includes CS:GO Overwatch bans.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- EconomyBan (string) The player's ban status in the economy. If the player has no bans on record the string will be "none", if the player is on probation it will say "probation", etc.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>Author: Frederik Hjorslev Nylander</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Get-SteamPlayerBan -SteamID64 76561197960435530, 76561197960434622</dev:code>
+        <dev:remarks>
+          <maml:para></maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://hjorslev.github.io/SteamPS/Get-SteamPlayerBan.html</maml:linkText>
+        <maml:uri>https://hjorslev.github.io/SteamPS/Get-SteamPlayerBan.html</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-SteamPlayerSummary</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>SteamPlayerSummary</command:noun>
+      <maml:description>
+        <maml:para>Returns basic profile information for a list of 64-bit Steam IDs.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Returns basic profile information for a list of 64-bit Steam IDs.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-SteamPlayerSummary</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+          <maml:name>SteamID64</maml:name>
+          <maml:Description>
+            <maml:para>Comma-delimited list of 64 bit Steam IDs to return profile information for. Up to 100 Steam IDs can be requested.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Int64[]</command:parameterValue>
+          <dev:type>
+            <maml:name>Int64[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>OutputFormat</maml:name>
+          <maml:Description>
+            <maml:para>Format of the output. Options are json (default), xml or vdf.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>Json</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+        <maml:name>SteamID64</maml:name>
+        <maml:Description>
+          <maml:para>Comma-delimited list of 64 bit Steam IDs to return profile information for. Up to 100 Steam IDs can be requested.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Int64[]</command:parameterValue>
+        <dev:type>
+          <maml:name>Int64[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>OutputFormat</maml:name>
+        <maml:Description>
+          <maml:para>Format of the output. Options are json (default), xml or vdf.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>Json</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>Array of int64.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Returns a string that is either formatted as json, xml or vdf.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Some data associated with a Steam account may be hidden if the user has their</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>profile visibility set to "Friends Only" or "Private". In that case, only</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>public data will be returned.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Public Data</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- steamid: 64bit SteamID of the user</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- personaname: The player's persona name (display name)</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- profileurl: The full URL of the player's Steam Community profile.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- avatar: The full URL of the player's 32x32px avatar. If the user hasn't configured an avatar, this will be the default ? avatar.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- avatarmedium: The full URL of the player's 64x64px avatar. If the user hasn't configured an avatar, this will be the default ? avatar.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- avatarfull: The full URL of the player's 184x184px avatar. If the user hasn't configured an avatar, this will be the default ? avatar.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- personastate: The user's current status. 0 - Offline, 1 - Online, 2 - Busy, 3 - Away, 4 - Snooze, 5 - looking to trade, 6 - looking to play. If the player's profile is private, this will always be "0", except if the user has set their status to looking to trade or looking to play, because a bug makes those status appear even if the profile is private.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- communityvisibilitystate: This represents whether the profile is visible or not, and if it is visible, why you are allowed to see it. Note that because this WebAPI does not use authentication, there are only two possible values returned: 1 - the profile is not visible to you (Private, Friends Only, etc), 3 - the profile is "Public", and the data is visible. Mike Blaszczak's post on Steam forums says, "The community visibility state this API returns is different than the privacy state. It's the effective visibility state from the account making the request to the account being viewed given the requesting account's relationship to the viewed account."</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- profilestate: If set, indicates the user has a community profile configured (will be set to '1')</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- lastlogoff: The last time the user was online, in unix time. Only available when you are friends with the requested user (since Feb, 4).</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- commentpermission: If set, indicates the profile allows public comments.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Private Data</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- realname: The player's "Real Name", if they have set it.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- primaryclanid: The player's primary group, as configured in their Steam Community profile.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- timecreated: The time the player's account was created.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- gameid: If the user is currently in-game, this value will be returned and set to the gameid of that game.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- gameserverip: The ip and port of the game server the user is currently playing on, if they are playing on-line in a game using Steam matchmaking. Otherwise will be set to "0.0.0.0:0".</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- gameextrainfo: If the user is currently in-game, this will be the name of the game they are playing. This may be the name of a non-Steam game shortcut.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- cityid: This value will be removed in a future update (see loccityid)</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- loccountrycode: If set on the user's Steam Community profile, The user's country of residence, 2-character ISO country code</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- locstatecode: If set on the user's Steam Community profile, The user's state of residence</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>- loccityid: An internal code indicating the user's city of residence. A future update will provide this data in a more useful way. steam_location gem/package makes player location data readable for output.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>Author: Frederik Hjorslev Nylander</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Get-SteamPlayerSummary -SteamID64 76561197960435530, 76561197960434622</dev:code>
+        <dev:remarks>
+          <maml:para></maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://hjorslev.github.io/SteamPS/Get-SteamPlayerSummary.html</maml:linkText>
+        <maml:uri>https://hjorslev.github.io/SteamPS/Get-SteamPlayerSummary.html</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -186,7 +1131,7 @@
     <command:returnValues />
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Author: Jordan Borean, Chris Dent and Frederik Hjorslev Poulsen</maml:para>
+        <maml:para>Author: Jordan Borean, Chris Dent and Frederik Hjorslev Nylander</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -321,7 +1266,7 @@
     <command:returnValues />
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Author: Frederik Hjorslev Poulsen</maml:para>
+        <maml:para>Author: Frederik Hjorslev Nylander</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -344,6 +1289,138 @@
       <maml:navigationLink>
         <maml:linkText>https://hjorslev.github.io/SteamPS/Install-SteamCMD.html</maml:linkText>
         <maml:uri>https://hjorslev.github.io/SteamPS/Install-SteamCMD.html</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Resolve-VanityURL</command:name>
+      <command:verb>Resolve</command:verb>
+      <command:noun>VanityURL</command:noun>
+      <maml:description>
+        <maml:para>Resolve a vanity URL (also named custom URL).</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Resolve a vanity URL (also named custom URL) and return the 64 bit SteamID that belongs to said URL.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Resolve-VanityURL</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>VanityURL</maml:name>
+          <maml:Description>
+            <maml:para>Enter the vanity URL (also named custom URL) to get a SteamID for. Do not enter the fully qualified URL, but just the ID e.g. hjorslev instead of "https://steamcommunity.com/id/hjorslev/"</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>UrlType</maml:name>
+          <maml:Description>
+            <maml:para>The type of vanity URL. 1 (default): Individual profile, 2: Group, 3: Official game group</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>1</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>OutputFormat</maml:name>
+          <maml:Description>
+            <maml:para>Format of the output. Options are json (default), xml or vdf.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>Json</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>VanityURL</maml:name>
+        <maml:Description>
+          <maml:para>Enter the vanity URL (also named custom URL) to get a SteamID for. Do not enter the fully qualified URL, but just the ID e.g. hjorslev instead of "https://steamcommunity.com/id/hjorslev/"</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>UrlType</maml:name>
+        <maml:Description>
+          <maml:para>The type of vanity URL. 1 (default): Individual profile, 2: Group, 3: Official game group</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>1</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>OutputFormat</maml:name>
+        <maml:Description>
+          <maml:para>Format of the output. Options are json (default), xml or vdf.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>Json</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>String.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>64 bit Steam ID.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>Author: Frederik Hjorslev Nylander</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Resolve-VanityURL -VanityURL hjorslev</dev:code>
+        <dev:remarks>
+          <maml:para>Returns a 64 bit Steam ID.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://hjorslev.github.io/SteamPS/Resolve-VanityURL.html</maml:linkText>
+        <maml:uri>https://hjorslev.github.io/SteamPS/Resolve-VanityURL.html</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -403,8 +1480,8 @@
           <maml:Description>
             <maml:para>Enter any additional arguments here.</maml:para>
             <maml:para>Beware, the following arguments are already used:</maml:para>
-            <maml:para>If you use Steam login to install/upload the app the following arguments are already used: "+login $SteamUserName $SteamPassword +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"</maml:para>
-            <maml:para>If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"</maml:para>
+            <maml:para>If you use Steam login to install/upload the app the following arguments are already used: "+login $SteamUserName $SteamPassword +force_install_dir $Path +app_update $SteamAppID $Arguments +quit"</maml:para>
+            <maml:para>If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $Path +app_update $SteamAppID $Arguments +quit"</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -490,8 +1567,8 @@
           <maml:Description>
             <maml:para>Enter any additional arguments here.</maml:para>
             <maml:para>Beware, the following arguments are already used:</maml:para>
-            <maml:para>If you use Steam login to install/upload the app the following arguments are already used: "+login $SteamUserName $SteamPassword +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"</maml:para>
-            <maml:para>If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"</maml:para>
+            <maml:para>If you use Steam login to install/upload the app the following arguments are already used: "+login $SteamUserName $SteamPassword +force_install_dir $Path +app_update $SteamAppID $Arguments +quit"</maml:para>
+            <maml:para>If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $Path +app_update $SteamAppID $Arguments +quit"</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -589,8 +1666,8 @@
         <maml:Description>
           <maml:para>Enter any additional arguments here.</maml:para>
           <maml:para>Beware, the following arguments are already used:</maml:para>
-          <maml:para>If you use Steam login to install/upload the app the following arguments are already used: "+login $SteamUserName $SteamPassword +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"</maml:para>
-          <maml:para>If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"</maml:para>
+          <maml:para>If you use Steam login to install/upload the app the following arguments are already used: "+login $SteamUserName $SteamPassword +force_install_dir $Path +app_update $SteamAppID $Arguments +quit"</maml:para>
+          <maml:para>If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $Path +app_update $SteamAppID $Arguments +quit"</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -640,21 +1717,21 @@
     <command:returnValues />
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Author: Frederik Hjorslev Poulsen</maml:para>
+        <maml:para>Author: Frederik Hjorslev Nylander</maml:para>
         <maml:para>SteamCMD CLI parameters: https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_4</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Update-SteamApp -ApplicationName 'Arma 3' -Credential 'Toby' -Path 'C:\Servers\Arma3'</dev:code>
+        <dev:code>Update-SteamApp -ApplicationName 'Arma 3' -Credential 'Toby' -Path 'C:\DedicatedServers\Arma3'</dev:code>
         <dev:remarks>
           <maml:para>Because there are multiple hits when searching for Arma 3, the user will be promoted to select the right application.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Update-SteamApp -AppID 376030 -Path 'C:\Servers'</dev:code>
+        <dev:code>Update-SteamApp -AppID 376030 -Path 'C:\DedicatedServers\ARK-SurvivalEvolved'</dev:code>
         <dev:remarks>
           <maml:para>Here we use anonymous login because the particular application (ARK: Survival Evolved Dedicated Server) doesn't require login.</maml:para>
         </dev:remarks>
@@ -793,14 +1870,14 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="8" aliases="LogLocation">
           <maml:name>LogPath</maml:name>
           <maml:Description>
-            <maml:para>Specify the location of the log files.</maml:para>
+            <maml:para>Specify the directory of the log files.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>"C:\DedicatedServers\Logs\$ServiceName\$($ServiceName)_$((Get-Date).ToShortDateString()).log"</dev:defaultValue>
+          <dev:defaultValue>C:\DedicatedServers\Logs</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="9" aliases="none">
           <maml:name>DiscordWebhookUri</maml:name>
@@ -926,14 +2003,14 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="8" aliases="LogLocation">
         <maml:name>LogPath</maml:name>
         <maml:Description>
-          <maml:para>Specify the location of the log files.</maml:para>
+          <maml:para>Specify the directory of the log files.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>"C:\DedicatedServers\Logs\$ServiceName\$($ServiceName)_$((Get-Date).ToShortDateString()).log"</dev:defaultValue>
+        <dev:defaultValue>C:\DedicatedServers\Logs</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="9" aliases="none">
         <maml:name>DiscordWebhookUri</maml:name>
@@ -1000,7 +2077,7 @@
     <command:returnValues />
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Author: Frederik Hjorslev Poulsen</maml:para>
+        <maml:para>Author: Frederik Hjorslev Nylander</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>

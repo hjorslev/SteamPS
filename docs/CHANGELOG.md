@@ -5,11 +5,47 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [3.2.0] - 13/09-2020
+
+### Added
+
+- New cmdlets that can interact with the Steam Web API
+  - Connect-SteamAPI
+  - Get-SteamFriendList
+  - Get-SteamNews
+  - Get-SteamPlayerBan
+  - Get-SteamPlayerSummary
+  - Resolve-VanityURL
+
+### Changed
+
+- Logging is now handled using *PSFramework* rather than the module *Logging*. Output
+of log files are stored in CSV format with more information about the system etc.
+- Get-SteamServerInfo
+  - Write the error, if the server cannot be reached, instead of throwing it. This
+  is implemented because if the server could not be reached after using Update-SteamServer,
+  the workflow would be terminated, the first time the server could not be reached,
+  instead of attempting to test it again.
+
+### Fixed
+
+- Update-SteamServer
+  - Fixed issue regarding the log file not being created due to a missing
+  sub directory preventing any logging until the directory is created (#29).
+  - Fixed issue with the update workflow being corrupted if the server were offline
+  at the beginning of the update (#30).
+- Update-SteamApp
+  - Remove the validate parameter when calling SteamCMD. Validation will overwrite
+  any files that have been changed. This may cause issues with customized
+  servers (#33).
+
 ## [3.1.1] - 12/07-2020
 
 ### Fixed
 
 - Fix issue with error being thrown when adding SteamCMD location to PATH (#24).
+- Find-SteamAppID
+  - Fix changed API url.
 
 ## [3.1.0] - 07/07-2020
 

@@ -139,7 +139,7 @@ Accept wildcard characters: False
 ```
 
 ### -LogPath
-Specify the location of the log files.
+Specify the directory of the log files.
 
 ```yaml
 Type: String
@@ -148,7 +148,7 @@ Aliases: LogLocation
 
 Required: False
 Position: 8
-Default value: "C:\DedicatedServers\Logs\$ServiceName\$($ServiceName)_$((Get-Date).ToShortDateString()).log"
+Default value: C:\DedicatedServers\Logs
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -242,7 +242,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-Author: Frederik Hjorslev Poulsen
+Author: Frederik Hjorslev Nylander
 
 ## RELATED LINKS
 

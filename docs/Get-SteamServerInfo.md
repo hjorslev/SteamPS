@@ -103,7 +103,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-Author: Jordan Borean, Chris Dent and Frederik Hjorslev Poulsen
+Author: Jordan Borean, Chris Dent and Frederik Hjorslev Nylander
 
 ## RELATED LINKS
 

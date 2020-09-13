@@ -33,14 +33,14 @@ You can either search for the application by name or enter the specific Applicat
 
 ### EXAMPLE 1
 ```
-Update-SteamApp -ApplicationName 'Arma 3' -Credential 'Toby' -Path 'C:\Servers\Arma3'
+Update-SteamApp -ApplicationName 'Arma 3' -Credential 'Toby' -Path 'C:\DedicatedServers\Arma3'
 ```
 
 Because there are multiple hits when searching for Arma 3, the user will be promoted to select the right application.
 
 ### EXAMPLE 2
 ```
-Update-SteamApp -AppID 376030 -Path 'C:\Servers'
+Update-SteamApp -AppID 376030 -Path 'C:\DedicatedServers\ARK-SurvivalEvolved'
 ```
 
 Here we use anonymous login because the particular application (ARK: Survival Evolved Dedicated Server) doesn't require login.
@@ -112,9 +112,9 @@ Enter any additional arguments here.
 
 Beware, the following arguments are already used:
 
-If you use Steam login to install/upload the app the following arguments are already used: "+login $SteamUserName $SteamPassword +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"
+If you use Steam login to install/upload the app the following arguments are already used: "+login $SteamUserName $SteamPassword +force_install_dir $Path +app_update $SteamAppID $Arguments +quit"
 
-If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $Path +app_update $SteamAppID $Arguments validate +quit"
+If you use anonymous login to install/upload the app the following arguments are already used: "+login anonymous +force_install_dir $Path +app_update $SteamAppID $Arguments +quit"
 
 ```yaml
 Type: String
@@ -182,7 +182,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-Author: Frederik Hjorslev Poulsen
+Author: Frederik Hjorslev Nylander
 
 SteamCMD CLI parameters: https://developer.valvesoftware.com/wiki/Command_Line_Options#Command-line_parameters_4
 

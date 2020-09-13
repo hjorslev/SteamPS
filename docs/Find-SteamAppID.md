@@ -67,7 +67,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### System.String and Int. It returns the application name and application ID.
 ## NOTES
-Author: Frederik Hjorslev Poulsen
+Author: Frederik Hjorslev Nylander
 
 ## RELATED LINKS
 

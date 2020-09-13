@@ -1,18 +1,18 @@
 install:
-  - ps: Install-Module -Name PSDepend -Force
-  - ps: Invoke-PSDepend -Force
+- ps: Install-Module -Name PSDepend -Force
+- ps: Invoke-PSDepend -Force
 skip_commits:
   message: /skip ci.*|update readme.*|update changelog.*|update docs.*|update version.*/
   files:
-    - .github/*
-    - .vscode/*
-    - docs/*
-    - appveyor.yml
-    - CONTRIBUTING.md
-    - LICENSE.md
-    - README.md
-    - .editorconfig
-    - .azure-pipelines/*
+  - .github/*
+  - .vscode/*
+  - docs/*
+  - appveyor.yml
+  - CONTRIBUTING.md
+  - LICENSE.md
+  - README.md
+  - .editorconfig
+  - .azure-pipelines/*
 environment:
   NuGetApiKey:
     secure: yiHR8ZR5W9xQwiXuE5/62mj7XvrJcdB26oPHaZ6BEfFQWQyAi21eZhk7eeEXQH53
@@ -20,16 +20,16 @@ environment:
     secure: N7+lKlNrQkJHEtEtl1CcwG9Q3GRLbH9kGD41NWfb0GbLsH9rHjMoIiCVkDF8jolr
   SteamWebAPI:
     secure: BwdIjZqaiXF+wUlkiqqawe029HTDlgu6NEUkkAQQPzTXswYBzeTJmYJbFMVDybr9
-version: 3.1.1.{build}
+version: 3.2.0.{build}
 test_script:
-  - git config --global credential.helper store
-  - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GitHubKey):x-oauth-basic@github.com`n"
-  - git config --global user.email "frederik@hjorslev.com"
-  - git config --global user.name "Frederik Hjorslev Nylander"
-  - git config --global core.autocrlf false
-  - git config --global core.safecrlf false
-  - ps: Write-Host -Object "------------------ Invoke-Build ------------------"
-  - ps: Invoke-Build
+- git config --global credential.helper store
+- ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GitHubKey):x-oauth-basic@github.com`n"
+- git config --global user.email "frederik@hjorslev.com"
+- git config --global user.name "Frederik Hjorslev Nylander"
+- git config --global core.autocrlf false
+- git config --global core.safecrlf false
+- ps: Write-Host -Object "------------------ Invoke-Build ------------------"
+- ps: Invoke-Build
 pull_requests:
   do_not_increment_build_number: true
 skip_tags: true

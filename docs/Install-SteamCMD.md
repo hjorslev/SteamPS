@@ -107,7 +107,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-Author: Frederik Hjorslev Poulsen
+Author: Frederik Hjorslev Nylander
 
 ## RELATED LINKS
 
