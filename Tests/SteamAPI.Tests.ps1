@@ -1,4 +1,13 @@
-﻿Describe "Find-SteamAppID" {
+﻿BeforeEach {
+    function Get-SteamAPIKey {}
+    InModuleScope $env:BHProjectName {
+        Mock -CommandName Get-SteamAPIKey -MockWith {
+            Write-Output -InputObject $env:STEAMWEBAPI
+        }
+    }
+}
+
+Describe "Find-SteamAppID" {
     BeforeEach {
         $Response = [PSCustomObject]@{
             Content = Get-Content -Path "$env:BHProjectPath\Tests\data\applist.json"
@@ -90,14 +99,6 @@ Describe 'Get-SteamPlayerSummary' {
 }
 
 Describe 'Resolve-VanityURL' {
-    BeforeEach {
-        function Get-SteamAPIKey {}
-        InModuleScope $env:BHProjectName {
-            Mock -CommandName Get-SteamAPIKey -MockWith {
-                Write-Output -InputObject $env:STEAMWEBAPI
-            }
-        }
-    }
     It "Resolves an individual profile" {
         (Resolve-VanityURL -VanityURL 'hjorslev').SteamID64 | Should -BeExactly 76561197983367235
     }
