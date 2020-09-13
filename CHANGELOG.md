@@ -20,12 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Changed
 
 - Logging is now handled using *PSFramework* rather than the module *Logging*. Output
-of log files are now stored in CSV format with more information about the system
-etc.
+of log files are stored in CSV format with more information about the system etc.
 - Get-SteamServerInfo
   - Write the error, if the server cannot be reached, instead of throwing it. This
-  is implemented because if the server could not be reached after using Update-SteamServer
-  the workflow would be terminated the first time the server could not be reached
+  is implemented because if the server could not be reached after using Update-SteamServer,
+  the workflow would be terminated, the first time the server could not be reached,
   instead of attempting to test it again.
 
 ### Fixed
@@ -33,7 +32,7 @@ etc.
 - Update-SteamServer
   - Fixed issue regarding the log file not being created due to a missing
   sub directory preventing any logging until the directory is created (#29).
-  - Fixed issue with the update workflow being corrupted if the server were online
+  - Fixed issue with the update workflow being corrupted if the server were offline
   at the beginning of the update (#30).
 - Update-SteamApp
   - Remove the validate parameter when calling SteamCMD. Validation will overwrite
