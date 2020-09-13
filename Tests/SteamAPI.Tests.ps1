@@ -1,4 +1,12 @@
 ﻿Describe "Find-SteamAppID" {
+    BeforeEach {
+        $Response = [PSCustomObject]@{
+            Content = Get-Content -Path "$env:BHProjectPath\Tests\assets\applist.json"
+        }
+        Mock -CommandName Invoke-WebRequest -MockWith {
+            $Response
+        }
+    }
     It "Finds game 'Ground Branch'" {
         $GB = Find-SteamAppID -ApplicationName 'Ground Branch Dedicated Server'
         $GB.appid | Should -Be 476400
