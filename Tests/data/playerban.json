@@ -1,0 +1,22 @@
+{
+  "players": [
+    {
+      "SteamId": "76561197960435530",
+      "CommunityBanned": false,
+      "VACBanned": false,
+      "NumberOfVACBans": 0,
+      "DaysSinceLastBan": 0,
+      "NumberOfGameBans": 0,
+      "EconomyBan": "none"
+    },
+    {
+      "SteamId": "76561197960434622",
+      "CommunityBanned": false,
+      "VACBanned": true,
+      "NumberOfVACBans": 3413,
+      "DaysSinceLastBan": 5,
+      "NumberOfGameBans": 20,
+      "EconomyBan": "none"
+    }
+  ]
+}

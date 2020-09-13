@@ -1,0 +1,25 @@
+{
+  "response": {
+    "players": [
+      {
+        "steamid": "76561197960435530",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "Toby",
+        "profileurl": "https://steamcommunity.com/id/tobythefirst/",
+        "avatar": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f1/f1dd60a188283caf82d0cbfccfe6aba0af1732d4.jpg",
+        "avatarmedium": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f1/f1dd60a188283caf82d0cbfccfe6aba0af1732d4_medium.jpg",
+        "avatarfull": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f1/f1dd60a188283caf82d0cbfccfe6aba0af1732d4_full.jpg",
+        "avatarhash": "f1dd60a118283caf82d0cbfccfe6aba0af1732d4",
+        "personastate": 0,
+        "realname": "Toby the First",
+        "primaryclanid": "103582790429521412",
+        "timecreated": 1063407589,
+        "personastateflags": 0,
+        "loccountrycode": "US",
+        "locstatecode": "WA",
+        "loccityid": 3961
+      }
+    ]
+  }
+}

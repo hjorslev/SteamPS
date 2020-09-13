@@ -1,0 +1,21 @@
+{
+  "appnews": {
+    "appid": 440,
+    "newsitems": [
+      {
+        "gid": "3819571572126482485",
+        "title": "Lockdown Throwdown 2",
+        "url": "https://steamstore-a.akamaihd.net/news/externalpost/tf2_blog/3819571572126482485",
+        "is_external_url": true,
+        "author": "",
+        "contents": "<a href=\"https://www.twitch.tv/kritzkast\"><img src=\"https://steamcdn-a.akamaihd.net/steam/news/75361/lockdown.jpg?t=1496190900\"></a>\n(Image credit - <a href=\"https://twitter.com/chickenbruhger\">Chicken Burger</a>, <a href=\"https://twitter.com/punishedgreene\">Dan Greene</a>, <a href=\"https://twitter.com/lieber_sheila\">Sheila Lieber</a>)<br><br>\n\n<p>You?re invited to <a href=\"https://www.toornament.com/en_US/tournaments/3860652609657503744/information\">Lockdown Throwdown 2</a>, a 6v6 Cup managed by <a href=\"https://phoenixred.eu/\">Phoenix Red</a>. The prize pool, provided by mannco.store and KritzKast, has been raised to 300 keys!</p><br> \n\n<p>You can catch the event live on <a href=\"https://www.twitch.tv/kritzkast\">KritzKast?s Twitch channel</a>. This two-day cup starts Saturday, September 12th, at 16:25 CEST | 09:25 Central and concludes on Sunday, September 13th, at the same time.</p><br>\n\n<p>Be sure to subscribe to the <a href=\"https://www.youtube.com/kritzkast\">YouTube channel</a> to watch the VODs later!</p><br>\n",
+        "feedlabel": "TF2 Blog",
+        "date": 1599666840,
+        "feedname": "tf2_blog",
+        "feed_type": 0,
+        "appid": 440
+      }
+    ],
+    "count": 2947
+  }
+}
