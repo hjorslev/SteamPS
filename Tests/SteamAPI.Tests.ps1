@@ -1,4 +1,4 @@
-﻿BeforeEach {
+﻿BeforeAll {
     function Get-SteamAPIKey {}
     InModuleScope $env:BHProjectName {
         Mock -CommandName Get-SteamAPIKey -MockWith {
