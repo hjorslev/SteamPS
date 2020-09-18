@@ -1,15 +1,15 @@
-﻿Context 'Steam Web API' {
-    BeforeAll {
-        function Get-SteamAPIKey {}
-        InModuleScope $env:BHProjectName {
-            Mock -CommandName Get-SteamAPIKey -MockWith {
-                Write-Output -InputObject $env:STEAMWEBAPI
-            }
+﻿BeforeAll {
+    function Get-SteamAPIKey {}
+    InModuleScope $env:BHProjectName {
+        Mock -CommandName Get-SteamAPIKey -MockWith {
+            Write-Output -InputObject $env:STEAMWEBAPI
         }
     }
+}
 
+Describe 'Steam Web API' {
     Context "Find-SteamAppID" {
-        BeforeAll {
+        BeforeEach {
             $Response = [PSCustomObject]@{
                 Content = Get-Content -Path "$env:BHProjectPath\Tests\data\applist.json"
             }
@@ -25,7 +25,7 @@
     }
 
     Context 'Get-SteamFriendList' {
-        BeforeAll {
+        BeforeEach {
             $Response = [PSCustomObject]@{
                 Content = Get-Content -Path "$env:BHProjectPath\Tests\data\friendlist.json"
             }
@@ -41,7 +41,7 @@
     }
 
     Context 'Get-SteamNews' {
-        BeforeAll {
+        BeforeEach {
             $Response = [PSCustomObject]@{
                 Content = Get-Content -Path "$env:BHProjectPath\Tests\data\appnews.json"
             }
@@ -57,7 +57,7 @@
     }
 
     Context 'Get-SteamPlayerBan' {
-        BeforeAll {
+        BeforeEach {
             $Response = [PSCustomObject]@{
                 Content = Get-Content -Path "$env:BHProjectPath\Tests\data\playerban.json"
             }
@@ -84,7 +84,7 @@
     }
 
     Context 'Get-SteamPlayerSummary' {
-        BeforeAll {
+        BeforeEach {
             $Response = [PSCustomObject]@{
                 Content = Get-Content -Path "$env:BHProjectPath\Tests\data\playersummary.json"
             }
