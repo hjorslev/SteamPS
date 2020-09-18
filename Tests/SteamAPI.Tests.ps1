@@ -1,11 +1,11 @@
-﻿BeforeAll {
-    function Get-SteamAPIKey {}
-    InModuleScope $env:BHProjectName {
-        Mock -CommandName Get-SteamAPIKey -MockWith {
-            Write-Output -InputObject $env:STEAMWEBAPI
-        }
+﻿# region discovery
+function Get-SteamAPIKey {}
+InModuleScope $env:BHProjectName {
+    Mock -CommandName Get-SteamAPIKey -MockWith {
+        Write-Output -InputObject $env:STEAMWEBAPI
     }
 }
+# regionend discovery
 
 Describe 'Steam Web API' {
     Context "Find-SteamAppID" {
