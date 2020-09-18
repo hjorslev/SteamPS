@@ -1,13 +1,4 @@
-﻿BeforeEach {
-    function Get-SteamAPIKey {}
-    InModuleScope $env:BHProjectName {
-        Mock -CommandName Get-SteamAPIKey -MockWith {
-            Write-Output -InputObject $env:STEAMWEBAPI
-        }
-    }
-}
-
-Describe 'Steam Web API' {
+﻿Describe 'Steam Web API' {
     Context "Find-SteamAppID" {
         BeforeEach {
             $Response = [PSCustomObject]@{
@@ -15,6 +6,12 @@ Describe 'Steam Web API' {
             }
             Mock -CommandName Invoke-WebRequest -MockWith {
                 $Response
+            }
+            function Get-SteamAPIKey {}
+            InModuleScope $env:BHProjectName {
+                Mock -CommandName Get-SteamAPIKey -MockWith {
+                    Write-Output -InputObject $env:STEAMWEBAPI
+                }
             }
         }
         It "Finds game 'Ground Branch'" {
@@ -32,6 +29,12 @@ Describe 'Steam Web API' {
             Mock -CommandName Invoke-WebRequest -MockWith {
                 $Response
             }
+            function Get-SteamAPIKey {}
+            InModuleScope $env:BHProjectName {
+                Mock -CommandName Get-SteamAPIKey -MockWith {
+                    Write-Output -InputObject $env:STEAMWEBAPI
+                }
+            }
         }
 
         It "Finds a Steam friend with ID '76561197960265731" {
@@ -48,6 +51,12 @@ Describe 'Steam Web API' {
             Mock -CommandName Invoke-WebRequest -MockWith {
                 $Response
             }
+            function Get-SteamAPIKey {}
+            InModuleScope $env:BHProjectName {
+                Mock -CommandName Get-SteamAPIKey -MockWith {
+                    Write-Output -InputObject $env:STEAMWEBAPI
+                }
+            }
         }
 
         It "Finds the post entitled 'Lockdown Throwdown 2'" {
@@ -63,6 +72,12 @@ Describe 'Steam Web API' {
             }
             Mock -CommandName Invoke-WebRequest -MockWith {
                 $Response
+            }
+            function Get-SteamAPIKey {}
+            InModuleScope $env:BHProjectName {
+                Mock -CommandName Get-SteamAPIKey -MockWith {
+                    Write-Output -InputObject $env:STEAMWEBAPI
+                }
             }
         }
 
@@ -91,6 +106,12 @@ Describe 'Steam Web API' {
             Mock -CommandName Invoke-WebRequest -MockWith {
                 $Response
             }
+            function Get-SteamAPIKey {}
+            InModuleScope $env:BHProjectName {
+                Mock -CommandName Get-SteamAPIKey -MockWith {
+                    Write-Output -InputObject $env:STEAMWEBAPI
+                }
+            }
         }
 
         It "Finds player 'Toby the First'" {
@@ -100,6 +121,14 @@ Describe 'Steam Web API' {
     }
 
     Context 'Resolve-VanityURL' {
+        BeforeEach {
+            function Get-SteamAPIKey {}
+            InModuleScope $env:BHProjectName {
+                Mock -CommandName Get-SteamAPIKey -MockWith {
+                    Write-Output -InputObject $env:STEAMWEBAPI
+                }
+            }
+        }
         It "Resolves an individual profile" {
             (Resolve-VanityURL -VanityURL 'hjorslev').SteamID64 | Should -BeExactly 76561197983367235
         }
