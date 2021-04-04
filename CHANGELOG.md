@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Get-PacketString
   - Fixes an issue in `Get-SteamServerInfo` that caused the cmdlet to display an
   error when querying a Valheim server ([#41](https://github.com/hjorslev/SteamPS/issues/41)).
-  Thanks @ThePoShWolf!
+  Thanks [ThePoShWolf](https://github.com/ThePoShWolf)!
 
 ## [3.2.0] - 13/09-2020
 
@@ -38,19 +38,19 @@ of log files are stored in CSV format with more information about the system etc
 
 - Update-SteamServer
   - Fixed issue regarding the log file not being created due to a missing
-  sub directory preventing any logging until the directory is created (#29).
+  sub directory preventing any logging until the directory is created ([#29](https://github.com/hjorslev/SteamPS/issues/29)).
   - Fixed issue with the update workflow being corrupted if the server were offline
-  at the beginning of the update (#30).
+  at the beginning of the update ([#30](https://github.com/hjorslev/SteamPS/issues/30)).
 - Update-SteamApp
   - Remove the validate parameter when calling SteamCMD. Validation will overwrite
   any files that have been changed. This may cause issues with customized
-  servers (#33).
+  servers ([#33](https://github.com/hjorslev/SteamPS/issues/33)).
 
 ## [3.1.1] - 12/07-2020
 
 ### Fixed
 
-- Fix issue with error being thrown when adding SteamCMD location to PATH (#24).
+- Fix issue with error being thrown when adding SteamCMD location to PATH ([#24](https://github.com/hjorslev/SteamPS/issues/24)).
 - Find-SteamAppID
   - Fix changed API url.
 
@@ -60,7 +60,7 @@ of log files are stored in CSV format with more information about the system etc
 
 - Update-SteamServer
   - Added `-Credential` parameter so apps that requires authentication can be
-  updated (#16).
+  updated ([#16](https://github.com/hjorslev/SteamPS/issues/16)).
 - Update-SteamApp
   - Output ExitCode from SteamCMD if it has another value than 0 (success).
 
@@ -111,7 +111,7 @@ cmdlet `Use-Module`.
 - New workflow with [InvokeBuild](https://github.com/nightroman/Invoke-Build).
 - Update-SteamServer
   - Changed default to only send Discord notification on errors. Introduce new
-  parameter `AlwaysNotify` to always send notifications (fix #3).
+  parameter `AlwaysNotify` to always send notifications (fix [#3](https://github.com/hjorslev/SteamPS/issues/3)).
 
 ### Added
 
