@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [3.2.1] - Unreleased
+
+- Get-PacketString
+  - Fixes an issue in `Get-SteamServerInfo` that caused the cmdlet to display an
+  error when querying a Valheim server ([#41](https://github.com/hjorslev/SteamPS/issues/41)).
+  Thanks @ThePoShWolf!
+
 ## [3.2.0] - 13/09-2020
 
 ### Added

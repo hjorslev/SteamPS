@@ -35,6 +35,8 @@
             $byte
         }
 
-        [System.Text.Encoding]::UTF8.GetString($stringBytes)
+        if ($stringBytes.Count -gt 0) {
+            [System.Text.Encoding]::UTF8.GetString($stringBytes)
+        }
     } # Process
 } # Cmdlet
