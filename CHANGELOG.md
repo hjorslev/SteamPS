@@ -210,7 +210,7 @@ SteamCMD.
 ### Removed
 
 - Update-SteamApp
-  - Remove check for version as it's done in SteamPS.psd1
+  - Remove check for version as it is done in SteamPS.psd1
 
 ## [1.0.0] - 01/01-2019
 
