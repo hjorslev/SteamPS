@@ -19,7 +19,7 @@ environment:
   GitHubKey:
     secure: N7+lKlNrQkJHEtEtl1CcwG9Q3GRLbH9kGD41NWfb0GbLsH9rHjMoIiCVkDF8jolr
   SteamWebAPI:
-    secure: BwdIjZqaiXF+wUlkiqqawe029HTDlgu6NEUkkAQQPzTXswYBzeTJmYJbFMVDybr9
+    secure: ias8awbu1riNkYKftZcLSsOAKLHfaGaXbueYrvsJdyAx90GD6l/Gn1hoQoLF68WY
 version: 3.2.0.{build}
 test_script:
 - git config --global credential.helper store
