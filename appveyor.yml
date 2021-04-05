@@ -15,11 +15,11 @@ skip_commits:
   - .azure-pipelines/*
 environment:
   NuGetApiKey:
-    secure: yiHR8ZR5W9xQwiXuE5/62mj7XvrJcdB26oPHaZ6BEfFQWQyAi21eZhk7eeEXQH53
+    secure: rrhVkhM8VdtgWRj1yVok/pJyRmqKCiUhGQoEQqRKifm0CIpT9Bz8VuoDtWJVfKZw
   GitHubKey:
     secure: N7+lKlNrQkJHEtEtl1CcwG9Q3GRLbH9kGD41NWfb0GbLsH9rHjMoIiCVkDF8jolr
   SteamWebAPI:
-    secure: ias8awbu1riNkYKftZcLSsOAKLHfaGaXbueYrvsJdyAx90GD6l/Gn1hoQoLF68WY
+    secure: BwdIjZqaiXF+wUlkiqqawe029HTDlgu6NEUkkAQQPzTXswYBzeTJmYJbFMVDybr9
 version: 3.2.0.{build}
 test_script:
 - git config --global credential.helper store
