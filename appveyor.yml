@@ -20,7 +20,7 @@ environment:
     secure: N7+lKlNrQkJHEtEtl1CcwG9Q3GRLbH9kGD41NWfb0GbLsH9rHjMoIiCVkDF8jolr
   SteamWebAPI:
     secure: BwdIjZqaiXF+wUlkiqqawe029HTDlgu6NEUkkAQQPzTXswYBzeTJmYJbFMVDybr9
-version: 3.2.0.{build}
+version: 3.2.1.{build}
 test_script:
 - git config --global credential.helper store
 - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GitHubKey):x-oauth-basic@github.com`n"

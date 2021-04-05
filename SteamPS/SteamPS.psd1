@@ -12,7 +12,7 @@
     RootModule        = 'SteamPS.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '3.2.0'
+    ModuleVersion     = '3.2.1'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -27,7 +27,7 @@
     CompanyName       = 'hjorslev'
 
     # Copyright statement for this module
-    Copyright         = '(c) 2019-2020 Frederik Hjorslev Nylander. All rights reserved.'
+    Copyright         = '(c) 2019-2021 Frederik Hjorslev Nylander. All rights reserved.'
 
     # Description of the functionality provided by this module
     Description       = 'Module that utilizes PowerShell as a wrapper for SteamCMD and engages with several Steam APIs.'
@@ -129,5 +129,8 @@
     # DefaultCommandPrefix = ''
 
 }
+
+
+
 
 
