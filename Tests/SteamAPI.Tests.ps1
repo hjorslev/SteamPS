@@ -36,7 +36,7 @@ Describe 'Steam Web API' {
 
         It "Finds a Steam friend with ID '76561197960265731" {
             $FriendList = Get-SteamFriendList -SteamID64 76561197960435530 | ConvertFrom-Json
-            $FriendList.friendslist.friends.steamid | Should -BeExactly 76561197960265731
+            $FriendList.friendslist.friends.steamid[1] | Should -BeExactly 76561197960265738
         }
     }
 
