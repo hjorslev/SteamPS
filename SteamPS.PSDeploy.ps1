@@ -3,7 +3,7 @@
         FromSource $env:BHProjectName
         To PSGallery
         WithOptions @{
-            ApiKey = $env:NuGetApiKey
+            ApiKey = $env:PSGalleryAPIKey
         }
     }
 }
