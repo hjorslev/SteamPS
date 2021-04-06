@@ -140,9 +140,9 @@ as dependency.
 
 - New workflow with AppVeyor.
 - Move `#Requires -RunAsAdministrator` statement from module file to the cmdlets
-that requires administrator priviliges (Install-SteamCMD, Update-SteamApp,
+that requires administrator privileges (Install-SteamCMD, Update-SteamApp,
 Update-SteamServer) allowing some cmdlets to be executed without administrator
-priviliges (Find-SteamAppID, Get-SteamServerInfo).
+privileges (Find-SteamAppID, Get-SteamServerInfo).
 - Use `$env:Path` instead of registry database to handle the install location of
 SteamCMD.
 
