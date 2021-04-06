@@ -34,7 +34,7 @@ Describe 'Steam Web API' {
             }
         }
 
-        It "Finds a Steam friend with ID '76561197960265731" {
+        It "Finds a Steam friend with ID '76561197960265738" {
             $FriendList = Get-SteamFriendList -SteamID64 76561197960435530 | ConvertFrom-Json
             $FriendList.friendslist.friends.steamid[1] | Should -BeExactly 76561197960265738
         }
@@ -70,7 +70,6 @@ Describe 'Steam Web API' {
             $PlayerBans = Get-SteamPlayerBan -SteamID64 76561197960435530 | ConvertFrom-Json
             $PlayerBans = $PlayerBans.players | Where-Object -FilterScript { $_.SteamId -eq 76561197960435530 }
             $PlayerBans.SteamId | Should -BeExactly 76561197960435530
-            $PlayerBans.VACBanned | Should -BeFalse
             $PlayerBans.NumberOfVACBans | Should -BeExactly 0
         }
 
@@ -78,7 +77,6 @@ Describe 'Steam Web API' {
             $PlayerBans = Get-SteamPlayerBan -SteamID64 76561197960434622 | ConvertFrom-Json
             $PlayerBans = $PlayerBans.players | Where-Object -FilterScript { $_.SteamId -eq 76561197960434622 }
             $PlayerBans.SteamId | Should -BeExactly 76561197960434622
-            $PlayerBans.VACBanned | Should -BeTrue
             $PlayerBans.NumberOfVACBans | Should -BeExactly 3413
         }
     }
