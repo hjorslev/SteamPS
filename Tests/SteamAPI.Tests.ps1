@@ -2,7 +2,7 @@
     function Get-SteamAPIKey {}
     InModuleScope $env:BHProjectName {
         Mock -CommandName Get-SteamAPIKey -MockWith {
-            Write-Output -InputObject $env:STEAMWEBAPI
+            Write-Output -InputObject 'Krazy-8'
         }
     }
 }
@@ -34,9 +34,9 @@ Describe 'Steam Web API' {
             }
         }
 
-        It "Finds a Steam friend with ID '76561197960265738" {
+        It "Finds a Steam friend with ID '76561197960265731" {
             $FriendList = Get-SteamFriendList -SteamID64 76561197960435530 | ConvertFrom-Json
-            $FriendList.friendslist.friends.steamid[1] | Should -BeExactly 76561197960265738
+            $FriendList.friendslist.friends.steamid | Should -BeExactly 76561197960265731
         }
     }
 
@@ -98,11 +98,17 @@ Describe 'Steam Web API' {
     }
 
     Context 'Resolve-VanityURL' {
+        BeforeEach {
+            $Response = [PSCustomObject]@{
+                Content = Get-Content -Path "$env:BHProjectPath\Tests\data\vanityurl.json"
+            }
+            Mock -CommandName Invoke-WebRequest -MockWith {
+                $Response
+            }
+        }
+
         It "Resolves an individual profile" {
             (Resolve-VanityURL -VanityURL 'hjorslev').SteamID64 | Should -BeExactly 76561197983367235
-        }
-        It "Resolves a group" {
-            (Resolve-VanityURL -VanityURL 'SASEliteVirtualRegiment' -UrlType 2).SteamID64 | Should -BeExactly 103582791433675899
         }
     }
 } # Describe
