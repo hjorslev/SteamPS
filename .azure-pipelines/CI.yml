@@ -36,7 +36,7 @@ stages:
         strategy:
           matrix:
             Windows_Server2016_PowerShell_Core:
-              vmImage: vs2017-win2016
+              vmImage: windows-2022
             Windows_Server2019_PowerShell_Core:
               vmImage: windows-2019
         pool:
@@ -47,7 +47,7 @@ stages:
         strategy:
           matrix:
             Windows_Server2016_PowerShell_5_1:
-              vmImage: vs2017-win2016
+              vmImage: windows-2022
               pwsh: false
             Windows_Server2019_PowerShell_5_1:
               vmImage: windows-2019
