@@ -14,8 +14,8 @@ skip_commits:
   - .editorconfig
   - .azure-pipelines/*
 environment:
-  NuGetApiKey:
-    secure: rrhVkhM8VdtgWRj1yVok/pJyRmqKCiUhGQoEQqRKifm0CIpT9Bz8VuoDtWJVfKZw
+  PSGalleryAPIKey:
+    secure: AhQDcc7fd1PVg8stMqWeeGnrrcZb/KcGxtBvcnmkT6hZekOIhaSNtmtX4g9kCqXk
   GitHubKey:
     secure: N7+lKlNrQkJHEtEtl1CcwG9Q3GRLbH9kGD41NWfb0GbLsH9rHjMoIiCVkDF8jolr
   SteamWebAPI:
