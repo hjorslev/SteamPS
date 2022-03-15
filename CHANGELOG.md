@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- Update-SteamApp
+  - Fix warning SteamCMD displays about the force_install_dir parameter needs to
+  be called prior to the login parameter.
+
 ## [3.2.1] - 04/04-2021
 
 - Get-PacketString
