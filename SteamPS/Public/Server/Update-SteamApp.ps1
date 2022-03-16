@@ -26,7 +26,7 @@ function Update-SteamApp {
 
     If you use Steam login to install/upload the app the following arguments are already used: "+force_install_dir $Path +login $SteamUserName $SteamPassword +app_update $SteamAppID $Arguments +quit"
 
-    If you use anonymous login to install/upload the app the following arguments are already used: "+force_install_dir $Path +login anonymous+app_update $SteamAppID $Arguments +quit"
+    If you use anonymous login to install/upload the app the following arguments are already used: "+force_install_dir $Path +login anonymous +app_update $SteamAppID $Arguments +quit"
 
     .PARAMETER Force
     The Force parameter allows the user to skip the "Should Continue" box.
