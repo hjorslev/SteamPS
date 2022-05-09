@@ -70,14 +70,31 @@
 
     process {
         try {
+            # Instantiate client and endpoint
             $Client = New-Object -TypeName Net.Sockets.UDPClient(0)
             [void]$Client.Send($A2S_INFO, $A2S_INFO.Length, $IPAddress, $Port)
             $Client.Client.SendTimeout = $Timeout
             $Client.Client.ReceiveTimeout = $Timeout
             $IPEndpoint = New-Object -TypeName Net.IPEndpoint([Net.IPAddress]::Any, 0)
+
             # The first 4 bytes are 255 which seems to be some sort of header.
             $ReceivedData = $Client.Receive([Ref]$IPEndpoint) | Select-Object -Skip 4
             $Stream = [System.IO.BinaryReader][System.IO.MemoryStream][Byte[]]$ReceivedData
+
+            # Challenge:
+            if ($Stream.ReadByte() -eq 65) {
+                # If the response is a challenge, resend query with last 4 bytes of the challenge
+                $challenge = while ($Stream.BaseStream.Position -lt $Stream.BaseStream.Length) {
+                    $Stream.ReadByte()
+                }
+                $newQuery = $A2S_INFO + $challenge
+
+                [void]$Client.Send($newQuery, $newQuery.Length, $IPAddress, $Port)
+                # The first 4 bytes are 255 which seems to be some sort of header.
+                $ReceivedData = $Client.Receive([Ref]$IPEndpoint) | Select-Object -Skip 4
+                $Stream = [System.IO.BinaryReader][System.IO.MemoryStream][Byte[]]$ReceivedData
+            }
+
             $Client.Close()
         } catch {
             $Exception = [Exception]::new("Could not reach server {0}:{1}.") -f $IPAddress, $Port
