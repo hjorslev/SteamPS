@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Get-SteamServerInfo
   - Support the server challenge request (Linux based servers) ([#47](https://github.com/hjorslev/SteamPS/issues/47)).
   Thanks [ThePoShWolf](https://github.com/ThePoShWolf)!
+- Update-SteamApp
+  - Fix a warning SteamCMD displays about the force_install_dir parameter needs to
+  be called prior to the login parameter.
 
 ## [3.2.1] - 04/04-2021
 
