@@ -33,9 +33,10 @@ Describe 'SteamCMD cmdlets' {
             Test-Path -Path "$TestDrive\GB-TestingBranch\GroundBranchServer.exe" | Should -BeTrue
         }
     }
-
-    AfterAll {
-        # Wait for the process steamerrorreporter to be closed - else test folder wont be deleted.
-        Wait-Process -Name 'steamerrorreporter' -ErrorAction SilentlyContinue
+    if ($BHBuildSystem -eq 'AppVeyor') {
+        AfterAll {
+            # Wait for the process steamerrorreporter to be closed - else test folder wont be deleted.
+            Wait-Process -Name 'steamerrorreporter' -ErrorAction SilentlyContinue
+        }
     }
 }
