@@ -1,7 +1,7 @@
 ﻿Describe "Get-SteamServerInfo" {
     It 'Finds information about a Steam based game server' {
         $ServerInfo = Get-SteamServerInfo -IPAddress '185.15.73.207' -Port 27015
-        $ServerInfo.ServerName | Should -BeLike "*SAS Proving Ground*"
+        $ServerInfo.InstallDir | Should -Be 'groundbranch'
     }
 }
 
@@ -17,6 +17,7 @@ Describe 'SteamCMD cmdlets' {
         Test-Path -Path "$TestDrive\Test\SteamCMD\steamcmd.exe" | Should -BeTrue
     }
 
+    <# @TODO: Can be activated after the project uses another CI than AppVeyor for building the module
     Context 'Update-SteamApp' {
         It 'Installs Ground Branch Dedicated Server using AppID' {
             Update-SteamApp -AppID 476400 -Path "$TestDrive\GB-AppID" -Force
@@ -33,6 +34,7 @@ Describe 'SteamCMD cmdlets' {
             Test-Path -Path "$TestDrive\GB-TestingBranch\GroundBranchServer.exe" | Should -BeTrue
         }
     }
+#>
 
     AfterAll {
         # Wait for the process steamerrorreporter to be closed - else test folder wont be deleted.
