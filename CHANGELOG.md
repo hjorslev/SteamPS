@@ -5,7 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [3.2.2] - 13/05-2022
+
+### Fixed
+
+- Get-SteamServerInfo
+  - Support the server challenge request (Linux based servers) ([#47](https://github.com/hjorslev/SteamPS/issues/47)).
+  Thanks [ThePoShWolf](https://github.com/ThePoShWolf)!
+
 ## [3.2.1] - 04/04-2021
+
+### Fixe3
 
 - Get-PacketString
   - Fixes an issue in `Get-SteamServerInfo` that caused the cmdlet to display an
