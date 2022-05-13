@@ -28,15 +28,16 @@ Describe 'SteamCMD cmdlets' {
             Test-Path -Path "$TestDrive\GB-AppName\GroundBranchServer.exe" | Should -BeTrue
         }
 
+        <# @TODO: Can be activated after the project uses another CI than AppVeyor for building the module
         It 'Passes custom argument and installs testing branch of Ground Branch Dedicated Server' {
             Update-SteamApp -AppID 476400 -Path "$TestDrive\GB-TestingBranch" -Arguments "-beta testing" -Force
             Test-Path -Path "$TestDrive\GB-TestingBranch\GroundBranchServer.exe" | Should -BeTrue
         }
+        #>
     }
-    if ($BHBuildSystem -eq 'AppVeyor') {
-        AfterAll {
-            # Wait for the process steamerrorreporter to be closed - else test folder wont be deleted.
-            Wait-Process -Name 'steamerrorreporter' -ErrorAction SilentlyContinue
-        }
+
+    AfterAll {
+        # Wait for the process steamerrorreporter to be closed - else test folder wont be deleted.
+        Wait-Process -Name 'steamerrorreporter' -ErrorAction SilentlyContinue
     }
 }
