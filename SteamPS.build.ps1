@@ -156,7 +156,9 @@ Add-BuildTask PushChangesGitHub {
 
 if ($env:BHBuildSystem -eq 'AppVeyor' -and $env:BHBranchName -eq 'master' -and $env:BHCommitMessage -like "*!deploy*") {
     # Synopsis: Entire build pipeline
-    Add-BuildTask . Init, Test, BuildManifest, BuildDocs, DeployPSGallery, DeployGHRelease, PushChangesGitHub
+    #TODO: DeployGHRelease not working atm.
+    # Add-BuildTask . Init, Test, BuildManifest, BuildDocs, DeployPSGallery, DeployGHRelease, PushChangesGitHub
+    Add-BuildTask . Init, Test, BuildManifest, BuildDocs, DeployPSGallery, PushChangesGitHub
 } else {
     Add-BuildTask . Init, Test
     Write-Host -Object "Skipping deployment: To deploy, ensure that...`n"
