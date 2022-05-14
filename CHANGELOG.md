@@ -5,7 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [3.2.3] - 14/05-2022
+
+### Fixed
+
+- Get-SteamServerInfo
+  - Fixes name property in output when no challenge is sent. Thanks [ThePoShWolf](https://github.com/ThePoShWolf)!
+
 ## [3.2.2] - 13/05-2022
+
+Please note there were a minor error in Get-SteamServerInfo in this version.
+Therefore, 3.2.2 has been hidden in the PowerShell Gallery.
 
 ### Fixed
 
