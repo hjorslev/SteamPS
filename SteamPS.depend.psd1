@@ -7,19 +7,7 @@
             Force = $true
         }
     }
-    <#
-    # Install Chocolatey
-    'Chocolatey'        = @{
-        DependencyType = 'Command'
-        Source         = 'Invoke-Expression ((New-Object System.Net.WebClient).DownloadString("https://chocolatey.org/install.ps1"))'
-    }
 
-    # Install Chocolatey package
-    'Chocolatey-mkdocs' = @{
-        DependencyType = 'Command'
-        Source         = 'choco install mkdocs -y --no-progress'
-    }
-#>
     # Grab some modules without depending on PowerShellGet
     'BuildHelpers'     = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
     'Configuration'    = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
