@@ -93,6 +93,8 @@
                 # The first 4 bytes are 255 which seems to be some sort of header.
                 $ReceivedData = $Client.Receive([Ref]$IPEndpoint) | Select-Object -Skip 4
                 $Stream = [System.IO.BinaryReader][System.IO.MemoryStream][Byte[]]$ReceivedData
+            } else {
+                $Stream.BaseStream.Position = 0
             }
 
             $Client.Close()
