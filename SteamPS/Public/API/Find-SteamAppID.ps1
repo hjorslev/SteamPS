@@ -63,7 +63,7 @@
         # If more than one application is found the user is prompted to select the exact application.
         elseif (($SteamApps | Measure-Object).Count -ge 1) {
             # An OutGridView is presented to the user where the exact AppID can be located. This variable contains the AppID selected in the Out-GridView.
-            $SteamApp = $SteamApps | Out-GridView -Title 'Select application' -PassThru
+            $SteamApp = $SteamApps | Select-Object @{Name='appid';Expression={$_.appid.toString() } },name | Out-GridView -Title 'Select application' -PassThru
             Write-Verbose -Message "$(($SteamApp).name) - $(($SteamApp).appid) selected from Out-GridView."
             Write-Output -InputObject $SteamApp
         }
