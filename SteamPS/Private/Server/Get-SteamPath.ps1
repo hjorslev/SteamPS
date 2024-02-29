@@ -4,7 +4,9 @@
     )
 
     process {
-        $SteamCMDPath = $env:Path.Split(';') | Where-Object -FilterScript { $_ -like "*SteamCMD*" }
+        $SteamCMDPath = $env:Path.Split([System.IO.Path]::PathSeparator) |
+            Where-Object -FilterScript { $_ -like '*SteamCMD*' }
+
         if ($null -ne $SteamCMDPath) {
             [PSCustomObject]@{
                 'Path'       = $SteamCMDPath
