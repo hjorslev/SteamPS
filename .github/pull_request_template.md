@@ -21,7 +21,7 @@ For more alternatives, see: https://help.github.com/en/articles/closing-issues-u
 ## Checklist
 
 - [ ] Pull Request has a meaningful title.
-- [ ] Summarised changes.
+- [ ] Summarized changes.
 - [ ] Pull Request is ready to merge & is not WIP.
 - [ ] Added tests / only testable interactively.
   - Make sure you add a new test if old tests do not effectively test the code changed.

@@ -3,12 +3,15 @@
   "editor.autoIndent": "full",
   "editor.insertSpaces": true,
   "editor.formatOnPaste": true,
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "editor.renderWhitespace": "boundary",
   "editor.detectIndentation": true,
   "files.trimTrailingWhitespace": true,
   "powershell.codeFormatting.preset": "OTBS",
   "powershell.scriptAnalysis.settingsPath": ".\\PSScriptAnalyzerSettings.psd1",
   "powershell.codeFormatting.addWhitespaceAroundPipe": true,
-  "cSpell.words": ["cmdlet", "cmdlets"]
+  "cSpell.words": [
+    "cmdlet",
+    "cmdlets"
+  ]
 }
