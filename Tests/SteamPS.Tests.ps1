@@ -7,7 +7,7 @@
 
 Describe 'SteamCMD cmdlets' {
     BeforeAll {
-        . "$env:BHModulePath\Private\Server\Add-EnvPath.ps1"
+        . "$($SteamPSModulePath)\Private\Server\Add-EnvPath.ps1"
         Add-EnvPath -Path 'TestDrive:\Test\SteamCMD'
 
         Install-SteamCMD -InstallPath 'TestDrive:\Test' -Force
@@ -17,7 +17,7 @@ Describe 'SteamCMD cmdlets' {
         Test-Path -Path "$TestDrive\Test\SteamCMD\steamcmd.exe" | Should -BeTrue
     }
 
-    <# @TODO: Can be activated after the project uses another CI than AppVeyor for building the module
+    <#
     Context 'Update-SteamApp' {
         It 'Installs Ground Branch Dedicated Server using AppID' {
             Update-SteamApp -AppID 476400 -Path "$TestDrive\GB-AppID" -Force
@@ -34,7 +34,7 @@ Describe 'SteamCMD cmdlets' {
             Test-Path -Path "$TestDrive\GB-TestingBranch\GroundBranchServer.exe" | Should -BeTrue
         }
     }
-#>
+    #>
 
     AfterAll {
         # Wait for the process steamerrorreporter to be closed - else test folder wont be deleted.

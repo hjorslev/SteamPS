@@ -1,168 +1,229 @@
-Set-BuildEnvironment -ErrorAction SilentlyContinue
+[CmdletBinding()]
+param(
+    [ValidateSet('Debug', 'Release')]
+    [string] $Configuration = 'Debug'
+)
 
-# Synopsis: Initializing
-Add-BuildTask Init {
-    # Line break for readability in AppVeyor console
-    Write-Host -Object ''
-    Write-Host -Object 'Build System Details:'
-    Write-Output -InputObject $PSVersionTable
-    Write-Host -Object "`n"
-    Get-Item env:BH*
-    Write-Host -Object "`n"
+$global:SteamPSModulePath = [IO.Path]::Combine($PSScriptRoot, 'SteamPS')
+$manifestItem = Get-Item ([IO.Path]::Combine($SteamPSModulePath, '*.psd1'))
+$ModuleName = $manifestItem.BaseName
+$psm1 = Join-Path $SteamPSModulePath -ChildPath ($ModuleName + '.psm1')
+
+$testModuleManifestSplat = @{
+    Path          = $manifestItem.FullName
+    ErrorAction   = 'Ignore'
+    WarningAction = 'Ignore'
 }
 
-# Synopsis: Pester Tests
-Add-BuildTask Test {
-    Remove-Module -Name $env:BHProjectName -Force -ErrorAction SilentlyContinue
-    Import-Module $env:BHPSModuleManifest -Force -Global
-    # Invoke Pester to run all of the unit tests, then save the results into XML in order to populate the AppVeyor tests section
-    # If any of the tests fail, consider the pipeline failed
-    $PesterResults = Invoke-Pester -Path "$env:BHProjectPath\Tests" -CI -Output Detailed
-    if ($env:BHBuildSystem -eq 'AppVeyor') {
-        Add-TestResultToAppveyor -TestFile "$env:BHProjectPath\testResults.xml"
+$Manifest = Test-ModuleManifest @testModuleManifestSplat
+$Version = $Manifest.Version
+
+$BuildPath = [IO.Path]::Combine($PSScriptRoot, 'output')
+$CSharpPath = [IO.Path]::Combine($PSScriptRoot, 'src', $ModuleName)
+$isBinaryModule = Test-Path $CSharpPath
+$ReleasePath = [IO.Path]::Combine($BuildPath, $ModuleName, $Version)
+$UseNativeArguments = $PSVersionTable.PSVersion -gt '7.0'
+
+task Clean {
+    if (Test-Path $ReleasePath) {
+        Remove-Item $ReleasePath -Recurse -Force
     }
-    if ($PesterResults.FailedCount -gt 0) {
-        throw "$($PesterResults.FailedCount) tests failed."
-    }
+
+    New-Item -ItemType Directory $ReleasePath | Out-Null
 }
 
-# Synopsis: Build manifest
-Add-BuildTask BuildManifest {
-    # We're going to add 1 to the revision value since a new commit has been merged to Master
-    # This means that the major / minor / build values will be consistent across GitHub and the Gallery
+task BuildDocs {
+    $helpParams = @{
+        Path       = [IO.Path]::Combine($PSScriptRoot, 'docs', 'en-US')
+        OutputPath = [IO.Path]::Combine($ReleasePath, 'en-US')
+    }
+    New-ExternalHelp @helpParams | Out-Null
+}
+
+task BuildPowerShell {
+    $buildModuleSplat = @{
+        SourcePath      = $SteamPSModulePath
+        OutputDirectory = $ReleasePath
+        Encoding        = 'UTF8Bom'
+        IgnoreAlias     = $true
+    }
+
+    if (Test-Path $psm1) {
+        $buildModuleSplat['Suffix'] = Get-Content $psm1 -Raw
+    }
+
+    Build-Module @buildModuleSplat
+}
+
+task BuildManaged {
+    if (-not $isBinaryModule) {
+        Write-Host 'No C# source path found. Skipping BuildManaged...'
+        return
+    }
+
+    $arguments = @(
+        'publish'
+        '--configuration', $Configuration
+        '--verbosity', 'q'
+        '-nologo'
+        "-p:Version=$Version"
+    )
+
+    Push-Location -LiteralPath $CSharpPath
     try {
-        # Get current module version from Manifest.
-        $Manifest = Import-PowerShellDataFile -Path $env:BHPSModuleManifest
-        [version]$Version = $Manifest.ModuleVersion
-        Write-Output -InputObject "Old Version: $Version"
+        foreach ($framework in $TargetFrameworks) {
+            Write-Host "Compiling for $framework"
+            dotnet @arguments --framework $framework
 
-        # Update module version in Manifest.
-        switch -Wildcard ($env:BHCommitMessage) {
-            '*!ver:MAJOR*' {
-                New-Variable -Name NewVersion -Value $(Step-Version -Version $Version -By Major) -Scope Global
-                Step-ModuleVersion -Path $env:BHPSModuleManifest -By Major
-            }
-            '*!ver:MINOR*' {
-                New-Variable -Name NewVersion -Value $(Step-Version -Version $Version -By Minor) -Scope Global
-                Step-ModuleVersion -Path $env:BHPSModuleManifest -By Minor
-            }
-            # Default is just changed build
-            Default {
-                New-Variable -Name NewVersion -Value $(Step-Version -Version $Version) -Scope Global
-                Step-ModuleVersion -Path $env:BHPSModuleManifest -By Patch
+            if ($LASTEXITCODE) {
+                throw "Failed to compiled code for $framework"
             }
         }
-
-        Write-Output -InputObject "New Version: $NewVersion"
-        # Update yaml file with new version information.
-        $AppVeyor = ConvertFrom-Yaml -Yaml $(Get-Content "$env:BHProjectPath\appveyor.yml" | Out-String)
-        $UpdateAppVeyor = $AppVeyor.GetEnumerator() | Where-Object { $_.Name -eq 'version' }
-        $UpdateAppVeyor | ForEach-Object { $AppVeyor[$_.Key] = "$($NewVersion).{build}" }
-        ConvertTo-Yaml -Data $AppVeyor -OutFile "$env:BHProjectPath\appveyor.yml" -Force
-
-        # Populate FunctionsToExport with BaseNames found within the Public and Private folders.
-        $PublicFunctions = ((Get-ChildItem -Path "$env:BHModulePath\Public\*.ps1" -Recurse).BaseName) | Sort-Object
-        Set-ModuleFunction -FunctionsToExport $PublicFunctions
-        Get-ModuleFunction
-
-        # Update copyright notice.
-        Update-Metadata -Path $env:BHPSModuleManifest -PropertyName Copyright -Value "(c) 2019-$((Get-Date).Year) $(Get-Metadata -Path $env:BHPSModuleManifest -PropertyName Author). All rights reserved."
-    } catch {
-        throw $_
+    }
+    finally {
+        Pop-Location
     }
 }
 
-# Synopsis: Build docs
-Add-BuildTask BuildDocs {
-    if ($env:BHBuildSystem -ne 'Unknown' -and $env:BHBranchName -eq 'master' ) {
-        # Create new markdown and XML help files.
-        Write-Host -Object 'Building new function documentation' -ForegroundColor Yellow
-        if ((Test-Path -Path "$env:BHProjectPath\docs") -eq $false) {
-            New-Item -Path $env:BHProjectPath -Name 'docs' -ItemType Directory
+task CopyToRelease {
+    foreach ($framework in $TargetFrameworks) {
+        $buildFolder = [IO.Path]::Combine($CSharpPath, 'bin', $Configuration, $framework, 'publish')
+        $binFolder = [IO.Path]::Combine($ReleasePath, 'bin', $framework, $_.Name)
+        if (-not (Test-Path -LiteralPath $binFolder)) {
+            New-Item -Path $binFolder -ItemType Directory | Out-Null
+        }
+        Copy-Item ([IO.Path]::Combine($buildFolder, '*')) -Destination $binFolder -Recurse
+    }
+}
+
+task Package {
+    $nupkgPath = [IO.Path]::Combine($BuildPath, "$ModuleName.$Version*.nupkg")
+    if (Test-Path $nupkgPath) {
+        Remove-Item $nupkgPath -Force
+    }
+
+    $repoParams = @{
+        Name               = 'LocalRepo'
+        SourceLocation     = $BuildPath
+        PublishLocation    = $BuildPath
+        InstallationPolicy = 'Trusted'
+    }
+
+    if (Get-PSRepository -Name $repoParams.Name -ErrorAction SilentlyContinue) {
+        Unregister-PSRepository -Name $repoParams.Name
+    }
+
+    Register-PSRepository @repoParams
+
+    try {
+        Publish-Module -Path $ReleasePath -Repository $repoParams.Name
+    }
+    finally {
+        Unregister-PSRepository -Name $repoParams.Name
+    }
+}
+
+task Analyze {
+    $analyzerPath = [IO.Path]::Combine($PSScriptRoot, 'PSScriptAnalyzerSettings.psd1')
+    if (-not (Test-Path $analyzerPath)) {
+        Write-Host 'No analyzer rules found, skipping...'
+        return
+    }
+
+    $pssaSplat = @{
+        Path        = $ReleasePath
+        Settings    = [IO.Path]::Combine($PSScriptRoot, 'PSScriptAnalyzerSettings.psd1')
+        Recurse     = $true
+        ErrorAction = 'SilentlyContinue'
+    }
+    $results = Invoke-ScriptAnalyzer @pssaSplat
+
+    if ($null -ne $results) {
+        $results | Out-String
+        throw 'Failed PsScriptAnalyzer tests, build failed'
+    }
+}
+
+task DoUnitTest {
+    $testsPath = [IO.Path]::Combine($PSScriptRoot, 'Tests', 'units')
+    if (-not (Test-Path -LiteralPath $testsPath)) {
+        Write-Host 'No unit tests found, skipping...'
+        return
+    }
+
+    $resultsPath = [IO.Path]::Combine($BuildPath, 'TestResults')
+    if (-not (Test-Path -LiteralPath $resultsPath)) {
+        New-Item $resultsPath -ItemType Directory -ErrorAction Stop | Out-Null
+    }
+
+    $tempResultsPath = [IO.Path]::Combine($resultsPath, 'TempUnit')
+    if (Test-Path -LiteralPath $tempResultsPath) {
+        Remove-Item -LiteralPath $tempResultsPath -Force -Recurse
+    }
+    New-Item -Path $tempResultsPath -ItemType Directory | Out-Null
+
+    try {
+        $runSettingsPrefix = 'DataCollectionRunSettings.DataCollectors.DataCollector.Configuration'
+        $arguments = @(
+            'test'
+            $testsPath
+            '--results-directory', $tempResultsPath
+            if ($Configuration -eq 'Debug') {
+                '--collect:"XPlat Code Coverage"'
+                '--'
+                "$runSettingsPrefix.Format=json"
+                if ($UseNativeArguments) {
+                    "$runSettingsPrefix.IncludeDirectory=`"$CSharpPath`""
+                }
+                else {
+                    "$runSettingsPrefix.IncludeDirectory=\`"$CSharpPath\`""
+                }
+            }
+        )
+
+        Write-Host 'Running unit tests'
+        dotnet @arguments
+
+        if ($LASTEXITCODE) {
+            throw 'Unit tests failed'
         }
 
-        Import-Module $env:BHPSModuleManifest -Force -Global
-        New-MarkdownHelp -Module $env:BHProjectName -OutputFolder "$env:BHProjectPath\docs" -Force
-        New-ExternalHelp -Path "$($env:BHProjectPath)\docs" -OutputPath "$env:BHModulePath\en-US\" -Force
-        Copy-Item -Path '.\README.md' -Destination 'docs\index.md'
-        Copy-Item -Path '.\CHANGELOG.md' -Destination 'docs\CHANGELOG.md'
-    } else {
-        Write-Host -Object "Skipping building docs because `n" +
-        Write-Host -Object "`t* You are on $env:BHBranchName and not master branch.`n"
+        if ($Configuration -eq 'Debug') {
+            Move-Item -Path $tempResultsPath/*/*.json -Destination $resultsPath/UnitCoverage.json -Force
+        }
+    }
+    finally {
+        Remove-Item -LiteralPath $tempResultsPath -Force -Recurse
     }
 }
 
-# Synopsis: Deploy to PSGallery
-Add-BuildTask DeployPSGallery {
-    # Publish the new version to the PowerShell Gallery
-    try {
-        Invoke-PSDeploy -Force -ErrorAction Stop
-        Write-Host -Object "$env:BHProjectName PowerShell Module version $NewVersion published to the PowerShell Gallery." -ForegroundColor Cyan
-    } catch {
-        # Sad panda; it broke
-        Write-Warning -Message "Publishing update $NewVersion to the PowerShell Gallery failed."
-        throw $_
+task DoTest {
+    $testsPath = [IO.Path]::Combine($PSScriptRoot, 'Tests')
+    if (-not (Test-Path $testsPath)) {
+        Write-Host 'No Pester tests found, skipping...'
+        return
     }
-}
 
-# Synopsis: Deploy to Github Releases
-Add-BuildTask DeployGHRelease {
-    # Get latest changelog and publish it to GitHub Releases.
-    $ChangeLog = Get-Content -Path '.\CHANGELOG.md'
-    # Expect that the latest changelog info is located at line 8.
-    $ChangeLog = $ChangeLog.Where( { $_ -eq $ChangeLog[7] }, 'SkipUntil')
-    # Grab all text until next heading that starts with ## [.
-    $ChangeLog = $ChangeLog.Where( { $_ -eq ($ChangeLog | Select-String -Pattern "## \[" | Select-Object -Skip 1 -First 1) }, 'Until')
-
-    # Publish GitHub Release
-    $GHReleaseSplat = @{
-        AccessToken     = $env:GitHubKey
-        RepositoryOwner = $(Get-Metadata -Path $env:BHPSModuleManifest -PropertyName CompanyName)
-        TagName         = "v$NewVersion"
-        Name            = "v$NewVersion Release of $env:BHProjectName"
-        ReleaseText     = $ChangeLog | Out-String
+    $resultsPath = [IO.Path]::Combine($BuildPath, 'TestResults')
+    if (-not (Test-Path $resultsPath)) {
+        New-Item $resultsPath -ItemType Directory -ErrorAction Stop | Out-Null
     }
-    Publish-GithubRelease @GHReleaseSplat
-}
 
-# Synopsis: Push changes to GitHub
-Add-BuildTask PushChangesGitHub {
-    # Remove files we don't want to be pushed to GitHub
-    Remove-Item -Path "$env:BHProjectPath\coverage.xml" -Force
-    Remove-Item -Path "$env:BHProjectPath\testResults.xml" -Force
+    Get-ChildItem -LiteralPath $resultsPath |
+        Remove-Item -ErrorAction Stop -Force
 
-    # Publish the new version back to Master on GitHub
-    try {
-        $ErrorActionPreference = 'Continue'
-        # Set up a path to the git.exe cmd, import posh-git to give us control over git, and then push changes to GitHub
-        # Note that "update version" is included in the appveyor.yml file's "skip a build" regex to avoid a loop
-        $env:Path += "; $env:ProgramFiles\Git\cmd"
-        Import-Module -Name 'posh-git'
+    $pesterScript = [IO.Path]::Combine($PSScriptRoot, 'tools', 'PesterTest.ps1')
 
-        git checkout master
-        git add --all
-        git status
-        git commit -s -m ":rocket: [skip ci] Update version to $NewVersion"
-        git push origin master
-
-        $ErrorActionPreference = 'Stop'
-        Write-Host -Object "$env:BHProjectName PowerShell Module version $NewVersion published to GitHub." -ForegroundColor Cyan
-    } catch {
-        # Sad panda; it broke
-        Write-Warning "Publishing update $NewVersion to GitHub failed."
-        throw $_
+    $testArgs = @{
+        TestPath    = $testsPath
+        ResultPath  = $resultsPath
+        SourceRoot  = $SteamPSModulePath
+        ReleasePath = $ReleasePath
     }
+
+    & $pesterScript @testArgs
 }
 
-if ($env:BHBuildSystem -eq 'AppVeyor' -and $env:BHBranchName -eq 'master' -and $env:BHCommitMessage -like "*!deploy*") {
-    # Synopsis: Entire build pipeline
-    #TODO: DeployGHRelease not working atm.
-    # Add-BuildTask . Init, Test, BuildManifest, BuildDocs, DeployPSGallery, DeployGHRelease, PushChangesGitHub
-    Add-BuildTask . Init, Test, BuildManifest, BuildDocs, DeployPSGallery, PushChangesGitHub
-} else {
-    Add-BuildTask . Init, Test
-    Write-Host -Object "Skipping deployment: To deploy, ensure that...`n"
-    Write-Host -Object "`t* You are in build system 'AppVeyor' (Current: $env:BHBuildSystem)`n"
-    Write-Host -Object "`t* You are committing to the master branch (Current: $env:BHBranchName) `n"
-    Write-Host -Object "`t* Your commit message includes '!deploy' (Current: $env:BHCommitMessage) `n"
-}
+task Build -Jobs Clean, BuildManaged, BuildPowerShell, CopyToRelease, BuildDocs, Package
+task Test -Jobs BuildManaged, Analyze, DoUnitTest, DoTest
+task . Build
