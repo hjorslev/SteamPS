@@ -12,7 +12,7 @@
     RootModule        = 'SteamPS.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '3.2.2'
+    ModuleVersion     = '3.2.3'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -27,13 +27,13 @@
     CompanyName       = 'hjorslev'
 
     # Copyright statement for this module
-    Copyright         = '(c) 2019-2021 Frederik Hjorslev Nylander. All rights reserved.'
+    Copyright         = '(c) 2019-2024 Frederik Hjorslev Nylander. All rights reserved.'
 
     # Description of the functionality provided by this module
     Description       = 'Module that utilizes PowerShell as a wrapper for SteamCMD and engages with several Steam APIs.'
 
     # Minimum version of the Windows PowerShell engine required by this module
-    PowerShellVersion = '5.0'
+    PowerShellVersion = '5.1'
 
     # Name of the Windows PowerShell host required by this module
     # PowerShellHostName = ''
@@ -51,7 +51,7 @@
     # ProcessorArchitecture = ''
 
     # Modules that must be imported into the global environment prior to importing this module
-    RequiredModules   = @(@{ ModuleName = 'PSFramework'; GUID = '8028b914-132b-431f-baa9-94a6952f21ff'; ModuleVersion = '1.4.149' })
+    RequiredModules   = @(@{ ModuleName = 'PSFramework'; GUID = '8028b914-132b-431f-baa9-94a6952f21ff'; ModuleVersion = '1.10.318' })
 
     # Assemblies that must be loaded prior to importing this module
     # RequiredAssemblies = @()
