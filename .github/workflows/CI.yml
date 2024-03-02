@@ -23,30 +23,30 @@ env:
 
 jobs:
   build:
-    name: build
+    name: 👷 Build
     runs-on: windows-latest
     steps:
-    - name: Check out repository
+    - name: 🚚 Check out repository
       uses: actions/checkout@v4
 
-    - name: Build module - Debug
+    - name: 🐛 Build module - Debug
       shell: pwsh
       run: ./build.ps1 -Configuration $env:BUILD_CONFIGURATION -Task Build
       if: ${{ env.BUILD_CONFIGURATION == 'Debug' }}
 
-    - name: Build module - Publish
+    - name: 🚀 Build module - Publish
       shell: pwsh
       run: ./build.ps1 -Configuration $env:BUILD_CONFIGURATION -Task Build
       if: ${{ env.BUILD_CONFIGURATION == 'Release' }}
 
-    - name: Capture PowerShell Module
+    - name: 📦 Capture PowerShell Module
       uses: actions/upload-artifact@v4
       with:
         name: PSModule
         path: output/*.nupkg
 
   test:
-    name: test
+    name: 🧪 Test
     needs:
       - build
     runs-on: ${{ matrix.info.os }}
@@ -54,29 +54,30 @@ jobs:
       fail-fast: false
       matrix:
         info:
-        - name: Win2019_PS-5.1
+        - name: 🪟 Win2019_PS-5.1
           psversion: '5.1'
           os: windows-2019
-        - name: Win2019_PS-7
+        - name: 🪟 Win2019_PS-7
           psversion: '7'
           os: windows-2019
-        - name: Win2022_PS-5.1
+        - name: 🪟 Win2022_PS-5.1
           psversion: '5.1'
           os: windows-latest
-        - name: Win2022_PS-7
+        - name: 🪟 Win2022_PS-7
           psversion: '7'
           os: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: 🚚 Checkout
+      uses: actions/checkout@v4
 
-    - name: Restore Built PowerShell Module
+    - name: ➕ Restore Built PowerShell Module
       uses: actions/download-artifact@v4
       with:
         name: PSModule
         path: output
 
-    - name: Install Built PowerShell Module
+    - name: 📦 Install Built PowerShell Module
       shell: pwsh
       run: |
         $manifestItem = Get-Item ([IO.Path]::Combine('SteamPS', '*.psd1'))
@@ -92,31 +93,31 @@ jobs:
 
         Expand-Archive -Path output/*.zip -DestinationPath $destPath -Force -ErrorAction Stop
 
-    - name: Run Tests - Windows PowerShell
+    - name: 🧪 Run Tests - Windows PowerShell
       if: ${{ matrix.info.psversion == '5.1' }}
       shell: powershell
       run: ./build.ps1 -Configuration $env:BUILD_CONFIGURATION -Task Test
 
-    - name: Run Tests - PowerShell
+    - name: 🧪 Run Tests - PowerShell
       if: ${{ matrix.info.psversion != '5.1' }}
       shell: pwsh
       run: ./build.ps1 -Configuration $env:BUILD_CONFIGURATION -Task Test
 
-    - name: Upload Test Results
+    - name: ⬆️ Upload Test Results
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: Unit Test Results (${{ matrix.info.name }})
         path: ./output/TestResults/Pester.xml
 
-    - name: Upload Coverage Results
+    - name: ⬆️ Upload Coverage Results
       if: always() && !startsWith(github.ref, 'refs/tags/v')
       uses: actions/upload-artifact@v4
       with:
         name: Coverage Results (${{ matrix.info.name }})
         path: ./output/TestResults/Coverage.xml
 
-    - name: Upload Coverage to codecov
+    - name: ⬆️ Upload Coverage to codecov
       if: always() && !startsWith(github.ref, 'refs/tags/v')
       uses: codecov/codecov-action@v4
       with:
@@ -124,20 +125,20 @@ jobs:
         flags: ${{ matrix.info.name }}
 
   publish:
-    name: publish
+    name: 🚀 Deploy
     if: startsWith(github.ref, 'refs/tags/v')
     needs:
     - build
     - test
     runs-on: windows-latest
     steps:
-    - name: Restore Built PowerShell Module
+    - name: ➕ Restore Built PowerShell Module
       uses: actions/download-artifact@v4
       with:
         name: PSModule
         path: ./
 
-    - name: Publish to Gallery
+    - name: 🚀 Publish to Gallery
       if: github.event_name == 'release'
       shell: pwsh
       run: >-
@@ -146,4 +147,4 @@ jobs:
         --source 'https://www.powershellgallery.com/api/v2/package'
         --no-symbols
       env:
-        PSGALLERY_TOKEN: ${{ secrets.PSGALLERY_TOKEN }}
+        PSGALLERY_TOKEN: ${{ secrets.PS_GALLERY_KEY }}

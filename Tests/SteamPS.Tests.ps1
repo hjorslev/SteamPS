@@ -17,7 +17,6 @@ Describe 'SteamCMD cmdlets' {
         Test-Path -Path "$TestDrive\Test\SteamCMD\steamcmd.exe" | Should -BeTrue
     }
 
-    <#
     Context 'Update-SteamApp' {
         It 'Installs Ground Branch Dedicated Server using AppID' {
             Update-SteamApp -AppID 476400 -Path "$TestDrive\GB-AppID" -Force
@@ -34,7 +33,6 @@ Describe 'SteamCMD cmdlets' {
             Test-Path -Path "$TestDrive\GB-TestingBranch\GroundBranchServer.exe" | Should -BeTrue
         }
     }
-    #>
 
     AfterAll {
         # Wait for the process steamerrorreporter to be closed - else test folder wont be deleted.
