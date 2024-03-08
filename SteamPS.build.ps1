@@ -16,7 +16,13 @@ $testModuleManifestSplat = @{
 }
 
 $Manifest = Test-ModuleManifest @testModuleManifestSplat
-$Version = $Manifest.Version
+$ReleaseVersion = $env:GITHUB_REF -replace '^refs/tags/v(\d+\.\d+\.\d+)', '$1'
+
+if ($Configuration -eq 'Release') {
+    $Version = $ReleaseVersion
+} else {
+    $Version = $Manifest.Version
+}
 
 $BuildPath = [IO.Path]::Combine($PSScriptRoot, 'output')
 $CSharpPath = [IO.Path]::Combine($PSScriptRoot, 'src', $ModuleName)
@@ -46,6 +52,10 @@ task BuildPowerShell {
         OutputDirectory = $ReleasePath
         Encoding        = 'UTF8Bom'
         IgnoreAlias     = $true
+    }
+
+    if ($Configuration -eq 'Release') {
+        $buildModuleSplat['SemVer'] = $ReleaseVersion
     }
 
     if (Test-Path $psm1) {
@@ -79,8 +89,7 @@ task BuildManaged {
                 throw "Failed to compiled code for $framework"
             }
         }
-    }
-    finally {
+    } finally {
         Pop-Location
     }
 }
@@ -117,8 +126,7 @@ task Package {
 
     try {
         Publish-Module -Path $ReleasePath -Repository $repoParams.Name
-    }
-    finally {
+    } finally {
         Unregister-PSRepository -Name $repoParams.Name
     }
 }
@@ -174,8 +182,7 @@ task DoUnitTest {
                 "$runSettingsPrefix.Format=json"
                 if ($UseNativeArguments) {
                     "$runSettingsPrefix.IncludeDirectory=`"$CSharpPath`""
-                }
-                else {
+                } else {
                     "$runSettingsPrefix.IncludeDirectory=\`"$CSharpPath\`""
                 }
             }
@@ -191,8 +198,7 @@ task DoUnitTest {
         if ($Configuration -eq 'Debug') {
             Move-Item -Path $tempResultsPath/*/*.json -Destination $resultsPath/UnitCoverage.json -Force
         }
-    }
-    finally {
+    } finally {
         Remove-Item -LiteralPath $tempResultsPath -Force -Recurse
     }
 }

@@ -80,11 +80,18 @@ jobs:
     - name: 📦 Install Built PowerShell Module
       shell: pwsh
       run: |
+        # Get the manifest from the newly built module.
         $manifestItem = Get-Item ([IO.Path]::Combine('SteamPS', '*.psd1'))
         $moduleName = $manifestItem.BaseName
-        $manifest = Test-ModuleManifest -Path $manifestItem.FullName -ErrorAction SilentlyContinue -WarningAction Ignore
+        $Manifest = Test-ModuleManifest -Path $manifestItem.FullName -ErrorAction SilentlyContinue -WarningAction Ignore
 
-        $destPath = [IO.Path]::Combine('output', $moduleName, $manifest.Version)
+        if ($env:BUILD_CONFIGURATION -eq 'Release') {
+            $Version = $env:GITHUB_REF -replace '^refs/tags/v(\d+\.\d+\.\d+)', '$1'
+        } else {
+            $Version = $Manifest.Version
+        }
+
+        $destPath = [IO.Path]::Combine('output', $moduleName, $Version)
         if (-not (Test-Path -LiteralPath $destPath)) {
             New-Item -Path $destPath -ItemType Directory | Out-Null
         }
