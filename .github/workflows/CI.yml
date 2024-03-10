@@ -130,6 +130,7 @@ jobs:
       with:
         files: ./output/TestResults/Coverage.json
         flags: ${{ matrix.info.name }}
+        token: ${{ secrets.CODECOV_TOKEN }}
 
   publish:
     name: 🚀 Deploy
