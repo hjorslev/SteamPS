@@ -1,24 +1,20 @@
 ﻿# By Joel Sallow - https://github.com/vexx32/
 
 BeforeAll {
-    Import-Module $env:BHPSModuleManifest
+    Import-Module "$($ReleasePath)\SteamPS.psm1"
 }
 
-Describe "$env:BHProjectName Sanity Tests - Help Content" -Tags 'Module' {
+Describe "Sanity Tests - Help Content" -Tags 'Module' {
 
     #region Discovery
 
     # The module will need to be imported during Discovery since we're using it to generate test cases / Context blocks
-    Import-Module $env:BHPSModuleManifest
+    Import-Module "$($ReleasePath)\SteamPS.psm1"
 
     $ShouldProcessParameters = 'WhatIf', 'Confirm'
 
     # Generate command list for generating Context / TestCases
-    $Module = Get-Module -Name $env:BHProjectName
-    $CommandList = @(
-        $Module.ExportedFunctions.Keys
-        $Module.ExportedCmdlets.Keys
-    )
+    $CommandList = (Get-ChildItem "$($SteamPSModulePath)\Public\" -Recurse | Where-Object { -not $_.PSIsContainer }).BaseName
 
     #endregion Discovery
 

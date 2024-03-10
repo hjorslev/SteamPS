@@ -1,9 +1,6 @@
 ﻿# SteamPS
 
-[![AppVeyor master](https://img.shields.io/appveyor/ci/hjorslev/SteamPS/master?label=AppVeyor&logo=appveyor&style=flat)](https://ci.appveyor.com/project/hjorslev/steamps)
-[![Azure DevOps builds](https://img.shields.io/azure-devops/build/fhjorslev/69d18b04-0023-433d-a649-bcf821875235/5?label=Azure+Pipelines&logo=azure-pipelines)](https://dev.azure.com/fhjorslev/SteamPS/_build/latest?definitionId=5&branchName=master)
-[![AppVeyor tests (master)](https://img.shields.io/appveyor/tests/hjorslev/SteamPS/master?label=master&logo=appveyor&style=flat)](https://ci.appveyor.com/project/hjorslev/steamps/build/tests)
-[![Codacy master grade](https://img.shields.io/codacy/grade/bf0bb30dfc904b2f885c4f0ccdf1ea78/master?label=master&style=flat)](https://app.codacy.com/manual/hjorslev/SteamPS/dashboard?bid=13716491)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/hjorslev/SteamPS/CI.yml?logo=GitHub&label=CI%2FCD)](https://github.com/hjorslev/SteamPS/actions/workflows/CI.yml)
 
 - [SteamPS](#steamps)
   - [Introduction](#introduction)
@@ -21,7 +18,7 @@
 ## Introduction
 
 [![PowerShell Version](https://img.shields.io/powershellgallery/v/SteamPS.svg?style=flat&logo=PowerShell)](https://www.powershellgallery.com/packages/SteamPS)
-[![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/SteamPS?style=flat)](https://www.powershellgallery.com/packages/SteamPS)
+[![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/SteamPS?style=flat&logo=PowerShell)](https://www.powershellgallery.com/packages/SteamPS)
 
 SteamPS is a [PowerShell module](https://github.com/PowerShell/PowerShell/) that
 can interact with [SteamCMD](https://developer.valvesoftware.com/wiki/SteamCMD),
