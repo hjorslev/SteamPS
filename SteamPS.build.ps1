@@ -4,7 +4,7 @@ param(
     [string] $Configuration = 'Debug'
 )
 
-$global:SteamPSModulePath = [IO.Path]::Combine($PSScriptRoot, 'SteamPS')
+$script:SteamPSModulePath = [IO.Path]::Combine($PSScriptRoot, 'SteamPS')
 $manifestItem = Get-Item ([IO.Path]::Combine($SteamPSModulePath, '*.psd1'))
 $ModuleName = $manifestItem.BaseName
 $psm1 = Join-Path $SteamPSModulePath -ChildPath ($ModuleName + '.psm1')
