@@ -1,4 +1,7 @@
-﻿Describe "Get-SteamAPIKey Tests" {
+﻿[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingConvertToSecureStringWithPlainText', '', Justification = 'Does not hold any real secret.')]
+param()
+
+Describe "Get-SteamAPIKey Tests" {
     Context "When SteamPSKey.json exists" {
         BeforeAll {
             # Create a dummy SteamPSKey.json file
