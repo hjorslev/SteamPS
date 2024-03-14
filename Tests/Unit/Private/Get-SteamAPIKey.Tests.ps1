@@ -1,6 +1,10 @@
 ﻿[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingConvertToSecureStringWithPlainText', '', Justification = 'Does not hold any real secret.')]
 param()
 
+    BeforeAll {
+        . $SteamPSModulePath\Private\API\Get-SteamAPIKey.ps1
+    }
+
 Describe "Get-SteamAPIKey Tests" {
     Context "When SteamPSKey.json exists" {
         BeforeAll {
