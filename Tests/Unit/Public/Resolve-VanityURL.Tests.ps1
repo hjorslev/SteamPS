@@ -1,13 +1,4 @@
-﻿Describe "Find-SteamAppID" {
-    It "Finds game 'Ground Branch'" {
-        $GB = Find-SteamAppID -ApplicationName 'Ground Branch Dedicated Server'
-        $GB.appid | Should -Be 476400
-        $GB.name | Should -Be 'Ground Branch Dedicated Server'
-    }
-}
-
-<# TODO: Fix auth
-Describe 'Resolve-VanityURL' {
+﻿Describe 'Resolve-VanityURL' {
     BeforeEach {
         function Get-SteamAPIKey {}
         InModuleScope SteamPS {
@@ -23,4 +14,3 @@ Describe 'Resolve-VanityURL' {
         (Resolve-VanityURL -VanityURL 'SASEliteVirtualRegiment' -UrlType 2).SteamID64 | Should -BeExactly 103582791433675899
     }
 }
-#>
