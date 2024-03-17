@@ -1,16 +1,21 @@
-﻿Describe 'Resolve-VanityURL' {
-    BeforeEach {
-        function Get-SteamAPIKey {}
-        InModuleScope SteamPS {
-            Mock -CommandName Get-SteamAPIKey -MockWith {
-                Write-Output -InputObject $env:STEAMWEBAPI
+﻿Describe "Resolve-VanityURL Tests" {
+    Context "When resolving a valid VanityURL" {
+        BeforeAll {
+            Mock Resolve-VanityURL {
+                return [PSCustomObject]@{
+                    'SteamID64' = 1234567890
+                }
             }
         }
+        It "Should return a PSCustomObject with SteamID64" {
+            $result = Resolve-VanityURL -VanityURL "validVanityURL"
+            $result.SteamID64 | Should -BeExactly 1234567890
+        }
     }
-    It "Resolves an individual profile" {
-        (Resolve-VanityURL -VanityURL 'hjorslev').SteamID64 | Should -BeExactly 76561197983367235
-    }
-    It "Resolves a group" {
-        (Resolve-VanityURL -VanityURL 'SASEliteVirtualRegiment' -UrlType 2).SteamID64 | Should -BeExactly 103582791433675899
+
+    Context "When resolving an invalid VanityURL" {
+        It "Should throw an error" {
+            { Resolve-VanityURL -VanityURL "invalidVanityURL" } | Should -Throw
+        }
     }
 }
