@@ -18,4 +18,10 @@
             { Resolve-VanityURL -VanityURL "invalidVanityURL" } | Should -Throw
         }
     }
+
+    Context "When resolving an invalid, fully qualified VanityURL" {
+        It "Should throw an error" {
+            { Resolve-VanityURL -VanityURL "https://steamcommunity.com/id/test" } | Should -Throw
+        }
+    }
 }
