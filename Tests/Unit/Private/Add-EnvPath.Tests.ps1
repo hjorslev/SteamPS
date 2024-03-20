@@ -1,7 +1,8 @@
 ﻿BeforeAll {
     . $SteamPSModulePath\Private\Server\Add-EnvPath.ps1
 }
-Describe "Add-EnvPath" {
+
+Describe "Add-EnvPath Tests" {
     Context "When adding a new path to the session environment" {
         It "Should add the path to the session environment" {
             $originalPath = [Environment]::GetEnvironmentVariable('Path', 'Process')
@@ -11,7 +12,7 @@ Describe "Add-EnvPath" {
 
             $updatedPath = [Environment]::GetEnvironmentVariable('Path', 'Process')
 
-            $updatedPath -split [System.IO.Path]::PathSeparator | Should -Contain $newPath
+            $updatedPath.Split([System.IO.Path]::PathSeparator) | Should -Contain $newPath
 
             # Cleanup
             [Environment]::SetEnvironmentVariable('Path', $originalPath, 'Process')
@@ -21,13 +22,13 @@ Describe "Add-EnvPath" {
     Context "When adding an existing path to the session environment" {
         It "Should not add the path again" {
             $originalPath = [Environment]::GetEnvironmentVariable('Path', 'Process')
-            $existingPath = $originalPath -split [System.IO.Path]::PathSeparator | Select-Object -First 1
+            $existingPath = $originalPath.Split([System.IO.Path]::PathSeparator)[0]  # Taking the first existing path for testing
 
             Add-EnvPath -Path $existingPath
 
             $updatedPath = [Environment]::GetEnvironmentVariable('Path', 'Process')
 
-            $updatedPath -split [System.IO.Path]::PathSeparator | Should -Contain $existingPath
+            $updatedPath.Split([System.IO.Path]::PathSeparator) | Should -Contain $existingPath
 
             # Cleanup
             [Environment]::SetEnvironmentVariable('Path', $originalPath, 'Process')
@@ -43,7 +44,7 @@ Describe "Add-EnvPath" {
 
             $updatedPath = [Environment]::GetEnvironmentVariable('Path', 'User')
 
-            $updatedPath -split [System.IO.Path]::PathSeparator | Should -Contain $newPath
+            $updatedPath.Split([System.IO.Path]::PathSeparator) | Should -Contain $newPath
 
             # Cleanup
             [Environment]::SetEnvironmentVariable('Path', $originalPath, 'User')
@@ -59,7 +60,7 @@ Describe "Add-EnvPath" {
 
             $updatedPath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
 
-            $updatedPath -split [System.IO.Path]::PathSeparator | Should -Contain $newPath
+            $updatedPath.Split([System.IO.Path]::PathSeparator) | Should -Contain $newPath
 
             # Cleanup
             [Environment]::SetEnvironmentVariable('Path', $originalPath, 'Machine')

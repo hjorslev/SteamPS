@@ -1,6 +1,7 @@
 ﻿# SteamPS
 
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/hjorslev/SteamPS/CI.yml?logo=GitHub&label=CI%2FCD)](https://github.com/hjorslev/SteamPS/actions/workflows/CI.yml)
+[![Codecov (with branch)](https://img.shields.io/codecov/c/github/hjorslev/SteamPS/master)](https://app.codecov.io/gh/hjorslev/SteamPS)
 
 - [SteamPS](#steamps)
   - [Introduction](#introduction)
