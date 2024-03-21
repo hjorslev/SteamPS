@@ -26,13 +26,16 @@
     )
 
     process {
-        # Find the end of the string, terminated with \0 and convert that byte range to a string.
-        $stringBytes = while ($true) {
-            $byte = $Stream.ReadByte()
-            if ($byte -eq 0) {
-                break
+        # Check if the stream has any bytes available
+        if ($Stream.BaseStream.Length -gt 0) {
+            # Find the end of the string, terminated with \0 and convert that byte range to a string.
+            $stringBytes = while ($true) {
+                $byte = $Stream.ReadByte()
+                if ($byte -eq 0) {
+                    break
+                }
+                $byte
             }
-            $byte
         }
 
         if ($stringBytes.Count -gt 0) {
