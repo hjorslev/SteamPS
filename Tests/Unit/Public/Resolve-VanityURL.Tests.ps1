@@ -9,9 +9,33 @@
             }
         }
         It "Should return a PSCustomObject with SteamID64" {
-            $result = Resolve-VanityURL -VanityURL "validVanityURL"
+            $result = Resolve-VanityURL -VanityURL "Toby"
             $result.SteamID64 | Should -BeExactly 1234567890
             $result.VanityURL | Should -BeExactly 'Toby'
+        }
+    }
+
+    Context "When resolving multiple VanityURLs" {
+        BeforeAll {
+            Mock Resolve-VanityURL {
+                return @(
+                    [PSCustomObject]@{
+                        'VanityURL' = 'Toby'
+                        'SteamID64' = 1234567890
+                    },
+                    [PSCustomObject]@{
+                        'VanityURL' = 'Alice'
+                        'SteamID64' = 9876543210
+                    }
+                )
+            }
+        }
+        It "Should return a PSCustomObject with two or SteamID64" {
+            $result = Resolve-VanityURL -VanityURL 'Toby', 'Alice'
+            $result[0].SteamID64 | Should -BeExactly 1234567890
+            $result[0].VanityURL | Should -BeExactly 'Toby'
+            $result[1].SteamID64 | Should -BeExactly 9876543210
+            $result[1].VanityURL | Should -BeExactly 'Alice'
         }
     }
 
