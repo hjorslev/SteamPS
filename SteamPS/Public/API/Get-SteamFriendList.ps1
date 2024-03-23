@@ -4,42 +4,36 @@
     Returns the friend list of any Steam user.
 
     .DESCRIPTION
-    Returns the friend list of any Steam user, provided their Steam Community
-    profile visibility is set to "Public".
+    Retrieves the friend list of a Steam user whose profile visibility is set to "Public".
 
     .PARAMETER SteamID64
-    64 bit Steam ID to return friend list for.
+    Specifies the 64-bit Steam ID of the user whose friend list will be retrieved.
 
     .PARAMETER Relationship
-    Relationship filter. Possibles values: all, friend.
+    Specifies the relationship type to filter the friend list. Possible values are 'all' or 'friend'. Default is 'friend'.
 
     .PARAMETER OutputFormat
-    Format of the output. Options are json (default), xml or vdf.
+    Specifies the format of the output. Options are 'json' (default), 'xml', or 'vdf'.
 
     .EXAMPLE
     Get-SteamFriendList -SteamID64 76561197960435530
 
-    Outputs the user's friends list, as an array of friends.
+    Retrieves the friend list of the specified user.
 
     .EXAMPLE
-    Get-SteamFriendList -SteamID64 76561197960435530 | ConvertFrom-Json
+    Get-SteamFriendList -SteamID64 76561197960435530 -OutputFormat xml
 
-    Outputs the user's friends list, as an array of friends and converts it from
-    Json to PSCustomObjects.
+    Retrieves the friend list of the specified user and outputs it in XML format.
 
     .INPUTS
-    int64
+    System.Int64
 
     .OUTPUTS
-    Returns a string that is either formatted as json, xml or vdf.
-
-    The user's friends list, as an array of friends. Nothing will be returned
-    if the profile is private.
-
-    In the array, the following three properties are returned:
-    - steamid: 64 bit Steam ID of the friend.
+    Returns a string formatted as JSON, XML, or VDF representing the user's friend list.
+    The friend list contains the following properties:
+    - steamid: 64-bit Steam ID of the friend.
     - relationship: Relationship qualifier.
-    - friend_since: Unix timestamp of the time when the relationship was created.
+    - friend_since: Unix timestamp of when the relationship was established.
 
     .NOTES
     Author: Frederik Hjorslev Nylander
@@ -51,17 +45,17 @@
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true,
-            HelpMessage = '64 bit Steam ID to return friend list for.',
+            HelpMessage = 'Specifies the 64-bit Steam ID of the user whose friend list will be retrieved.',
             ValueFromPipelineByPropertyName = $true)]
         [int64]$SteamID64,
 
         [Parameter(Mandatory = $false,
-            HelpMessage = 'Relationship filter. Possibles values: all, friend.')]
+            HelpMessage = 'Specifies the relationship type to filter the friend list. Possible values are "all" or "friend". Default is "friend".')]
         [ValidateSet('all', 'friend')]
-        [string]$Relationship,
+        [string]$Relationship = 'friend',
 
         [Parameter(Mandatory = $false,
-            HelpMessage = 'Format of the output. Options are json (default), xml or vdf.')]
+            HelpMessage = 'Specifies the format of the output. Options are "json" (default), "xml", or "vdf".')]
         [ValidateSet('json', 'xml', 'vdf')]
         [string]$OutputFormat = 'json'
     )
@@ -71,7 +65,7 @@
     }
 
     process {
-        $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/GetFriendList/v1/?key=$(Get-SteamAPIKey)&steamid=$SteamID64&relationship=friend&format=$OutputFormat" -UseBasicParsing
+        $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/GetFriendList/v1/?key=$(Get-SteamAPIKey)&steamid=$SteamID64&relationship=$Relationship&format=$OutputFormat" -UseBasicParsing
 
         Write-Output -InputObject $Request.Content
     } # Process
