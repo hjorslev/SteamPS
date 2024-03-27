@@ -1,7 +1,10 @@
 ﻿# SteamPS
 
-[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/hjorslev/SteamPS/CI.yml?logo=GitHub&label=CI%2FCD)](https://github.com/hjorslev/SteamPS/actions/workflows/CI.yml)
-[![Codecov (with branch)](https://img.shields.io/codecov/c/github/hjorslev/SteamPS/master)](https://app.codecov.io/gh/hjorslev/SteamPS)
+<img align="right" width="150" src="assets/images/SteamPS-icon.svg">
+
+| GH Actions                                                                                                                                                                                                 | Codecov                                                                                                                                 | PS Gallery                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/hjorslev/SteamPS/CI.yml?logo=GitHub&label=CI%2FCD)](https://github.com/hjorslev/SteamPS/actions/workflows/CI.yml) | [![Codecov (with branch)](https://img.shields.io/codecov/c/github/hjorslev/SteamPS/master)](https://app.codecov.io/gh/hjorslev/SteamPS) | [![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/SteamPS?style=flat&logo=PowerShell)](https://www.powershellgallery.com/packages/SteamPS) |
 
 - [SteamPS](#steamps)
   - [Introduction](#introduction)
@@ -18,12 +21,7 @@
 
 ## Introduction
 
-[![PowerShell Version](https://img.shields.io/powershellgallery/v/SteamPS.svg?style=flat&logo=PowerShell)](https://www.powershellgallery.com/packages/SteamPS)
-[![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/SteamPS?style=flat&logo=PowerShell)](https://www.powershellgallery.com/packages/SteamPS)
-
-SteamPS is a [PowerShell module](https://github.com/PowerShell/PowerShell/) that
-can interact with [SteamCMD](https://developer.valvesoftware.com/wiki/SteamCMD),
-a command-line version of the Steam client.
+SteamPS is a [PowerShell module](https://github.com/PowerShell/PowerShell/) that utilizes PowerShell as a wrapper for [SteamCMD](https://developer.valvesoftware.com/wiki/SteamCMD) and interacts with various [Steam APIs](https://steamcommunity.com/dev).
 
 SteamPS is aimed at server administrators maintaining one or more servers. It can
 be used to install SteamCMD, update game servers, query Steam based game servers
@@ -40,7 +38,7 @@ for server information and more.
 | [Get-SteamPlayerBan](docs/Get-SteamPlayerBan.md)         | Returns Community, VAC, and Economy ban statuses for given players. |
 | [Get-SteamPlayerSummary](docs/Get-SteamPlayerSummary.md) | Returns basic profile information for a list of 64-bit Steam IDs.   |
 | [Get-SteamServerInfo](docs/Get-SteamServerInfo.md)       | Query a running Steam based game server.                            |
-| [Install-SteamCMD](docs/Install-SteamCMD.md)             | Downloads and installs SteamCMD.                                                   |
+| [Install-SteamCMD](docs/Install-SteamCMD.md)             | Downloads and installs SteamCMD.                                    |
 | [Resolve-VanityURL](docs/Resolve-VanityURL.md)           | Resolve a vanity URL (also named custom URL).                       |
 | [Update-SteamApp](docs/Update-SteamApp.md)               | Install or update a Steam application using SteamCMD.               |
 | [Update-SteamServer](docs/Update-SteamServer.md)         | Update a Steam based game server through a workflow.                |
@@ -87,11 +85,11 @@ elevated prompt:
 Install-SteamCMD
 ```
 
-<img src="/assets/images/install-steamcmd.gif" alt="Select application" width="700px"/>
+<img src="assets/images/install-steamcmd.gif" alt="Select application" width="700px"/>
 
 By using the parameter `-InstallPath` you can specify an install location of SteamCMD.
 The default installation path is C:\Program Files\SteamCMD. The install path,
-default or custom, is added to the [PATH](https://en.wikipedia.org/wiki/PATH_(variable)).
+default or custom, is added to the [PATH](<https://en.wikipedia.org/wiki/PATH_(variable)>).
 
 ### Usage
 
@@ -102,7 +100,7 @@ You can either specify the name of the application or the application ID.
 
 #### Install / Update using ApplicationName
 
-If you enter e.g. *Ground Branch* as an application name you will see
+If you enter e.g. _Ground Branch_ as an application name you will see
 both the game itself as well as the dedicated server. You will have to select the
 correct application from the popup box.
 
@@ -110,22 +108,22 @@ correct application from the popup box.
 Update-SteamApp -ApplicationName 'Ground Branch' -Path 'C:\DedicatedServers\GB'
 ```
 
-<img src="/assets/images/select-application.png" alt="Select application" width="700px"/>
+<img src="assets/images/select-application.png" alt="Select application" width="700px"/>
 
 You can narrow down the search by typing an application name that is more specific
-than simply *Ground Branch* e.g. *Ground Branch Dedi* or type it out
-in its entirety as *Ground Branch Dedicated Server*. This will only give one result
+than simply _Ground Branch_ e.g. _Ground Branch Dedi_ or type it out
+in its entirety as _Ground Branch Dedicated Server_. This will only give one result
 and not display a popup.
 
 ```powershell
 Update-SteamApp -ApplicationName 'Ground Branch Dedicated Server' -Path 'C:\DedicatedServers\GB'
 ```
 
-<img src="/assets/images/update-steamapp.gif" alt="Select application" width="700px"/>
+<img src="assets/images/update-steamapp.gif" alt="Select application" width="700px"/>
 
 #### Install / Update using AppID
 
-In this example we install *ARK: SurvivalEvolved Dedicated Server* by using its
+In this example we install _ARK: SurvivalEvolved Dedicated Server_ by using its
 AppID. The AppID can be found by using a database such as
 [Steam Database](https://steamdb.info/) or by searching for the AppID with the cmdlet
 `Find-SteamAppID` e.g. `Find-SteamAppID -ApplicationName 'Counter-Strike'`.
@@ -158,3 +156,7 @@ it. The script is configured as a [Windows Task](https://o365reports.com/2019/08
 and runs very night.
 
 Please see the wiki for further information: [Update Steam server automatically](https://github.com/hjorslev/SteamPS/wiki/Update-Steam-server-automatically).
+
+## Acknowledgements
+
+Joystick icon by Delapouite. Available at [game-icons.net](https://game-icons.net/1x1/delapouite/joystick.html).
