@@ -1,33 +1,27 @@
 ﻿function Resolve-VanityURL {
     <#
     .SYNOPSIS
-    Resolve a vanity URL (also named custom URL).
+    Retrieves the SteamID64 associated with a given vanity URL (custom URL) from Steam Community.
 
     .DESCRIPTION
-    Resolve a vanity URL (also named custom URL) and return the 64 bit SteamID
-    that belongs to said URL.
+    This function retrieves the SteamID64 associated with a given vanity URL (custom URL) from Steam Community using the Steam Web API.
 
     .PARAMETER VanityURL
-    Enter the vanity URL (also named custom URL) to get a SteamID for. Do not enter
-    the fully qualified URL, but just the ID e.g. hjorslev instead of
-    "https://steamcommunity.com/id/hjorslev/"
+    Specifies the vanity URL (custom URL) to retrieve the SteamID64 for.
 
     .PARAMETER UrlType
-    The type of vanity URL. 1 (default): Individual profile, 2: Group, 3: Official game group
-
-    .PARAMETER OutputFormat
-    Format of the output. Options are json (default), xml or vdf.
+    Specifies the type of vanity URL. Valid values are: 1 (default) for individual profile, 2 for group, and 3 for official game group.
 
     .EXAMPLE
-    Resolve-VanityURL -VanityURL hjorslev
+    Resolve-VanityURL -VanityURL "examplevanityurl"
 
-    Returns a 64 bit Steam ID.
+    Retrieves the SteamID64 associated with the vanity URL "examplevanityurl".
 
     .INPUTS
-    String.
+    Accepts string input for the VanityURL parameter.
 
     .OUTPUTS
-    64 bit Steam ID.
+    Returns a custom object with the VanityURL and associated SteamID64.
 
     .NOTES
     Author: Frederik Hjorslev Nylander
@@ -46,17 +40,12 @@
                 }
                 $true
             })]
-        [string]$VanityURL,
+        [string[]]$VanityURL,
 
         [Parameter(Mandatory = $false,
             HelpMessage = 'The type of vanity URL. 1 (default): Individual profile, 2: Group, 3: Official game group.')]
         [ValidateSet(1, 2, 3)]
-        [int]$UrlType = 1,
-
-        [Parameter(Mandatory = $false,
-            HelpMessage = 'Format of the output. Options are json (default), xml or vdf.')]
-        [ValidateSet('json', 'xml', 'vdf')]
-        [string]$OutputFormat = 'json'
+        [int]$UrlType = 1
     )
 
     begin {
@@ -64,21 +53,27 @@
     }
 
     process {
-        $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=$(Get-SteamAPIKey)&vanityurl=$VanityURL&url_type=$UrlType&format=$OutputFormat" -UseBasicParsing
+        foreach ($Item in $VanityURL) {
+            $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=$(Get-SteamAPIKey)&vanityurl=$Item&url_type=$UrlType" -UseBasicParsing
 
-        if (($Request.Content | ConvertFrom-Json).response.success -eq '1') {
-            [PSCustomObject]@{
-                'SteamID64' = ([int64]($Request.Content | ConvertFrom-Json).response.steamid)
-            }
-        } elseif (($Request.Content | ConvertFrom-Json).response.success -eq '42') {
-            $Exception = [Exception]::new("Unable to find $VanityURL.")
-            $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
-                $Exception,
-                "VanityURLNotFound",
-                [System.Management.Automation.ErrorCategory]::ObjectNotFound,
+            Write-Verbose -Message 'API response:'
+            Write-Verbose -Message $Request
+
+            if (($Request.Content | ConvertFrom-Json).response.success -eq '1') {
+                [PSCustomObject]@{
+                    'VanityURL' = $Item
+                    'SteamID64' = ([int64]($Request.Content | ConvertFrom-Json).response.steamid)
+                }
+            } elseif (($Request.Content | ConvertFrom-Json).response.success -eq '42') {
+                $Exception = [Exception]::new("Unable to find $Item.")
+                $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                    $Exception,
+                    "VanityURLNotFound",
+                    [System.Management.Automation.ErrorCategory]::ObjectNotFound,
                 ($Request.Content | ConvertFrom-Json).response.success
-            )
-            $PSCmdlet.ThrowTerminatingError($ErrorRecord)
+                )
+                $PSCmdlet.WriteError($ErrorRecord)
+            }
         }
     } # Process
 
