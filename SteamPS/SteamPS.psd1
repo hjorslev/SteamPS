@@ -30,7 +30,7 @@
     Copyright         = '(c) 2019-2024 Frederik Hjorslev Nylander. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description       = 'Module that utilizes PowerShell as a wrapper for SteamCMD and engages with several Steam APIs.'
+    Description       = 'Module that utilizes PowerShell as a wrapper for SteamCMD and interacts with various Steam APIs.'
 
     # Minimum version of the Windows PowerShell engine required by this module
     PowerShellVersion = '5.1'
@@ -104,10 +104,10 @@
             ProjectUri   = 'https://github.com/hjorslev/SteamPS'
 
             # A URL to an icon representing this module.
-            # IconUri = ''
+            IconUri      = 'https://raw.githubusercontent.com/hjorslev/SteamPS/master/assets/images/SteamPS-icon.svg'
 
             # ReleaseNotes of this module
-            ReleaseNotes = 'https://github.com/hjorslev/SteamPS/blob/master/CHANGELOG.md'
+            ReleaseNotes = 'https://github.com/hjorslev/SteamPS/releases'
 
             # Prerelease string of this module
             # Prerelease = ''
