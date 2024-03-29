@@ -1,4 +1,11 @@
 ﻿Describe "Resolve-VanityURL Tests" {
+    BeforeAll {
+        . $SteamPSModulePath\Private\API\Get-SteamAPIKey.ps1
+        Mock -CommandName Get-SteamAPIKey -ModuleName SteamPS -MockWith {
+            return $true
+        }
+    }
+
     Context "When resolving a valid VanityURL" {
         BeforeAll {
             Mock -CommandName Invoke-RestMethod -ModuleName SteamPS -MockWith {
