@@ -1,10 +1,10 @@
 ﻿function Get-SteamFriendList {
     <#
     .SYNOPSIS
-    Returns the friend list of any Steam user.
+    Retrieves the friend list of a Steam user.
 
     .DESCRIPTION
-    Retrieves the friend list of a Steam user whose profile visibility is set to "Public".
+    This cmdlet retrieves the friend list of a Steam user based on the provided SteamID64. Only data from public profiles are retrieved.
 
     .PARAMETER SteamID64
     Specifies the 64-bit Steam ID of the user whose friend list will be retrieved.
@@ -12,18 +12,10 @@
     .PARAMETER Relationship
     Specifies the relationship type to filter the friend list. Possible values are 'all' or 'friend'. Default is 'friend'.
 
-    .PARAMETER OutputFormat
-    Specifies the format of the output. Options are 'json' (default), 'xml', or 'vdf'.
-
     .EXAMPLE
     Get-SteamFriendList -SteamID64 76561197960435530
 
     Retrieves the friend list of the specified user.
-
-    .EXAMPLE
-    Get-SteamFriendList -SteamID64 76561197960435530 -OutputFormat xml
-
-    Retrieves the friend list of the specified user and outputs it in XML format.
 
     .INPUTS
     System.Int64
@@ -52,12 +44,7 @@
         [Parameter(Mandatory = $false,
             HelpMessage = 'Specifies the relationship type to filter the friend list. Possible values are "all" or "friend". Default is "friend".')]
         [ValidateSet('all', 'friend')]
-        [string]$Relationship = 'friend',
-
-        [Parameter(Mandatory = $false,
-            HelpMessage = 'Specifies the format of the output. Options are "json" (default), "xml", or "vdf".')]
-        [ValidateSet('json', 'xml', 'vdf')]
-        [string]$OutputFormat = 'json'
+        [string]$Relationship = 'friend'
     )
 
     begin {
@@ -65,9 +52,30 @@
     }
 
     process {
-        $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/GetFriendList/v1/?key=$(Get-SteamAPIKey)&steamid=$SteamID64&relationship=$Relationship&format=$OutputFormat" -UseBasicParsing
+        try {
+            $Request = $Request = Invoke-RestMethod -Uri 'https://api.steampowered.com/ISteamUser/GetFriendList/v1/' -UseBasicParsing -Body @{
+                key          = Get-SteamAPIKey
+                steamid      = $SteamID64
+                relationship = $Relationship
+            }
 
-        Write-Output -InputObject $Request.Content
+            foreach ($Item in $Request.friendslist.friends) {
+                [PSCustomObject]@{
+                    SteamID64    = [int64]$Item.steamid
+                    Relationship = $Item.relationship
+                    FriendSince  = ((Get-Date "01.01.1970") + ([System.TimeSpan]::FromSeconds($Item.friend_since))).ToString("yyyy-MM-dd HH:mm:ss")
+                }
+            }
+        } catch {
+            $Exception = [Exception]::new("No friends list found for $SteamID64. This might be because the profile is private.")
+            $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                $Exception,
+                'NoFriendsListFound',
+                [System.Management.Automation.ErrorCategory]::ObjectNotFound,
+                $Request
+            )
+            $PSCmdlet.WriteError($ErrorRecord)
+        }
     } # Process
 
     end {
