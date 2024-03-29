@@ -53,7 +53,7 @@
 
     process {
         try {
-            $Request = $Request = Invoke-RestMethod -Uri 'https://api.steampowered.com/ISteamUser/GetFriendList/v1/' -UseBasicParsing -Body @{
+            $Request = Invoke-RestMethod -Uri 'https://api.steampowered.com/ISteamUser/GetFriendList/v1/' -UseBasicParsing -Body @{
                 key          = Get-SteamAPIKey
                 steamid      = $SteamID64
                 relationship = $Relationship
