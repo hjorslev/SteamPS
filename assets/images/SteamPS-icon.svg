@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 28.3.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1"
+	 id="Icon" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 128 128"
+	 style="enable-background:new 0 0 128 128;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#4F9D69;}
+	.st1{fill:#FFFFFF;}
+</style>
+<sodipodi:namedview  bordercolor="#000000" borderopacity="0.25" id="namedview1" inkscape:current-layer="Icon" inkscape:cx="46.177226" inkscape:cy="112.43838" inkscape:deskcolor="#d1d1d1" inkscape:pagecheckerboard="0" inkscape:pageopacity="0.0" inkscape:showpageshadow="2" inkscape:window-height="991" inkscape:window-maximized="1" inkscape:window-width="1920" inkscape:window-x="-9" inkscape:window-y="-9" inkscape:zoom="3.1617317" pagecolor="#ffffff">
+	</sodipodi:namedview>
+<path id="bg" class="st0" d="M123.6,15.9c3,0,4.9,2.5,4.2,5.5l-19.5,85.2c-0.7,3.1-3.7,5.5-6.8,5.5H4.4c-3,0-4.9-2.5-4.2-5.5
+	l19.5-85.2c0.7-3.1,3.7-5.5,6.8-5.5C26.4,15.9,123.6,15.9,123.6,15.9z"/>
+<path id="joystick" class="st1" d="M88.5,75.7c-1.5,0-2.8,1-3.1,2.5c-0.4,1.7,0.7,3.3,2.4,3.7s3.3-0.7,3.7-2.4
+	c0.4-1.7-0.7-3.3-2.4-3.7C89,75.7,88.8,75.7,88.5,75.7z M86.4,82.3L84.5,91h2.7l1.7-8.1c-0.4,0-0.9,0-1.3-0.1
+	C87.2,82.7,86.8,82.6,86.4,82.3z M82.4,92.1l-0.6,1.7h7.6l-0.6-1.7H82.4z M75.3,94.8v1.7H77v-1.7H75.3z M80.6,94.8L80,96.5h11.3
+	l-0.6-1.7H80.6z M94.3,94.8v1.7H96v-1.7H94.3z M74.4,97.5v3.5h22.5v-3.5H74.4z"/>
+<path id="arrow" class="st1" d="M79,65.7c1.3-2.1,1.2-4.8-0.5-6.6L48.7,27.4c-2-2.2-5.5-2.2-7.8,0c-2.3,2.1-2.5,5.6-0.5,7.8
+	l24.9,26.4v0.6L25.6,90.8c-2.4,1.7-2.8,5.2-1,7.7s5.3,3.2,7.7,1.4l43.9-31.5C77.7,67.5,78.6,66.6,79,65.7z"/>
+</svg>
