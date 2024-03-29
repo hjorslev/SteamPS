@@ -13,9 +13,14 @@
     Specifies the type of vanity URL. Valid values are: 1 (default) for individual profile, 2 for group, and 3 for official game group.
 
     .EXAMPLE
-    Resolve-VanityURL -VanityURL "examplevanityurl"
+    Resolve-VanityURL -VanityURL user
 
-    Retrieves the SteamID64 associated with the vanity URL "examplevanityurl".
+    Retrieves the SteamID64 associated with the vanity URL 'user'.
+
+    .EXAMPLE
+    Resolve-VanityURL -VanityURL user1, user2
+
+    Retrieves the SteamID64 associated with the vanity URLs user1 and user 2.
 
     .INPUTS
     Accepts string input for the VanityURL parameter.
@@ -54,23 +59,24 @@
 
     process {
         foreach ($Item in $VanityURL) {
-            $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=$(Get-SteamAPIKey)&vanityurl=$Item&url_type=$UrlType" -UseBasicParsing
+            $Request = Invoke-RestMethod -Uri 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/' -UseBasicParsing -Body @{
+                key       = Get-SteamAPIKey
+                vanityurl = $Item
+                url_type  = $UrlType
+            }
 
-            Write-Verbose -Message 'API response:'
-            Write-Verbose -Message $Request
-
-            if (($Request.Content | ConvertFrom-Json).response.success -eq '1') {
+            if ($Request.response.success -eq '1') {
                 [PSCustomObject]@{
                     'VanityURL' = $Item
-                    'SteamID64' = ([int64]($Request.Content | ConvertFrom-Json).response.steamid)
+                    'SteamID64' = ([int64]$Request.response.steamid)
                 }
-            } elseif (($Request.Content | ConvertFrom-Json).response.success -eq '42') {
+            } elseif ($Request.response.success -eq '42') {
                 $Exception = [Exception]::new("Unable to find $Item.")
                 $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
                     $Exception,
                     "VanityURLNotFound",
                     [System.Management.Automation.ErrorCategory]::ObjectNotFound,
-                ($Request.Content | ConvertFrom-Json).response.success
+                $Request.response.success
                 )
                 $PSCmdlet.WriteError($ErrorRecord)
             }

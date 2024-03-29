@@ -1,45 +1,22 @@
 ﻿Describe "Resolve-VanityURL Tests" {
     Context "When resolving a valid VanityURL" {
         BeforeAll {
-            Mock Resolve-VanityURL {
-                return [PSCustomObject]@{
-                    'VanityURL' = 'Toby'
-                    'SteamID64' = 1234567890
-                }
-            }
+            Mock -CommandName Invoke-RestMethod -ModuleName SteamPS -MockWith {
+                return '{"response":{"steamid":"7656119711117235","success": 1}}' | ConvertFrom-Json
+            } # Mock
         }
         It "Should return a PSCustomObject with SteamID64" {
-            $result = Resolve-VanityURL -VanityURL "Toby"
-            $result.SteamID64 | Should -BeExactly 1234567890
-            $result.VanityURL | Should -BeExactly 'Toby'
-        }
-    }
-
-    Context "When resolving multiple VanityURLs" {
-        BeforeAll {
-            Mock Resolve-VanityURL {
-                return @(
-                    [PSCustomObject]@{
-                        'VanityURL' = 'Toby'
-                        'SteamID64' = 1234567890
-                    },
-                    [PSCustomObject]@{
-                        'VanityURL' = 'Alice'
-                        'SteamID64' = 9876543210
-                    }
-                )
-            }
-        }
-        It "Should return a PSCustomObject with two or SteamID64" {
-            $result = Resolve-VanityURL -VanityURL 'Toby', 'Alice'
-            $result[0].SteamID64 | Should -BeExactly 1234567890
-            $result[0].VanityURL | Should -BeExactly 'Toby'
-            $result[1].SteamID64 | Should -BeExactly 9876543210
-            $result[1].VanityURL | Should -BeExactly 'Alice'
+            (Resolve-VanityURL -VanityURL "Toby").SteamID64 | Should -BeExactly 7656119711117235
         }
     }
 
     Context "When resolving an invalid VanityURL" {
+        BeforeAll {
+            Mock -CommandName Invoke-RestMethod -ModuleName SteamPS -MockWith {
+                return '{"response":{"success": 42,"message": "No match"}}' | ConvertFrom-Json
+            } # Mock
+        }
+
         It "Should throw an error" {
             { Resolve-VanityURL -VanityURL "invalidVanityURL" -ErrorAction Stop } | Should -Throw
         }
