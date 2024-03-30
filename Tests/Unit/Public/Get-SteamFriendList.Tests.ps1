@@ -19,7 +19,6 @@
             # Check if the FriendList is not null
             $FriendList | Should -Not -BeNullOrEmpty
 
-            # Verify properties of the first friend
             $FriendList[0].SteamID64 | Should -Be "11111197987580876"
             $FriendList[0].Relationship | Should -Be "friend"
             $FriendList[0].FriendSince | Should -Be "2016-02-04 05:14:28"
@@ -31,12 +30,19 @@
 
         Context "With invalid SteamID64" {
             It "Throws an error" {
-                # Arrange
-                $SteamID64 = "invalidID"
-
-                # Act & Assert
-                { Get-SteamFriendList -SteamID64 $SteamID64 } | Should -Throw
+                { Get-SteamFriendList -SteamID64 'invalidID' } | Should -Throw
             }
+        }
+    }
+
+    Context "With a private profile" {
+        BeforeAll {
+            Mock -CommandName Invoke-RestMethod -ModuleName SteamPS -MockWith {
+                return $null
+            } # Mock
+        }
+        It "Writes an error" {
+            { Get-SteamFriendList -SteamID64 1234567890 -ErrorAction Stop } | Should -Throw
         }
     }
 }

@@ -52,13 +52,14 @@
     }
 
     process {
-        try {
-            $Request = Invoke-RestMethod -Uri 'https://api.steampowered.com/ISteamUser/GetFriendList/v1/' -ErrorVariable RequestError -UseBasicParsing -Body @{
-                key          = Get-SteamAPIKey
-                steamid      = $SteamID64
-                relationship = $Relationship
-            }
+        $Request = Invoke-RestMethod -Uri 'https://api.steampowered.com/ISteamUser/GetFriendList/v1/' -UseBasicParsing -ErrorAction SilentlyContinue -Body @{
+            key          = Get-SteamAPIKey
+            steamid      = $SteamID64
+            relationship = $Relationship
+        }
 
+        if ($Request) {
+            Write-Verbose $Request | ConvertFrom-Json
             foreach ($Item in $Request.friendslist.friends) {
                 [PSCustomObject]@{
                     SteamID64    = [int64]$Item.steamid
@@ -66,8 +67,8 @@
                     FriendSince  = ((Get-Date "01.01.1970") + ([System.TimeSpan]::FromSeconds($Item.friend_since))).ToString("yyyy-MM-dd HH:mm:ss")
                 }
             }
-        } catch {
-            $Exception = [Exception]::new("No friends list found for $SteamID64. This might be because the profile is private.")
+        } elseif ($null -eq $Request) {
+            $Exception = [Exception]::new("No friend list found for $SteamID64. This might be because the profile is private.")
             $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
                 $Exception,
                 'NoFriendsListFound',
