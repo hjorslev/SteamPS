@@ -1,9 +1,8 @@
-﻿Describe "Get-SteamNews" {
+﻿Describe "Get-SteamNews Tests" {
     Context "When providing valid input" {
-        It "Should return news items for a given AppID" {
-            # Mocking Invoke-RestMethod
-            Mock Invoke-RestMethod {
-                $response = '{
+        BeforeAll {
+            Mock -CommandName Invoke-RestMethod -ModuleName SteamPS -MockWith {
+                return '{
                     "appnews": {
                         "newsitems": [
                             {
@@ -21,14 +20,12 @@
                             }
                         ]
                     }
-                }'
-                return $response | ConvertFrom-Json
+                }' | ConvertFrom-Json
             }
-
-            # Call the function
+        }
+        It "Should return news items for a given AppID" {
             $result = Get-SteamNews -AppID 440
 
-            # Assertions
             $result.Count | Should -Be 1
             $result[0].GID | Should -Be 123
             $result[0].Title | Should -Be "Test News"
@@ -45,13 +42,12 @@
     }
 
     Context "When no news found for the given AppID" {
-        It "Should throw an error" {
-            # Mocking Invoke-RestMethod to return null
-            Mock Invoke-RestMethod {
+        BeforeAll {
+            Mock -CommandName Invoke-RestMethod -ModuleName SteamPS -MockWith {
                 return $null
             }
-
-            # Call the function
+        }
+        It "Should throw an error" {
             { Get-SteamNews -AppID 123 -ErrorAction Stop } | Should -Throw "No news found for 123."
         }
     }
