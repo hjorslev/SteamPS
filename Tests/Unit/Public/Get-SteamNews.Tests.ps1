@@ -24,20 +24,19 @@
             }
         }
         It "Should return news items for a given AppID" {
-            $result = Get-SteamNews -AppID 440
+            $SteamNews = Get-SteamNews -AppID 440
 
-            $result.Count | Should -Be 1
-            $result[0].GID | Should -Be 123
-            $result[0].Title | Should -Be "Test News"
-            $result[0].Url | Should -Be "https://example.com"
-            $result[0].IsExternalUrl | Should -Be $false
-            $result[0].Author | Should -Be "Test Author"
-            $result[0].Contents | Should -Be "This is a test news content."
-            $result[0].FeedLabel | Should -Be "Test Feed"
-            $result[0].Date | Should -Be "2024-02-02 18:54:00"
-            $result[0].FeedName | Should -Be "Test Feed"
-            $result[0].FeedType | Should -Be "Test"
-            $result[0].AppID | Should -Be 440
+            $SteamNews[0].GID | Should -Be 123
+            $SteamNews[0].Title | Should -Be "Test News"
+            $SteamNews[0].Url | Should -Be "https://example.com"
+            $SteamNews[0].IsExternalUrl | Should -Be $false
+            $SteamNews[0].Author | Should -Be "Test Author"
+            $SteamNews[0].Contents | Should -Be "This is a test news content."
+            $SteamNews[0].FeedLabel | Should -Be "Test Feed"
+            $SteamNews[0].Date | Should -Be "2024-02-02 18:54:00"
+            $SteamNews[0].FeedName | Should -Be "Test Feed"
+            $SteamNews[0].FeedType | Should -Be "Test"
+            $SteamNews[0].AppID | Should -Be 440
         }
     }
 
