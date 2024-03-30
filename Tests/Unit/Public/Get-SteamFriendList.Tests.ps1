@@ -1,4 +1,11 @@
 ﻿Describe "Get-SteamFriendList Tests" {
+    BeforeAll {
+        . $SteamPSModulePath\Private\API\Get-SteamAPIKey.ps1
+        Mock -CommandName Get-SteamAPIKey -ModuleName SteamPS -MockWith {
+            return $true
+        }
+    }
+
     Context "When retrieving friend list" {
         BeforeAll {
             Mock -CommandName Invoke-RestMethod -ModuleName SteamPS -MockWith {
