@@ -59,7 +59,6 @@
         }
 
         if ($Request) {
-            Write-Verbose $Request | ConvertFrom-Json
             foreach ($Item in $Request.friendslist.friends) {
                 [PSCustomObject]@{
                     SteamID64    = [int64]$Item.steamid
