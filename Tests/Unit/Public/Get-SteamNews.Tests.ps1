@@ -30,7 +30,7 @@
                                 "feedname": "Feed Test",
                                 "feed_type": "Test",
                                 "appid": 440
-                            },
+                            }
                         ]
                     }
                 }' | ConvertFrom-Json
