@@ -1,4 +1,4 @@
-﻿Describe "Resolve-VanityURL Tests" {
+﻿Describe "Resolve-VanityURL Tests" -Tag "Unit" {
     BeforeAll {
         . $SteamPSModulePath\Private\API\Get-SteamAPIKey.ps1
         Mock -CommandName Get-SteamAPIKey -ModuleName SteamPS -MockWith {
