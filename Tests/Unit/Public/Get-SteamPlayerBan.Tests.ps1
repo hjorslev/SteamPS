@@ -39,8 +39,13 @@
     }
 
     Context "With invalid Steam ID" {
+        BeforeAll {
+            Mock -CommandName Invoke-RestMethod -ModuleName SteamPS -MockWith {
+                return '{"players":[{}]}' | ConvertFrom-Json
+            }
+        }
         It "Should throw an error" {
-            { Get-SteamPlayerBan -SteamID64 12345 -ErrorAction Stop} | Should -Throw
+            { Get-SteamPlayerBan -SteamID64 12345 -ErrorAction Stop } | Should -Throw
         }
     }
 }

@@ -51,7 +51,7 @@
             steamids = ($SteamID64 -join ',')
         }
 
-        if ($Request.players) {
+        if (-not [string]::IsNullOrEmpty($Request.players.SteamId)) {
             foreach ($Item in $Request.players) {
                 [PSCustomObject]@{
                     SteamID64        = [int64]$Item.SteamId
@@ -63,7 +63,7 @@
                     EconomyBan       = $Item.EconomyBan
                 }
             }
-        } elseif ($Request.players.Length -eq 0) {
+        } elseif ([string]::IsNullOrEmpty($Request.players)) {
             $Exception = [Exception]::new("SteamID $SteamID64 couldn't be found.")
             $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
                 $Exception,
