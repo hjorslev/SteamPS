@@ -67,7 +67,7 @@
             $Exception = [Exception]::new("SteamID $SteamID64 couldn't be found.")
             $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
                 $Exception,
-                'NoNewsFound',
+                'PlayerNotFound',
                 [System.Management.Automation.ErrorCategory]::ObjectNotFound,
                 $Request
             )
