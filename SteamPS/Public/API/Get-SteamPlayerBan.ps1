@@ -1,34 +1,30 @@
 ﻿function Get-SteamPlayerBan {
     <#
     .SYNOPSIS
-    Returns Community, VAC, and Economy ban statuses for given players.
+    Retrieves ban information for Steam players.
 
     .DESCRIPTION
-    Returns Community, VAC, and Economy ban statuses for given players.
+    This cmdlet retrieves ban information for Steam players, including whether they are banned from the Steam Community, have VAC bans, the number of VAC bans, days since the last ban, number of game bans, and economy ban status.
 
     .PARAMETER SteamID64
-    Comma-delimited list of 64 bit Steam IDs to return player ban information for.
-
-    .PARAMETER OutputFormat
-    Format of the output. Options are json (default), xml or vdf.
+    Specifies one or more 64-bit Steam IDs for which to retrieve ban information. Enter the Steam IDs as a comma-delimited list.
 
     .EXAMPLE
-    Get-SteamPlayerBan -SteamID64 76561197960435530, 76561197960434622
+    Get-SteamPlayerBan -SteamID64 76561197960435530,76561197960434622
 
     .INPUTS
-    Array of int64.
+    int64[]: Specifies an array of 64-bit integers representing Steam IDs.
 
     .OUTPUTS
-    Returns a string that is either formatted as json, xml or vdf.
+    Returns objects with the following properties:
 
-    players: List of player ban objects for each 64 bit ID requested
-    - SteamId (string) The player's 64 bit ID.
-    - CommunityBanned (bool) Indicates whether or not the player is banned from Steam Community.
-    - VACBanned (bool) Indicates whether or not the player has VAC bans on record.
-    - NumberOfVACBans (int) Number of VAC bans on record.
-    - DaysSinceLastBan (int) Number of days since the last ban.
-    - NumberOfGameBans (int) Number of bans in games, this includes CS:GO Overwatch bans.
-    - EconomyBan (string) The player's ban status in the economy. If the player has no bans on record the string will be "none", if the player is on probation it will say "probation", etc.
+    - SteamID64: The player's 64 bit ID.
+    - CommunityBanned: Indicates whether or not the player is banned from Steam Community.
+    - VACBanned: Indicates whether or not the player has VAC bans on record.
+    - NumberOfVACBans: Number of VAC bans on record.
+    - DaysSinceLastBan: Number of days since the last ban.
+    - NumberOfGameBans: Number of bans in games, this includes CS:GO Overwatch bans.
+    - EconomyBan: The player's ban status in the economy. If the player has no bans on record the string will be "none", if the player is on probation it will say "probation", etc.
 
     .NOTES
     Author: Frederik Hjorslev Nylander
@@ -42,12 +38,7 @@
         [Parameter(Mandatory = $true,
             HelpMessage = '64 bit Steam ID to return player bans for.',
             ValueFromPipelineByPropertyName = $true)]
-        [int64[]]$SteamID64,
-
-        [Parameter(Mandatory = $false,
-            HelpMessage = 'Format of the output. Options are json (default), xml or vdf.')]
-        [ValidateSet('json', 'xml', 'vdf')]
-        [string]$OutputFormat = 'json'
+        [int64[]]$SteamID64
     )
 
     begin {
@@ -55,9 +46,33 @@
     }
 
     process {
-        $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?format=$OutputFormat&key=$(Get-SteamAPIKey)&steamids=$($SteamID64 -join ',')" -UseBasicParsing
+        $Request = Invoke-RestMethod -Uri 'https://api.steampowered.com/ISteamUser/GetPlayerBans/v1/' -UseBasicParsing -Body @{
+            key      = Get-SteamAPIKey
+            steamids = ($SteamID64 -join ',')
+        }
 
-        Write-Output -InputObject $Request.Content
+        if ($Request.players) {
+            foreach ($Item in $Request.players) {
+                [PSCustomObject]@{
+                    SteamID64        = [int64]$Item.SteamId
+                    CommunityBanned  = $Item.CommunityBanned
+                    VACBanned        = $Item.VACBanned
+                    NumberOfVACBans  = $Item.NumberOfVACBans
+                    DaysSinceLastBan = $Item.DaysSinceLastBan
+                    NumberOfGameBans = $Item.NumberOfGameBans
+                    EconomyBan       = $Item.EconomyBan
+                }
+            }
+        } elseif ($Request.players.Length -eq 0) {
+            $Exception = [Exception]::new("SteamID $SteamID64 couldn't be found.")
+            $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                $Exception,
+                'NoNewsFound',
+                [System.Management.Automation.ErrorCategory]::ObjectNotFound,
+                $Request
+            )
+            $PSCmdlet.WriteError($ErrorRecord)
+        }
     } # Process
 
     end {
