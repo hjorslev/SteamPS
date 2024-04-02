@@ -4,7 +4,8 @@
 changelog:
   exclude:
     labels:
-      - ignore-for-release
+      - Category-Tests ✅
+      - Category-Build 🚀
   categories:
     - title: 🌟 Breaking Changes
       labels:
