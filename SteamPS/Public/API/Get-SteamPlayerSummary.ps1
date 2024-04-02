@@ -76,10 +76,49 @@
     }
 
     process {
-        $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?format=$OutputFormat&key=$(Get-SteamAPIKey)&steamids=$($SteamID64 -join ',')" -UseBasicParsing
+        $Request = Invoke-RestMethod -Uri 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2' -UseBasicParsing -Body @{
+            key      = Get-SteamAPIKey
+            steamids = ($SteamID64 -join ',')
+        }
 
-        Write-Output -InputObject $Request.Content
-    }
+        if ($Request.response.players) {
+            foreach ($Item in $Request.response.players) {
+                [PSCustomObject]@{
+                    SteamID64                = $Item.steamid
+                    PersonaName              = $Item.personaname
+                    ProfileUrl               = $Item.profileurl
+                    Avatar                   = $Item.avatar
+                    AvatarMedium             = $Item.avatarmedium
+                    AvatarFull               = $Item.avatarfull
+                    AvatarHash               = $Item.avatarhash
+                    PersonaState             = [PersonaState]$Item.personastate
+                    CommunityVisibilityState = [CommunityVisibilityState]$Item.communityvisibilitystate
+                    ProfileState             = $Item.profilestate
+                    LastLogOff               = ((Get-Date "01.01.1970") + ([System.TimeSpan]::FromSeconds($Item.lastlogoff))).ToString("yyyy-MM-dd HH:mm:ss")
+                    CommentPermission        = $Item.commentpermission
+                    RealName                 = $Item.realname
+                    PrimaryClanID            = $Item.primaryclanid
+                    TimeCreated              = ((Get-Date "01.01.1970") + ([System.TimeSpan]::FromSeconds($Item.timecreated))).ToString("yyyy-MM-dd HH:mm:ss")
+                    AppID                   = $Item.gameid
+                    GameServerIP             = [ipaddress]$Item.gameserverip
+                    GameExtraInfo            = $Item.gameextrainfo
+                    PersonaStateFlags        = $Item.personastateflags
+                    LocCountryCode           = $Item.loccountrycode
+                    LocStateCode             = $Item.locstatecode
+                    LocCityID                = $Item.loccityid
+                }
+            }
+        } elseif ($Request.response.players.Length -eq 0) {
+            $Exception = [Exception]::new("SteamID $SteamID64 couldn't be found.")
+            $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                $Exception,
+                'NoPlayerFound',
+                [System.Management.Automation.ErrorCategory]::ObjectNotFound,
+                $Request
+            )
+            $PSCmdlet.WriteError($ErrorRecord)
+        }
+    } # Process
 
     end {
         Write-Verbose -Message "[END    ] Ending: $($MyInvocation.MyCommand)"

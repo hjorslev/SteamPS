@@ -17,3 +17,16 @@ enum Visibility {
     Public = 0
     Private = 1
 }
+enum PersonaState {
+    Offline = 0
+    Online = 1
+    Busy = 2
+    Away = 3
+    Snooze = 4
+    LookingToTrade = 5
+}
+enum CommunityVisibilityState {
+    Private = 1
+    FriendsOnly = 2
+    Public = 3
+}
