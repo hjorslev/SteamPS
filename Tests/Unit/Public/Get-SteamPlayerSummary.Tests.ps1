@@ -1,4 +1,4 @@
-﻿Describe 'Get-SteamPlayerSummary' -Tag 'Unit' {
+﻿Describe 'Get-SteamPlayerSummary Tests' -Tag 'Unit' {
     BeforeAll {
         . $SteamPSModulePath\Private\API\Get-SteamAPIKey.ps1
         Mock -CommandName Get-SteamAPIKey -ModuleName SteamPS -MockWith {
