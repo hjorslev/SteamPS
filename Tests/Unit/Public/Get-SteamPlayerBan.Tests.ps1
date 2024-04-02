@@ -1,4 +1,4 @@
-﻿Describe "Get-SteamPlayerBan Tests" {
+﻿Describe 'Get-SteamPlayerBan Tests' {
     BeforeAll {
         . $SteamPSModulePath\Private\API\Get-SteamAPIKey.ps1
         Mock -CommandName Get-SteamAPIKey -ModuleName SteamPS -MockWith {
@@ -6,7 +6,7 @@
         }
     }
 
-    Context "With valid Steam ID" {
+    Context 'With valid Steam ID' {
         BeforeAll {
             Mock -CommandName Invoke-RestMethod -ModuleName SteamPS -MockWith {
                 return '{
@@ -25,7 +25,7 @@
             }
         }
 
-        It "Should return ban information" {
+        It 'Should return ban information' {
             $result = Get-SteamPlayerBan -SteamID64 76561197983367235
             $result | Should -Not -BeNullOrEmpty
             $result.SteamID64 | Should -BeExactly 76561197983367235
@@ -34,17 +34,17 @@
             $result.NumberOfVACBans | Should -Be 0
             $result.DaysSinceLastBan | Should -Be 0
             $result.NumberOfGameBans | Should -Be 0
-            $result.EconomyBan | Should -Be "none"
+            $result.EconomyBan | Should -Be 'none'
         }
     }
 
-    Context "With invalid Steam ID" {
+    Context 'With invalid Steam ID' {
         BeforeAll {
             Mock -CommandName Invoke-RestMethod -ModuleName SteamPS -MockWith {
                 return '{"players":[{}]}' | ConvertFrom-Json
             }
         }
-        It "Should throw an error" {
+        It 'Should throw an error' {
             { Get-SteamPlayerBan -SteamID64 12345 -ErrorAction Stop } | Should -Throw
         }
     }
