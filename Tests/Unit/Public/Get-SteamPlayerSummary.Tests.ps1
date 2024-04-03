@@ -57,7 +57,7 @@
     Context 'With invalid SteamID64' {
         BeforeAll {
             Mock -CommandName Invoke-RestMethod -ModuleName SteamPS -MockWith {
-                return '{"players":[{}]}' | ConvertFrom-Json
+                return '{"response":{"players":[{}]}}' | ConvertFrom-Json
             }
         }
 
