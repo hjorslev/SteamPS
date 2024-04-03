@@ -106,6 +106,18 @@
             throw 'SteamCMD could not be found in the env:Path. Have you executed Install-SteamCMD?'
         }
 
+        $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
+        if ($isAdmin -eq $false) {
+            $Exception = [Exception]::new('The current PowerShell session is not running as Administrator. Start PowerShell by using the Run as Administrator option, and then try running the script again.')
+            $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                $Exception,
+                'MissingUserPermissions',
+                [System.Management.Automation.ErrorCategory]::PermissionDenied,
+                $isAdmin
+            )
+            $PSCmdlet.ThrowTerminatingError($ErrorRecord)
+        }
+
         # Log settings
         $PSFLoggingProvider = @{
             Name          = 'logfile'
