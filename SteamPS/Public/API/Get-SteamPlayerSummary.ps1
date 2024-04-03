@@ -94,11 +94,11 @@
                     PersonaState             = [PersonaState]$Item.personastate
                     CommunityVisibilityState = [CommunityVisibilityState]$Item.communityvisibilitystate
                     ProfileState             = $Item.profilestate
-                    LastLogOff               = ((Get-Date "01.01.1970") + ([System.TimeSpan]::FromSeconds($Item.lastlogoff))).ToString("yyyy-MM-dd HH:mm:ss")
+                    LastLogOff               = [datetime]((Get-Date "01.01.1970") + ([System.TimeSpan]::FromSeconds($Item.lastlogoff))).ToString("yyyy-MM-dd HH:mm:ss")
                     CommentPermission        = $Item.commentpermission
                     RealName                 = $Item.realname
                     PrimaryClanID            = $Item.primaryclanid
-                    TimeCreated              = ((Get-Date "01.01.1970") + ([System.TimeSpan]::FromSeconds($Item.timecreated))).ToString("yyyy-MM-dd HH:mm:ss")
+                    TimeCreated              = [datetime]((Get-Date "01.01.1970") + ([System.TimeSpan]::FromSeconds($Item.timecreated))).ToString("yyyy-MM-dd HH:mm:ss")
                     AppID                   = $Item.gameid
                     GameServerIP             = [ipaddress]$Item.gameserverip
                     GameExtraInfo            = $Item.gameextrainfo
