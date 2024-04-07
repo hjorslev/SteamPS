@@ -21,7 +21,7 @@
     None. Nothing is returned when calling Disconnect-SteamAPI.
 
     .NOTES
-    Author: sysgoblin (https://github.com/sysgoblin) and Frederik Hjorslev Nylander
+    Author: Frederik Hjorslev Nylander
 
     .LINK
     https://hjorslev.github.io/SteamPS/Disconnect-SteamAPI.html
@@ -43,6 +43,15 @@
             if (Test-Path -Path $SteamAPIKey) {
                 Remove-Item -Path $SteamAPIKey -Force
                 Write-Verbose -Message "$SteamAPIKey were deleted."
+            } else {
+                $Exception = [Exception]::new("Steam Web API configuration file not found in '$env:AppData\SteamPS\SteamPSKey.json'.")
+                $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                    $Exception,
+                    'SteamAPIKeyNotFound',
+                    [System.Management.Automation.ErrorCategory]::ObjectNotFound,
+                    $SteamPSKey
+                )
+                $PSCmdlet.ThrowTerminatingError($ErrorRecord)
             }
         }
     }
