@@ -32,6 +32,7 @@ for server information and more.
 | Cmdlet                                                   | Description                                                         |
 | -------------------------------------------------------- | ------------------------------------------------------------------- |
 | [Connect-SteamAPI](docs/Connect-SteamAPI.md)             | Create or update the Steam Web API config file.                     |
+| [Disconnect-SteamAPI](docs/Disconnect-SteamAPI.md)          | Disconnects from the Steam API by removing the stored API key.      |
 | [Find-SteamAppID](docs/Find-SteamAppID.md)               | Find a Steam AppID by searching the name of the application.        |
 | [Get-SteamFriendList](docs/Get-SteamFriendList.md)       | Returns the friend list of any Steam user.                          |
 | [Get-SteamNews](docs/Get-SteamNews.md)                   | Returns the latest news of a game specified by its AppID.           |
