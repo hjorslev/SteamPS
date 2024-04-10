@@ -8,9 +8,10 @@
 
 - [ ] 📖 [Docs]
 - [ ] 🪲 [Fix]
-- [ ] 🩹 [Patch]
 - [ ] ⚠️ [Security fix]
+- [ ] ♻️ [Refactor]
 - [ ] 🎉 [Feature]
+- [ ] ✨ Enhancement
 - [ ] 🌟 [Breaking change]
 
 ## Checklist
