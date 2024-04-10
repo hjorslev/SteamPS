@@ -1,4 +1,8 @@
-﻿Describe 'Test-SteamAPIKey Tests' {
+﻿BeforeAll {
+    . $SteamPSModulePath\Private\API\Test-SteamAPIKey.ps1
+}
+
+Describe 'Test-SteamAPIKey Tests' {
     Context 'When the Steam API key file exists' {
         BeforeAll {
             Mock Test-Path { $true }
