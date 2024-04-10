@@ -10,7 +10,7 @@
 - [ ] 🪲 [Fix]
 - [ ] 🩹 [Patch]
 - [ ] ⚠️ [Security fix]
-- [ ] 🚀 [Feature]
+- [ ] 🎉 [Feature]
 - [ ] 🌟 [Breaking change]
 
 ## Checklist
