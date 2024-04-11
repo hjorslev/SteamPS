@@ -7,15 +7,9 @@
     The `Test-SteamAPIKey` cmdlet checks if a Steam API key file exists in the specified path.
     It returns a boolean value indicating whether the key file is present.
 
-    .PARAMETER None
-    This cmdlet does not accept any parameters.
-
     .OUTPUTS
     System.Boolean
     Returns `$true` if the Steam API key file exists; otherwise, returns `$false`.
-
-    .NOTES
-    File Path: The Steam API key file is expected to be located at "$env:AppData\SteamPS\SteamPSKey.json".
 
     .EXAMPLE
     PS C:\> Test-SteamAPIKey
