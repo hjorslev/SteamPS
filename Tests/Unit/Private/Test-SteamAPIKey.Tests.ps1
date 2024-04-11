@@ -5,8 +5,15 @@
 Describe 'Test-SteamAPIKey Tests' {
     Context 'When the Steam API key file exists' {
         BeforeAll {
-            Mock -CommandName Test-Path -ModuleName SteamPS -MockWith { $true }
+            # Create a dummy SteamPSKey.json file
+            $SteamPSKeyLocation = "$env:AppData\SteamPS\SteamPSKey.json"
+            New-Item -Path $SteamPSKeyLocation -ItemType File -Force
         }
+        AfterAll {
+            # Remove the dummy SteamPSKey.json file
+            Remove-Item -Path "$env:AppData\SteamPS\SteamPSKey.json" -Force
+        }
+
         It 'Returns $true' {
             $result = Test-SteamAPIKey
             $result | Should -BeOfType [bool]
@@ -15,9 +22,6 @@ Describe 'Test-SteamAPIKey Tests' {
     }
 
     Context 'When the Steam API key file does not exist' {
-        BeforeAll {
-            Mock -CommandName Test-Path -ModuleName SteamPS -MockWith { $false }
-        }
         It 'Returns $false' {
             $result = Test-SteamAPIKey
             $result | Should -BeOfType [bool]
