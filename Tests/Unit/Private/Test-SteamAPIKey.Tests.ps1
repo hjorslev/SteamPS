@@ -5,7 +5,7 @@
 Describe 'Test-SteamAPIKey Tests' {
     Context 'When the Steam API key file exists' {
         BeforeAll {
-            Mock Test-Path { $true }
+            Mock -CommandName Test-Path -ModuleName SteamPS -MockWith Test-Path { $true }
         }
         It 'Returns $true' {
             $result = Test-SteamAPIKey
@@ -16,7 +16,7 @@ Describe 'Test-SteamAPIKey Tests' {
 
     Context 'When the Steam API key file does not exist' {
         BeforeAll {
-            Mock Test-Path { $false }
+            Mock -CommandName Test-Path -ModuleName SteamPS -MockWith { $false }
         }
         It 'Returns $false' {
             $result = Test-SteamAPIKey
