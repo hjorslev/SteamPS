@@ -6,15 +6,26 @@ changelog:
     labels:
       - Category-Tests ✅
       - Category-Build 🚀
+      - ignore-for-release
   categories:
     - title: 🌟 Breaking Changes
       labels:
-        - Major
-        - Breaking
-    - title: 🚀 New Features
+        - Breaking 🌟
+    - title: 🎉 New Features
       labels:
-        - Minor
-        - Feature
+        - Issue-Feature 🎉
+    - title: ✨ Enhancements
+      labels:
+        - Issue-Enhancement ✨
+    - title: 🐛 Bug Fixes
+      labels:
+        - Issue-Bug 🐛
+    - title: ♻️ Refactored
+      labels:
+        - Refactor ♻️
+    - title: Security Fixes 🔒
+      labels:
+        - Security 🔒
     - title: Other Changes
       labels:
         - '*'
