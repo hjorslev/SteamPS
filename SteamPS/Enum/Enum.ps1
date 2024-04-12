@@ -18,4 +18,6 @@ enum Visibility {
     Private = 1
 }
 
-Write-Warning -Message "The support for Windows PowerShell (v5) will be deprecated in furture versions of SteamPS. Please ensure your system supports PowerShell 7."
+if ($PSVersionTable.PSVersion.Major -le 5 -and $PSVersionTable.PSVersion.Minor -le 1) {
+    Write-Warning -Message "The support for Windows PowerShell (v5) will be deprecated in furture versions of SteamPS. Please ensure your system supports PowerShell 7."
+}
