@@ -17,3 +17,5 @@ enum Visibility {
     Public = 0
     Private = 1
 }
+
+Write-Warning -Message "The support for Windows PowerShell (v5) will be deprecated in furture versions of SteamPS. Please ensure your system supports PowerShell 7."
