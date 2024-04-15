@@ -89,7 +89,7 @@
 
         [Parameter(Mandatory = $false)]
         [Alias('LogLocation')]
-        [string]$LogPath = "C:\DedicatedServers\Logs",
+        [string]$LogPath = 'C:\DedicatedServers\Logs',
 
         [Parameter(Mandatory = $false)]
         [string]$DiscordWebhookUri,
@@ -121,7 +121,7 @@
         # Log settings
         $PSFLoggingProvider = @{
             Name          = 'logfile'
-            InstanceName  = '<taskname>'
+            InstanceName  = "Update game server $ServiceName"
             FilePath      = "$LogPath\$ServiceName\$ServiceName-%Date%.csv"
             Enabled       = $true
             LogRotatePath = "$LogPath\$ServiceName\$ServiceName-*.csv"
