@@ -30,6 +30,7 @@ enum CommunityVisibilityState {
     Private = 1
     FriendsOnly = 2
     Public = 3
+}
 
 if ($PSVersionTable.PSVersion.Major -le 5 -and $PSVersionTable.PSVersion.Minor -le 1) {
     Write-Warning -Message "The support for Windows PowerShell (v5) will be deprecated in the next major version of SteamPS. Please ensure your system supports PowerShell 7."
