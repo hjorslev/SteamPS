@@ -103,17 +103,23 @@
 
     begin {
         if ($null -eq (Get-SteamPath)) {
-            throw 'SteamCMD could not be found in the env:Path. Have you executed Install-SteamCMD?'
+            $Exception = [Exception]::new('SteamCMD could not be found in the env:Path. Have you executed Install-SteamCMD?')
+            $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                $Exception,
+                'SteamCMDNotInstalled',
+                [System.Management.Automation.ErrorCategory]::NotInstalled,
+                (Test-Admin)
+            )
+            $PSCmdlet.ThrowTerminatingError($ErrorRecord)
         }
 
-        $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
-        if ($isAdmin -eq $false) {
+        if ((Test-Admin) -eq $false) {
             $Exception = [Exception]::new('The current PowerShell session is not running as Administrator. Start PowerShell by using the Run as Administrator option, and then try running the script again.')
             $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
                 $Exception,
                 'MissingUserPermissions',
                 [System.Management.Automation.ErrorCategory]::PermissionDenied,
-                $isAdmin
+                (Test-Admin)
             )
             $PSCmdlet.ThrowTerminatingError($ErrorRecord)
         }
