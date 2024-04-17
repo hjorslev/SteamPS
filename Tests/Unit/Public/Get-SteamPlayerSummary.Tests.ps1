@@ -6,7 +6,7 @@
         }
     }
 
-    Context 'With valid SteamID64' {
+    Context 'With a valid SteamID64' {
         BeforeAll {
             Mock -CommandName Invoke-RestMethod -ModuleName SteamPS -MockWith {
                 return '{
@@ -54,15 +54,15 @@
         }
     }
 
-    Context 'With invalid SteamID64' {
+    Context 'With an invalid SteamID64' {
         BeforeAll {
             Mock -CommandName Invoke-RestMethod -ModuleName SteamPS -MockWith {
-                return '{"response":{"players":[{}]}}' | ConvertFrom-Json
+                return '{"response":{"players":[]}}' | ConvertFrom-Json
             }
         }
 
         It 'Should throw an error' {
-            { Get-SteamPlayerSummary -SteamID64 12345678901234567890 -ErrorAction Stop } | Should -Throw
+            { Get-SteamPlayerSummary -SteamID64 1234567890 -ErrorAction Stop } | Should -Throw "SteamID 1234567890 couldn't be found."
         }
     }
 }

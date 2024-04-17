@@ -63,12 +63,7 @@
         [Parameter(Mandatory = $true,
             HelpMessage = '64 bit Steam ID to return player summary for.',
             ValueFromPipelineByPropertyName = $true)]
-        [int64[]]$SteamID64,
-
-        [Parameter(Mandatory = $false,
-            HelpMessage = 'Format of the output. Options are json (default), xml or vdf.')]
-        [ValidateSet('json', 'xml', 'vdf')]
-        [string]$OutputFormat = 'json'
+        [int64[]]$SteamID64
     )
 
     begin {
