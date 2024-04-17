@@ -1,5 +1,5 @@
 ﻿
-Describe 'Update-SteamServer' {
+Describe 'Update-SteamServer Tests' -Tag 'Unit' {
     Context 'When executing Update-SteamServer without SteamCMD installed' {
         BeforeAll {
             Mock -CommandName Test-Admin -ModuleName SteamPS -MockWith {
