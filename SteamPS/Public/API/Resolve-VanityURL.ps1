@@ -1,32 +1,30 @@
 ﻿function Resolve-VanityURL {
     <#
     .SYNOPSIS
-    Retrieves the SteamID64 associated with a given vanity URL (custom URL) from Steam Community.
+    Retrieves the SteamID64 linked to a specified vanity URL (custom URL) from the Steam Community.
 
     .DESCRIPTION
-    This function retrieves the SteamID64 associated with a given vanity URL (custom URL) from Steam Community using the Steam Web API.
+    Using the Steam Web API, this cmdlet fetches the SteamID64 that corresponds to a provided vanity URL (custom URL) from the Steam Community.
 
     .PARAMETER VanityURL
-    Specifies the vanity URL (custom URL) to retrieve the SteamID64 for.
+    This parameter specifies the vanity URL (custom URL) for which the SteamID64 is to be retrieved.
 
     .PARAMETER UrlType
-    Specifies the type of vanity URL. Valid values are: 1 (default) for individual profile, 2 for group, and 3 for official game group.
+    This parameter defines the type of vanity URL. The valid values are: 1 (default) for an individual profile, 2 for a group, and 3 for an official game group.
 
     .EXAMPLE
     Resolve-VanityURL -VanityURL user
-
-    Retrieves the SteamID64 associated with the vanity URL 'user'.
+    This example retrieves the SteamID64 linked to the vanity URL 'user'.
 
     .EXAMPLE
     Resolve-VanityURL -VanityURL user1, user2
-
-    Retrieves the SteamID64 associated with the vanity URLs user1 and user 2.
+    This example retrieves the SteamID64s linked to the vanity URLs 'user1' and 'user2'.
 
     .INPUTS
-    Accepts string input for the VanityURL parameter.
+    The VanityURL parameter accepts string input.
 
     .OUTPUTS
-    Returns a custom object with the VanityURL and associated SteamID64.
+    The cmdlet returns a custom object containing the VanityURL and its associated SteamID64.
 
     .NOTES
     Author: Frederik Hjorslev Nylander
@@ -38,7 +36,7 @@
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true,
-            HelpMessage = 'Enter the vanity URL (also named custom URL) to get a SteamID for.')]
+            HelpMessage = 'Enter the vanity URL (custom URL) for which the SteamID64 is to be retrieved.')]
         [ValidateScript( {
                 if (([System.URI]$_ ).IsAbsoluteUri -eq $true) {
                     throw "Do not enter the fully qualified URL, but just the ID (e.g.) everything after https://steamcommunity.com/id/"
