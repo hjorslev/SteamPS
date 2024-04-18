@@ -1,33 +1,30 @@
 ﻿function Resolve-VanityURL {
     <#
     .SYNOPSIS
-    Resolve a vanity URL (also named custom URL).
+    Retrieves the SteamID64 linked to a specified vanity URL (custom URL) from the Steam Community.
 
     .DESCRIPTION
-    Resolve a vanity URL (also named custom URL) and return the 64 bit SteamID
-    that belongs to said URL.
+    Using the Steam Web API, this cmdlet fetches the SteamID64 that corresponds to a provided vanity URL (custom URL) from the Steam Community.
 
     .PARAMETER VanityURL
-    Enter the vanity URL (also named custom URL) to get a SteamID for. Do not enter
-    the fully qualified URL, but just the ID e.g. hjorslev instead of
-    "https://steamcommunity.com/id/hjorslev/"
+    This parameter specifies the vanity URL (custom URL) for which the SteamID64 is to be retrieved.
 
     .PARAMETER UrlType
-    The type of vanity URL. 1 (default): Individual profile, 2: Group, 3: Official game group
-
-    .PARAMETER OutputFormat
-    Format of the output. Options are json (default), xml or vdf.
+    This parameter defines the type of vanity URL. The valid values are: 1 (default) for an individual profile, 2 for a group, and 3 for an official game group.
 
     .EXAMPLE
-    Resolve-VanityURL -VanityURL hjorslev
+    Resolve-VanityURL -VanityURL user
+    This example retrieves the SteamID64 linked to the vanity URL 'user'.
 
-    Returns a 64 bit Steam ID.
+    .EXAMPLE
+    Resolve-VanityURL -VanityURL user1, user2
+    This example retrieves the SteamID64s linked to the vanity URLs 'user1' and 'user2'.
 
     .INPUTS
-    String.
+    The VanityURL parameter accepts string input.
 
     .OUTPUTS
-    64 bit Steam ID.
+    The cmdlet returns a custom object containing the VanityURL and its associated SteamID64.
 
     .NOTES
     Author: Frederik Hjorslev Nylander
@@ -39,24 +36,19 @@
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true,
-            HelpMessage = 'Enter the vanity URL (also named custom URL) to get a SteamID for.')]
+            HelpMessage = 'Enter the vanity URL (custom URL) for which the SteamID64 is to be retrieved.')]
         [ValidateScript( {
                 if (([System.URI]$_ ).IsAbsoluteUri -eq $true) {
                     throw "Do not enter the fully qualified URL, but just the ID (e.g.) everything after https://steamcommunity.com/id/"
                 }
                 $true
             })]
-        [string]$VanityURL,
+        [string[]]$VanityURL,
 
         [Parameter(Mandatory = $false,
             HelpMessage = 'The type of vanity URL. 1 (default): Individual profile, 2: Group, 3: Official game group.')]
         [ValidateSet(1, 2, 3)]
-        [int]$UrlType = 1,
-
-        [Parameter(Mandatory = $false,
-            HelpMessage = 'Format of the output. Options are json (default), xml or vdf.')]
-        [ValidateSet('json', 'xml', 'vdf')]
-        [string]$OutputFormat = 'json'
+        [int]$UrlType = 1
     )
 
     begin {
@@ -64,21 +56,28 @@
     }
 
     process {
-        $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=$(Get-SteamAPIKey)&vanityurl=$VanityURL&url_type=$UrlType&format=$OutputFormat" -UseBasicParsing
-
-        if (($Request.Content | ConvertFrom-Json).response.success -eq '1') {
-            [PSCustomObject]@{
-                'SteamID64' = ([int64]($Request.Content | ConvertFrom-Json).response.steamid)
+        foreach ($Item in $VanityURL) {
+            $Request = Invoke-RestMethod -Uri 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/' -UseBasicParsing -Body @{
+                key       = Get-SteamAPIKey
+                vanityurl = $Item
+                url_type  = $UrlType
             }
-        } elseif (($Request.Content | ConvertFrom-Json).response.success -eq '42') {
-            $Exception = [Exception]::new("Unable to find $VanityURL.")
-            $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
-                $Exception,
-                "VanityURLNotFound",
-                [System.Management.Automation.ErrorCategory]::ObjectNotFound,
-                ($Request.Content | ConvertFrom-Json).response.success
-            )
-            $PSCmdlet.ThrowTerminatingError($ErrorRecord)
+
+            if ($Request.response.success -eq '1') {
+                [PSCustomObject]@{
+                    'VanityURL' = $Item
+                    'SteamID64' = ([int64]$Request.response.steamid)
+                }
+            } elseif ($Request.response.success -eq '42') {
+                $Exception = [Exception]::new("Unable to find $Item.")
+                $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                    $Exception,
+                    "VanityURLNotFound",
+                    [System.Management.Automation.ErrorCategory]::ObjectNotFound,
+                $Request.response.success
+                )
+                $PSCmdlet.WriteError($ErrorRecord)
+            }
         }
     } # Process
 
