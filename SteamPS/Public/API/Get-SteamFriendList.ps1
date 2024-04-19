@@ -1,31 +1,30 @@
 ﻿function Get-SteamFriendList {
     <#
     .SYNOPSIS
-    Retrieves the friend list of a Steam user.
+    Fetches the friend list of tje specified Steam user.
 
     .DESCRIPTION
-    This cmdlet retrieves the friend list of a Steam user based on the provided SteamID64. Only data from public profiles are retrieved.
+    This cmdlet fetches the friend list of a Steam user using the provided SteamID64. It retrieves data only from public profiles.
 
     .PARAMETER SteamID64
-    Specifies the 64-bit Steam ID of the user whose friend list will be retrieved.
+    The 64-bit Steam ID of the user whose friend list is to be fetched.
 
     .PARAMETER Relationship
-    Specifies the relationship type to filter the friend list. Possible values are 'all' or 'friend'. Default is 'friend'.
+    The relationship type used to filter the friend list. The possible values are 'all' or 'friend'. The default is 'friend'.
 
     .EXAMPLE
     Get-SteamFriendList -SteamID64 76561197960435530
-
-    Retrieves the friend list of the specified user.
+    This example fetches the friend list of the user with the specified SteamID64.
 
     .INPUTS
     System.Int64
 
     .OUTPUTS
-    Returns a string formatted as JSON, XML, or VDF representing the user's friend list.
-    The friend list contains the following properties:
-    - steamid: 64-bit Steam ID of the friend.
-    - relationship: Relationship qualifier.
-    - friend_since: Unix timestamp of when the relationship was established.
+    Outputs a string formatted as JSON, XML, or VDF representing the user's friend list.
+    The friend list includes the following properties:
+    - steamid: The friend's 64-bit Steam ID.
+    - relationship: The qualifier of the relationship.
+    - friend_since: The Unix timestamp indicating when the relationship was established.
 
     .NOTES
     Author: Frederik Hjorslev Nylander
