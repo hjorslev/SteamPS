@@ -1,45 +1,44 @@
 ﻿function Get-SteamNews {
     <#
     .SYNOPSIS
-    Returns the latest news of a game specified by its AppID.
+    Fetches the latest news for a game using its AppID.
 
     .DESCRIPTION
-    Returns the latest news of a game specified by its AppID from the Steam API.
+    Fetches the latest news for a game using its AppID from the Steam API.
 
     .PARAMETER AppID
-    AppID of the game for which you want to retrieve news.
+    The AppID of the game for which the news is to be fetched.
 
     .PARAMETER Count
-    Specifies the number of news entries to retrieve. Defaults to retrieving all news entries.
+    The number of news entries to fetch. By default, it fetches all news entries.
 
     .PARAMETER MaxLength
-    Specifies the maximum length of each news entry. Longer entries will be truncated. Defaults to no truncation.
+    The maximum length for each news entry. Entries longer than this will be truncated. By default, there is no truncation.
 
     .EXAMPLE
     Get-SteamNews -AppID 440
 
-    Lists all available news entries for the game with AppID 440.
+    This example fetches all available news entries for the game with AppID 440.
 
     .EXAMPLE
     Get-SteamNews -AppID 440 -Count 1
 
-    Retrieves the latest news entry for the game with AppID 440.
+    This example fetches the most recent news entry for the game with AppID 440.
 
     .EXAMPLE
     Get-SteamNews -AppID 440 -MaxLength 100
 
-    Lists all available news entries for the game with AppID 440 and truncates
-    the news content to 100 characters.
+    This example fetches all available news entries for the game with AppID 440 and truncates the news content to 100 characters.
 
     .INPUTS
     System.Int32
 
     .OUTPUTS
-    An object containing:
+    Outputs an object containing:
     - GID: The ID of the news item.
     - Title: The title of the news item.
     - Url: The URL of the news item.
-    - IsExternalUrl: Indicates if the URL is external.
+    - IsExternalUrl: A boolean indicating if the URL is external.
     - Author: The author of the news item.
     - Contents: The content of the news item.
     - FeedLabel: The label of the news feed.
