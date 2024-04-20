@@ -1,34 +1,30 @@
 ﻿function Get-SteamPlayerSummary {
     <#
     .SYNOPSIS
-    Returns basic profile information for a list of 64-bit Steam IDs.
+    Fetches basic profile information for a list of 64-bit Steam IDs.
 
     .DESCRIPTION
-    Returns basic profile information for a list of 64-bit Steam IDs.
+    Fetches basic profile information for a list of 64-bit Steam IDs.
 
     .PARAMETER SteamID64
-    Comma-delimited list of 64 bit Steam IDs to return profile information for.
-    Up to 100 Steam IDs can be requested.
-
-    .PARAMETER OutputFormat
-    Format of the output. Options are json (default), xml or vdf.
+    Specifies a comma-separated list of 64-bit Steam IDs to fetch profile information for. Up to 100 Steam IDs can be requested.
 
     .EXAMPLE
     Get-SteamPlayerSummary -SteamID64 76561197960435530, 76561197960434622
 
+    This example fetches profile information for the players with the specified Steam IDs.
+
     .INPUTS
-    Array of int64.
+    int64[]: Specifies an array of 64-bit integers representing Steam IDs.
 
     .OUTPUTS
-    Returns a string that is either formatted as json, xml or vdf.
+    Returns a custom object with the properties listed below.
 
-    Some data associated with a Steam account may be hidden if the user has their
-    profile visibility set to "Friends Only" or "Private". In that case, only
-    public data will be returned.
+    Some data associated with a Steam account may be hidden if the user has their profile visibility set to "Friends Only" or "Private". In that case, only public data will be returned.
 
     Public Data
-    - steamid: 64bit SteamID of the user
-    - personaname: The player's persona name (display name)
+    - steamid: 64-bit SteamID of the user.
+    - personaname: The player's persona name (display name).
     - profileurl: The full URL of the player's Steam Community profile.
     - avatar: The full URL of the player's 32x32px avatar. If the user hasn't configured an avatar, this will be the default ? avatar.
     - avatarmedium: The full URL of the player's 64x64px avatar. If the user hasn't configured an avatar, this will be the default ? avatar.
