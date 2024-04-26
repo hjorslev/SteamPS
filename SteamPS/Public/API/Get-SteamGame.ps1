@@ -1,33 +1,32 @@
 ﻿function Get-SteamGame {
     <#
     .SYNOPSIS
-    Find a Steam AppID by searching the name of the application.
+    Retrieves a Steam AppID by searching the name or ID of the application.
 
     .DESCRIPTION
-    Find a Steam AppID by searching the name of the application.
+    This function searches for a Steam application by name or ID and returns the corresponding AppID. If multiple applications are found, the user can select the correct one from a list.
 
     .PARAMETER ApplicationName
-    Enter the name of the application. If multiple hits the user will be presented
-    with an Out-GridView where he/she can choose the correct application.
+    The name of the application to search for. If multiple applications are found, the user will be presented with a list from which they can select the correct application.
+
+    .PARAMETER ApplicationID
+    The unique identifier for a Steam application. Use this parameter to search for an application by its ID.
 
     .INPUTS
-    System.String. Find-SteamAppID accepts a string value.
+    System.String or System.Int32. Get-SteamGame accepts either a string value for the application name or an integer value for the application ID.
 
     .OUTPUTS
-    System.String and Int. It returns the application name and application ID.
+    PSCustomObject. This function returns a custom object with the application name and application ID.
 
     .EXAMPLE
-    Find-SteamAppID -ApplicationName 'Ground Branch'
+    Get-SteamGame -ApplicationName 'Ground Branch'
 
-    Will results in multiple hits and let the user choose between the application
-    'Ground Branch' which is the game or 'Ground Branch Dedicated Server' which
-    is the dedicated server to 'Ground Branch'.
+    Searches for applications with names that start with 'Ground Branch'. If multiple applications are found, the user can choose between them, such as the game 'Ground Branch' or 'Ground Branch Dedicated Server'.
 
     .EXAMPLE
-    Find-SteamAppID -ApplicationName 'Ground Branch D'
+    Get-SteamGame -ApplicationID 440
 
-    This Will only yield one result which is 'Ground Branch Dedicated Server'.
-    Output is the AppID and name of the application.
+    Searches for the application with the AppID 440 and returns its name and ID.
 
     .NOTES
     Author: Frederik Hjorslev Nylander
@@ -64,11 +63,11 @@
     }
 
     process {
-        # ParemeterSet ApplicationName
+        # ParameterSet ApplicationName
         if ($PSCmdlet.ParameterSetName -eq 'ApplicationName') {
             Write-Verbose -Message 'ParameterSetName is ApplicationName'
-            # Filter on ApplicationName. Might results in multiple hits.
-            # The user can then later can choose her preference.
+            # Filter on ApplicationName. Might result in multiple hits.
+            # The user can then later choose their preference.
             $FilteredApps = $SteamApps.Where({ $_.name -match "^$ApplicationName" })
             # If only one application is found when searching by application name.
             if (($FilteredApps | Measure-Object).Count -eq 1 -and $null -ne $FilteredApps) {
@@ -78,9 +77,9 @@
                     ApplicationName = $FilteredApps.name
                 }
             }
-            # If more than one application is found the user is prompted to select the exact application.
+            # If more than one application is found, the user is prompted to select the exact application.
             elseif (($FilteredApps | Measure-Object).Count -ge 1) {
-                # An OutGridView is presented to the user where the exact AppID can be located. This variable contains the AppID selected in the Out-GridView.
+                # An Out-GridView is presented to the user where the exact AppID can be located. This variable contains the AppID selected in the Out-GridView.
                 $SteamApp = $FilteredApps | Select-Object @{Name = 'appid'; Expression = { $_.appid.toString() } }, name | Out-GridView -Title 'Select application' -PassThru
                 if ($SteamApp) {
                     Write-Verbose -Message "$(($SteamApp).name) - $(($SteamApp).appid) selected from Out-GridView."
@@ -91,7 +90,7 @@
                 }
             }
         }
-        # ParemeterSet ApplicationID
+        # ParameterSet ApplicationID
         elseif ($PSCmdlet.ParameterSetName -eq 'ApplicationID') {
             Write-Verbose -Message 'ParameterSetName is ApplicationID.'
             $SteamApp = $SteamApps.Where({ $_.appid -eq $ApplicationID })
