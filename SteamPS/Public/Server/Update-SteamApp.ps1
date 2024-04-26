@@ -140,7 +140,7 @@ function Update-SteamApp {
                 if (-not ($null -eq $SteamApp)) {
                     if ($Force -or $PSCmdlet.ShouldContinue("Do you want to install or update $($SteamApp.ApplicationName)?", "Update SteamApp $($SteamApp.ApplicationName)?")) {
                         Write-Verbose -Message "The application $($SteamApp.ApplicationName) is being updated. Please wait for SteamCMD to finish."
-                        Use-SteamCMD -SteamAppID ($SteamApp).appid
+                        Use-SteamCMD -SteamAppID $SteamApp.ApplicationID
                     } # Should Continue
                 }
             } catch {
