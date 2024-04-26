@@ -138,8 +138,8 @@ function Update-SteamApp {
                 $SteamApp = Get-SteamGame -ApplicationName $ApplicationName
                 # Install selected Steam application if a SteamAppID has been selected.
                 if (-not ($null -eq $SteamApp)) {
-                    if ($Force -or $PSCmdlet.ShouldContinue("Do you want to install or update $(($SteamApp).name)?", "Update SteamApp $(($SteamApp).name)?")) {
-                        Write-Verbose -Message "The application $(($SteamApp).name) is being updated. Please wait for SteamCMD to finish."
+                    if ($Force -or $PSCmdlet.ShouldContinue("Do you want to install or update $($SteamApp.ApplicationName)?", "Update SteamApp $($SteamApp.ApplicationName)?")) {
+                        Write-Verbose -Message "The application $($SteamApp.ApplicationName) is being updated. Please wait for SteamCMD to finish."
                         Use-SteamCMD -SteamAppID ($SteamApp).appid
                     } # Should Continue
                 }
