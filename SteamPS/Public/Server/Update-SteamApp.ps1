@@ -10,7 +10,7 @@ function Update-SteamApp {
     .PARAMETER ApplicationName
     Enter the name of the app to make a wildcard search for the application.
 
-    .PARAMETER AppID
+    .PARAMETER ApplicationID
     Enter the application ID you wish to install.
 
     .PARAMETER Credential
