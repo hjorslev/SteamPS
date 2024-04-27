@@ -18,7 +18,7 @@ jobs:
       - name: 📦 Update documentation
         shell: pwsh
         run: |
-          Install-Module -Name platyPS -AllowPrerelease -Force
+          Install-Module -Name platyPS -AllowPrerelease -Force -Verbose
           Import-Module platyPS -Force
           Update-MarkdownHelpModule .\docs\ -AlphabeticParamsOrder -RefreshModulePage -UpdateInputOutput -ModulePagePath .\docs\index.md
 
