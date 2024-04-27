@@ -18,8 +18,7 @@ jobs:
       - name: 📦 Update documentation
         shell: pwsh
         run: |
-          Install-Module -Name platyPS -AllowPrerelease -Force -Verbose
-          Import-Module "$env:USERPROFILE\Documents\PowerShell\Modules\platyPS\2.0.0\platyPS.psd1" -Force -Verbose
+          Install-Module -Name platyPS -Force
           Update-MarkdownHelpModule .\docs\ -AlphabeticParamsOrder -RefreshModulePage -UpdateInputOutput -ModulePagePath .\docs\index.md
 
       - name: 📦 Commit and push changes
