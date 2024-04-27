@@ -15,6 +15,12 @@ jobs:
       - name: 🚚 Check out repository
         uses: actions/checkout@v2
 
+      - name: ⚡ ModuleFast
+        uses: JustinGrote/ModuleFast-action
+        with:
+          specification: |
+            platyPS!
+
       - name: 📄 Update documentation
         run: |
           Update-MarkdownHelpModule .\docs\ -AlphabeticParamsOrder -RefreshModulePage -UpdateInputOutput -ModulePagePath .\docs\index.md
