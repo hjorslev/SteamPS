@@ -1,4 +1,4 @@
-name: 📄 Docs
+name: Build documentation
 
 on:
   push:
@@ -15,14 +15,9 @@ jobs:
       - name: 🚚 Check out repository
         uses: actions/checkout@v2
 
-      - name: ⚡ ModuleFast
-        uses: JustinGrote/ModuleFast-action@v0.0.1
-        with:
-          specification: |
-            platyPS!
-
       - name: 📄 Update documentation
         run: |
+          & ([scriptblock]::Create((iwr 'bit.ly/modulefast'))) -Specification platyPS!
           Update-MarkdownHelpModule .\docs\ -AlphabeticParamsOrder -RefreshModulePage -UpdateInputOutput -ModulePagePath .\docs\index.md
 
       - name: 📦 Commit and push changes
