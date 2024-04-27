@@ -132,12 +132,65 @@ jobs:
         flags: ${{ matrix.info.name }}
         token: ${{ secrets.CODECOV_TOKEN }}
 
+  docs:
+    runs-on: windows-latest
+    needs:
+    - build
+    - test
+    steps:
+      - name: 🚚 Check out repository
+        uses: actions/checkout@v2
+
+      - name: ➕ Restore Built PowerShell Module
+        uses: actions/download-artifact@v4
+        with:
+          name: PSModule
+          path: output
+
+      - name: 📦 Install Built PowerShell Module
+        shell: pwsh
+        run: |
+          # Get the manifest from the newly built module.
+          $manifestItem = Get-Item ([IO.Path]::Combine('SteamPS', '*.psd1'))
+          $moduleName = $manifestItem.BaseName
+          $Manifest = Test-ModuleManifest -Path $manifestItem.FullName -ErrorAction SilentlyContinue -WarningAction Ignore
+
+          if ($env:BUILD_CONFIGURATION -eq 'Release') {
+              $Version = $env:GITHUB_REF -replace '^refs/tags/v(\d+\.\d+\.\d+)', '$1'
+          } else {
+              $Version = $Manifest.Version
+          }
+
+          $destPath = [IO.Path]::Combine('output', $moduleName, $Version)
+          if (-not (Test-Path -LiteralPath $destPath)) {
+              New-Item -Path $destPath -ItemType Directory | Out-Null
+          }
+
+          Get-ChildItem output/*.nupkg | Rename-Item -NewName { $_.Name -replace '.nupkg', '.zip' }
+
+          Expand-Archive -Path output/*.zip -DestinationPath $destPath -Force -ErrorAction Stop
+
+      - name: 📦 Update documentation
+        shell: pwsh
+        run: |
+          Install-Module -Name platyPS -Force
+          Update-MarkdownHelpModule .\docs\ -AlphabeticParamsOrder -RefreshModulePage -UpdateInputOutput -ModulePagePath .\docs\index.md
+
+      - name: 📦 Commit and push changes
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add .
+          git commit -m "Update documentation"
+          git push
+
   publish:
     name: 🚀 Deploy
     if: startsWith(github.ref, 'refs/tags/v')
     needs:
     - build
     - test
+    - docs
     runs-on: windows-latest
     steps:
     - name: ➕ Restore Built PowerShell Module
