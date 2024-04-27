@@ -1,4 +1,4 @@
-name: Build documentation
+name: 📄 Docs
 
 on:
   push:
@@ -15,9 +15,13 @@ jobs:
       - name: 🚚 Check out repository
         uses: actions/checkout@v2
 
+      - name: Install and cache PowerShell modules
+        uses: potatoqualitee/psmodulecache@v6.0
+        with:
+          modules-to-cache-prerelease: platyPS:2.0.0-preview1
+
       - name: 📄 Update documentation
         run: |
-          Install-Module -Name platyPS -AllowPrerelease -Force
           Update-MarkdownHelpModule .\docs\ -AlphabeticParamsOrder -RefreshModulePage -UpdateInputOutput -ModulePagePath .\docs\index.md
 
       - name: 📦 Commit and push changes
