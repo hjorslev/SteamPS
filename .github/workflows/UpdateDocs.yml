@@ -1,0 +1,28 @@
+name: 📄 Docs
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  update_docs:
+    runs-on: windows-latest
+    steps:
+      - name: 🚚 Check out repository
+        uses: actions/checkout@v2
+
+      - name: 📄 Update documentation
+        run: |
+          Update-MarkdownHelpModule .\docs\ -AlphabeticParamsOrder -RefreshModulePage -UpdateInputOutput -ModulePagePath .\docs\index.md
+
+      - name: 📦 Commit and push changes
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add .
+          git commit -m "Update documentation"
+          git push
