@@ -21,6 +21,7 @@ jobs:
           modules-to-cache-prerelease: platyPS:2.0.0-preview1
 
       - name: 📦 Update documentation
+        shell: pwsh
         run: |
           Import-Module platyPS -Force
           Update-MarkdownHelpModule .\docs\ -AlphabeticParamsOrder -RefreshModulePage -UpdateInputOutput -ModulePagePath .\docs\index.md
