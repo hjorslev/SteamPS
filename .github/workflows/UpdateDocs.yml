@@ -1,4 +1,4 @@
-name: 📄 Docs
+name: Build documentation
 
 on:
   push:
@@ -20,8 +20,9 @@ jobs:
         with:
           modules-to-cache-prerelease: platyPS:2.0.0-preview1
 
-      - name: 📄 Update documentation
+      - name: 📦 Update documentation
         run: |
+          Import-Module platyPS -Force
           Update-MarkdownHelpModule .\docs\ -AlphabeticParamsOrder -RefreshModulePage -UpdateInputOutput -ModulePagePath .\docs\index.md
 
       - name: 📦 Commit and push changes
