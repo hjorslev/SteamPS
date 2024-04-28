@@ -133,10 +133,10 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
 
   docs:
+    name: 📄 Docs
     runs-on: windows-latest
     needs:
     - build
-    - test
     steps:
       - name: 🚚 Check out repository
         uses: actions/checkout@v2
@@ -147,34 +147,21 @@ jobs:
           name: PSModule
           path: output
 
-      - name: 📦 Install Built PowerShell Module
+      - name: 📦 Import PowerShell Module
         shell: pwsh
         run: |
-          # Get the manifest from the newly built module.
-          $manifestItem = Get-Item ([IO.Path]::Combine('SteamPS', '*.psd1'))
-          $moduleName = $manifestItem.BaseName
-          $Manifest = Test-ModuleManifest -Path $manifestItem.FullName -ErrorAction SilentlyContinue -WarningAction Ignore
-
-          if ($env:BUILD_CONFIGURATION -eq 'Release') {
-              $Version = $env:GITHUB_REF -replace '^refs/tags/v(\d+\.\d+\.\d+)', '$1'
-          } else {
-              $Version = $Manifest.Version
-          }
-
-          $destPath = [IO.Path]::Combine('output', $moduleName, $Version)
-          if (-not (Test-Path -LiteralPath $destPath)) {
-              New-Item -Path $destPath -ItemType Directory | Out-Null
-          }
-
-          Get-ChildItem output/*.nupkg | Rename-Item -NewName { $_.Name -replace '.nupkg', '.zip' }
-
-          Expand-Archive -Path output/*.zip -DestinationPath $destPath -Force -ErrorAction Stop
+          $modulePath = (Get-ChildItem -Path output/*.nupkg -Name)
+          $moduleName = ($modulePath -replace '.nupkg$', '')
+          $moduleDir = "output/$moduleName"
+          Expand-Archive -Path "output/$modulePath" -DestinationPath $moduleDir
+          $moduleManifest = (Get-ChildItem -Path "$moduleDir/*.psd1" -Name)
+          Import-Module -Name "$moduleDir/$moduleManifest" -Force
 
       - name: 📦 Update documentation
         shell: pwsh
         run: |
           Install-Module -Name platyPS -Force
-          Update-MarkdownHelpModule .\docs\ -AlphabeticParamsOrder -RefreshModulePage -UpdateInputOutput -ModulePagePath .\docs\index.md
+          Update-MarkdownHelpModule -Path .\docs\ -Module $moduleName -AlphabeticParamsOrder -RefreshModulePage -UpdateInputOutput -ModulePagePath .\docs\index.md
 
       - name: 📦 Commit and push changes
         run: |
@@ -183,6 +170,7 @@ jobs:
           git add .
           git commit -m "Update documentation"
           git push
+
 
   publish:
     name: 🚀 Deploy
