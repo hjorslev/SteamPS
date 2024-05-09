@@ -155,7 +155,7 @@ jobs:
           $moduleDir = "output/$moduleName"
           Expand-Archive -Path "output/$modulePath" -DestinationPath $moduleDir
           $moduleManifest = (Get-ChildItem -Path "$moduleDir/*.psd1" -Name)
-          Get-ChildItem -Path output
+          Get-ChildItem -Path output -Recurse
           Import-Module -Name "$moduleDir/$moduleManifest" -Force
 
       - name: 📦 Update documentation
