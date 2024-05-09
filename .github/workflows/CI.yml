@@ -150,13 +150,15 @@ jobs:
       - name: 📦 Import PowerShell Module
         shell: pwsh
         run: |
-          $modulePath = (Get-ChildItem -Path output/*.nupkg -Name)
-          $moduleName = ($modulePath -replace '.nupkg$', '')
-          $moduleDir = "output/$moduleName"
-          Expand-Archive -Path "output/$modulePath" -DestinationPath $moduleDir
-          $moduleManifest = (Get-ChildItem -Path "$moduleDir/*.psd1" -Name)
+          $destPath = [IO.Path]::Combine('output', $moduleName, $Version)
+              if (-not (Test-Path -LiteralPath $destPath)) {
+                  New-Item -Path $destPath -ItemType Directory | Out-Null
+              }
+          Get-ChildItem output/*.nupkg | Rename-Item -NewName { $_.Name -replace '.nupkg', '.zip' }
+
+          Expand-Archive -Path output/*.zip -DestinationPath $destPath -Force -ErrorAction Stop
           Get-ChildItem -Path output -Recurse
-          Import-Module -Name "$moduleDir/$moduleManifest" -Force
+
 
       - name: 📦 Update documentation
         shell: pwsh
