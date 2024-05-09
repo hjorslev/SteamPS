@@ -150,6 +150,7 @@ jobs:
       - name: 📦 Import PowerShell Module
         shell: pwsh
         run: |
+          Get-ChildItem -Path output
           $modulePath = (Get-ChildItem -Path output/*.nupkg -Name)
           $moduleName = ($modulePath -replace '.nupkg$', '')
           $moduleDir = "output/$moduleName"
