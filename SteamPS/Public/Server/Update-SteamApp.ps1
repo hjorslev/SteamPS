@@ -69,7 +69,7 @@ function Update-SteamApp {
             ParameterSetName = 'ApplicationID'
         )]
         [ValidateScript({
-            if ($null -eq (Get-SteamGame -ApplicationID $_)) {
+            if ($null -eq (Get-SteamApp -ApplicationID $_)) {
                 throw "ApplicationID $_ couldn't be found."
             }
             $true
@@ -135,7 +135,7 @@ function Update-SteamApp {
         # If game is found by searching for game name.
         if ($PSCmdlet.ParameterSetName -eq 'ApplicationName') {
             try {
-                $SteamApp = Get-SteamGame -ApplicationName $ApplicationName
+                $SteamApp = Get-SteamApp -ApplicationName $ApplicationName
                 # Install selected Steam application if a SteamAppID has been selected.
                 if (-not ($null -eq $SteamApp)) {
                     if ($Force -or $PSCmdlet.ShouldContinue("Do you want to install or update $($SteamApp.ApplicationName)?", "Update SteamApp $($SteamApp.ApplicationName)?")) {

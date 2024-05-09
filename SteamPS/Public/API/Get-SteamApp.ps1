@@ -1,4 +1,4 @@
-﻿function Get-SteamGame {
+﻿function Get-SteamApp {
     <#
     .SYNOPSIS
     Retrieves a Steam AppID by searching the name or ID of the application.
@@ -13,18 +13,18 @@
     The unique identifier for a Steam application. Use this parameter to search for an application by its ID.
 
     .INPUTS
-    System.String or System.Int32. Get-SteamGame accepts either a string value for the application name or an integer value for the application ID.
+    System.String or System.Int32. Get-SteamApp accepts either a string value for the application name or an integer value for the application ID.
 
     .OUTPUTS
     PSCustomObject. This function returns a custom object with the application name and application ID.
 
     .EXAMPLE
-    Get-SteamGame -ApplicationName 'Ground Branch'
+    Get-SteamApp -ApplicationName 'Ground Branch'
 
     Searches for applications with names that start with 'Ground Branch'. If multiple applications are found, the user can choose between them, such as the game 'Ground Branch' or 'Ground Branch Dedicated Server'.
 
     .EXAMPLE
-    Get-SteamGame -ApplicationID 440
+    Get-SteamApp -ApplicationID 440
 
     Searches for the application with the AppID 440 and returns its name and ID.
 
@@ -32,7 +32,7 @@
     Author: Frederik Hjorslev Nylander
 
     .LINK
-    https://hjorslev.github.io/SteamPS/Get-SteamGame.html
+    https://hjorslev.github.io/SteamPS/Get-SteamApp.html
     #>
 
     [CmdletBinding(DefaultParameterSetName = 'ApplicationName')]
