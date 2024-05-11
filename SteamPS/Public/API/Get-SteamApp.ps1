@@ -56,10 +56,8 @@
     )
 
     begin {
-        if ($null -eq $SteamApps) {
             Write-Verbose -Message 'Fetching app list from Steam Web API.'
             $SteamApps = (Invoke-RestMethod -Uri 'https://api.steampowered.com/ISteamApps/GetAppList/v2/' -UseBasicParsing).applist.apps
-        }
     }
 
     process {
@@ -89,6 +87,16 @@
                     }
                 }
             }
+            if (-not $FilteredApps) {
+                $Exception = [Exception]::new("$ApplicationName could not be found.")
+                $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                    $Exception,
+                    'ApplicationNotFound',
+                    [System.Management.Automation.ErrorCategory]::ObjectNotFound,
+                    $FilteredApps
+                )
+                $PSCmdlet.WriteError($ErrorRecord)
+            }
         }
         # ParameterSet ApplicationID
         elseif ($PSCmdlet.ParameterSetName -eq 'ApplicationID') {
@@ -99,6 +107,15 @@
                     ApplicationID   = $SteamApp.appid
                     ApplicationName = $SteamApp.name
                 }
+            } else {
+                $Exception = [Exception]::new("$ApplicationID could not be found.")
+                $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                    $Exception,
+                    'ApplicationNotFound',
+                    [System.Management.Automation.ErrorCategory]::ObjectNotFound,
+                    $SteamApp
+                )
+                $PSCmdlet.WriteError($ErrorRecord)
             }
         }
     } # Process

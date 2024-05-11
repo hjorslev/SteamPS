@@ -15,9 +15,11 @@
     }
 
     Context 'When no application is found' {
-        It 'Should return no result' {
-            $SteamApp = Get-SteamApp -ApplicationName 'Nonexistent Application'
-            $SteamApp | Should -BeNull
+        It 'Should write an error when no application name were found' {
+            { Get-SteamApp -ApplicationName 'Nonexistent Application' -ErrorAction Stop } | Should -Throw
+        }
+        It 'Should write an error when no application ID were found' {
+            { Get-SteamApp -ApplicationID '1234567' -ErrorAction Stop } | Should -Throw
         }
     }
 }
