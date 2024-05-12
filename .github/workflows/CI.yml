@@ -150,7 +150,7 @@ jobs:
       - name: 📦 Import PowerShell Module
         shell: pwsh
         run: |
-          $destPath = "output\$moduleName\Version\"
+          $destPath = "output\$($moduleName)\$($Version)\"
               if (-not (Test-Path -LiteralPath $destPath)) {
                   New-Item -Path $destPath -ItemType Directory | Out-Null
               }
