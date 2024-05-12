@@ -160,7 +160,7 @@ jobs:
           Get-ChildItem -Path output -Recurse
           Get-Content 'output\SteamPS.psd1'
           Get-Content 'output\SteamPS.psm1'
-          Import-Module -Name 'output\SteamPS.psd1' -Force
+          Import-Module -Name 'output\SteamPS.psm1' -Force
 
       - name: 📦 Update documentation
         shell: pwsh
