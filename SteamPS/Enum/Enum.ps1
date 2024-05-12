@@ -1,4 +1,4 @@
-﻿enum ServerType {
+enum ServerType {
     Dedicated = 0x64    #d
     NonDedicated = 0x6C #l
     SourceTV = 0x70     #p
@@ -16,6 +16,20 @@ enum VAC {
 enum Visibility {
     Public = 0
     Private = 1
+}
+
+enum PersonaState {
+    Offline = 0
+    Online = 1
+    Busy = 2
+    Away = 3
+    Snooze = 4
+    LookingToTrade = 5
+}
+enum CommunityVisibilityState {
+    Private = 1
+    FriendsOnly = 2
+    Public = 3
 }
 
 if ($PSVersionTable.PSVersion.Major -le 5 -and $PSVersionTable.PSVersion.Minor -le 1) {
