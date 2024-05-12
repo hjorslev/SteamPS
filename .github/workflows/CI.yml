@@ -157,7 +157,7 @@ jobs:
           Get-ChildItem output/*.nupkg | Rename-Item -NewName { $_.Name -replace '.nupkg', '.zip' }
 
           Expand-Archive -Path output/*.zip -DestinationPath $destPath -Force -ErrorAction Stop
-          Get-ChildItem -Path output -Recursive
+          Get-ChildItem -Path output -Recurse
           Get-Content SteamPS.psd1
           Get-Content SteamPS.psm1
           Import-Module -Name  -Force
