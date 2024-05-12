@@ -10,7 +10,7 @@ function Update-SteamApp {
     .PARAMETER ApplicationName
     Enter the name of the app to make a wildcard search for the application.
 
-    .PARAMETER AppID
+    .PARAMETER ApplicationID
     Enter the application ID you wish to install.
 
     .PARAMETER Credential
@@ -66,9 +66,16 @@ function Update-SteamApp {
         [Parameter(Position = 0,
             Mandatory = $true,
             ValueFromPipelineByPropertyName = $true,
-            ParameterSetName = 'AppID'
+            ParameterSetName = 'ApplicationID'
         )]
-        [int]$AppID,
+        [ValidateScript({
+            if ($null -eq (Get-SteamApp -ApplicationID $_)) {
+                throw "ApplicationID $_ couldn't be found."
+            }
+            $true
+        })]
+        [Alias('AppID')]
+        [int]$ApplicationID,
 
         [Parameter(Mandatory = $true)]
         [ValidateScript( {
@@ -128,12 +135,12 @@ function Update-SteamApp {
         # If game is found by searching for game name.
         if ($PSCmdlet.ParameterSetName -eq 'ApplicationName') {
             try {
-                $SteamApp = Find-SteamAppID -ApplicationName $ApplicationName
+                $SteamApp = Get-SteamApp -ApplicationName $ApplicationName
                 # Install selected Steam application if a SteamAppID has been selected.
                 if (-not ($null -eq $SteamApp)) {
-                    if ($Force -or $PSCmdlet.ShouldContinue("Do you want to install or update $(($SteamApp).name)?", "Update SteamApp $(($SteamApp).name)?")) {
-                        Write-Verbose -Message "The application $(($SteamApp).name) is being updated. Please wait for SteamCMD to finish."
-                        Use-SteamCMD -SteamAppID ($SteamApp).appid
+                    if ($Force -or $PSCmdlet.ShouldContinue("Do you want to install or update $($SteamApp.ApplicationName)?", "Update SteamApp $($SteamApp.ApplicationName)?")) {
+                        Write-Verbose -Message "The application $($SteamApp.ApplicationName) is being updated. Please wait for SteamCMD to finish."
+                        Use-SteamCMD -SteamAppID $SteamApp.ApplicationID
                     } # Should Continue
                 }
             } catch {
@@ -141,10 +148,10 @@ function Update-SteamApp {
             }
         } # ParameterSet ApplicationName
 
-        # If game is found by using a unique AppID.
-        if ($PSCmdlet.ParameterSetName -eq 'AppID') {
+        # If game is found by using a unique ApplicationID.
+        if ($PSCmdlet.ParameterSetName -eq 'ApplicationID') {
             try {
-                $SteamAppID = $AppID
+                $SteamAppID = $ApplicationID
                 # Install selected Steam application.
                 if ($Force -or $PSCmdlet.ShouldContinue("Do you want to install or update $($SteamAppID)?", "Update SteamApp $($SteamAppID)?")) {
                     Write-Verbose -Message "The application with AppID $SteamAppID is being updated. Please wait for SteamCMD to finish."
