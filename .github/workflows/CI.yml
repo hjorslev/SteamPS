@@ -158,9 +158,9 @@ jobs:
 
           Expand-Archive -Path output/*.zip -DestinationPath $destPath -Force -ErrorAction Stop
           Get-ChildItem -Path output -Recurse
-          Get-Content SteamPS.psd1
-          Get-Content SteamPS.psm1
-          Import-Module -Name  -Force
+          Get-Content 'output\SteamPS.psd1'
+          Get-Content 'output\SteamPS.psm1'
+          Import-Module -Name 'output\SteamPS.psd1' -Force
 
       - name: 📦 Update documentation
         shell: pwsh
