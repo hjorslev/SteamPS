@@ -1,22 +1,20 @@
 ﻿function Get-SteamApp {
     <#
     .SYNOPSIS
-    Retrieves a Steam AppID by searching the name or ID of the application.
+    Retrieves the name and ID of a Steam application by searching the name or
+    ID of the application.
 
     .DESCRIPTION
-    This function searches for a Steam application by name or ID and returns the corresponding AppID. If multiple applications are found, the user can select the correct one from a list.
+    This function searches for a Steam application by name or ID and returns the
+    corresponding application ID and name. If multiple applications are found,
+    the user can select the correct one from a list.
 
     .PARAMETER ApplicationName
-    The name of the application to search for. If multiple applications are found, the user will be presented with a list from which they can select the correct application.
+    The name of the application to search for. If multiple applications are found,
+    the user will be presented with a list from which they can select the correct application.
 
     .PARAMETER ApplicationID
     The unique identifier for a Steam application. Use this parameter to search for an application by its ID.
-
-    .INPUTS
-    System.String or System.Int32. Get-SteamApp accepts either a string value for the application name or an integer value for the application ID.
-
-    .OUTPUTS
-    PSCustomObject. This function returns a custom object with the application name and application ID.
 
     .EXAMPLE
     Get-SteamApp -ApplicationName 'Ground Branch'
@@ -27,6 +25,12 @@
     Get-SteamApp -ApplicationID 440
 
     Searches for the application with the AppID 440 and returns its name and ID.
+
+    .INPUTS
+    System.String or System.Int32. Get-SteamApp accepts either a string value for the application name or an integer value for the application ID.
+
+    .OUTPUTS
+    PSCustomObject. This function returns a custom object with the application name and application ID.
 
     .NOTES
     Author: Frederik Hjorslev Nylander
@@ -56,8 +60,8 @@
     )
 
     begin {
-            Write-Verbose -Message 'Fetching app list from Steam Web API.'
-            $SteamApps = (Invoke-RestMethod -Uri 'https://api.steampowered.com/ISteamApps/GetAppList/v2/' -UseBasicParsing).applist.apps
+        Write-Verbose -Message 'Fetching app list from Steam Web API.'
+        $SteamApps = (Invoke-RestMethod -Uri 'https://api.steampowered.com/ISteamApps/GetAppList/v2/' -UseBasicParsing).applist.apps
     }
 
     process {

@@ -1,6 +1,6 @@
 ---
 external help file: SteamPS-help.xml
-Module Name: steamps
+Module Name: SteamPS
 online version: https://hjorslev.github.io/SteamPS/Find-SteamAppID.html
 schema: 2.0.0
 ---
@@ -13,7 +13,7 @@ Find a Steam AppID by searching the name of the application.
 ## SYNTAX
 
 ```
-Find-SteamAppID [-ApplicationName] <String> [<CommonParameters>]
+Find-SteamAppID [-ApplicationName] <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -54,6 +54,21 @@ Required: True
 Position: 1
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

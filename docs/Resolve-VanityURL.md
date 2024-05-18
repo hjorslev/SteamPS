@@ -1,6 +1,6 @@
 ---
 external help file: SteamPS-help.xml
-Module Name: steamps
+Module Name: SteamPS
 online version: https://hjorslev.github.io/SteamPS/Resolve-VanityURL.html
 schema: 2.0.0
 ---
@@ -13,7 +13,8 @@ Resolve a vanity URL (also named custom URL).
 ## SYNTAX
 
 ```
-Resolve-VanityURL [-VanityURL] <String> [[-UrlType] <Int32>] [[-OutputFormat] <String>] [<CommonParameters>]
+Resolve-VanityURL [-VanityURL] <String> [[-UrlType] <Int32>] [[-OutputFormat] <String>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,20 +32,32 @@ Returns a 64 bit Steam ID.
 
 ## PARAMETERS
 
-### -VanityURL
-Enter the vanity URL (also named custom URL) to get a SteamID for.
-Do not enter
-the fully qualified URL, but just the ID e.g.
-hjorslev instead of
-"https://steamcommunity.com/id/hjorslev/"
+### -OutputFormat
+Format of the output.
+Options are json (default), xml or vdf.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 1
+Required: False
+Position: 3
+Default value: Json
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -66,18 +79,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -OutputFormat
-Format of the output.
-Options are json (default), xml or vdf.
+### -VanityURL
+Enter the vanity URL (also named custom URL) to get a SteamID for.
+Do not enter
+the fully qualified URL, but just the ID e.g.
+hjorslev instead of
+"https://steamcommunity.com/id/hjorslev/"
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: 3
-Default value: Json
+Required: True
+Position: 1
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

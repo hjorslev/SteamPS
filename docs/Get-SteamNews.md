@@ -1,6 +1,6 @@
 ---
 external help file: SteamPS-help.xml
-Module Name: steamps
+Module Name: SteamPS
 online version: https://hjorslev.github.io/SteamPS/Get-SteamNews.html
 schema: 2.0.0
 ---
@@ -14,7 +14,7 @@ Returns the latest news of a game specified by its AppID.
 
 ```
 Get-SteamNews [-AppID] <Int32> [[-Count] <Int32>] [[-MaxLength] <Int32>] [[-OutputFormat] <String>]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -95,6 +95,21 @@ Aliases:
 Required: False
 Position: 4
 Default value: Json
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

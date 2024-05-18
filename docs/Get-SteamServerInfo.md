@@ -1,6 +1,6 @@
 ---
 external help file: SteamPS-help.xml
-Module Name: steamps
+Module Name: SteamPS
 online version: https://hjorslev.github.io/SteamPS/Get-SteamServerInfo.html
 schema: 2.0.0
 ---
@@ -13,7 +13,8 @@ Query a running steam based game server.
 ## SYNTAX
 
 ```
-Get-SteamServerInfo [-IPAddress] <IPAddress> [-Port] <Int32> [[-Timeout] <Int32>] [<CommonParameters>]
+Get-SteamServerInfo [-IPAddress] <IPAddress> [-Port] <Int32> [[-Timeout] <Int32>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -76,6 +77,21 @@ Aliases:
 Required: True
 Position: 2
 Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

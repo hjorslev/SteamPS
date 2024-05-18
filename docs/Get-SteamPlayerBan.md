@@ -1,6 +1,6 @@
 ---
 external help file: SteamPS-help.xml
-Module Name: steamps
+Module Name: SteamPS
 online version: https://hjorslev.github.io/SteamPS/Get-SteamPlayerBan.html
 schema: 2.0.0
 ---
@@ -13,7 +13,8 @@ Returns Community, VAC, and Economy ban statuses for given players.
 ## SYNTAX
 
 ```
-Get-SteamPlayerBan [-SteamID64] <Int64[]> [[-OutputFormat] <String>] [<CommonParameters>]
+Get-SteamPlayerBan [-SteamID64] <Int64[]> [[-OutputFormat] <String>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,21 +29,6 @@ Get-SteamPlayerBan -SteamID64 76561197960435530, 76561197960434622
 
 ## PARAMETERS
 
-### -SteamID64
-Comma-delimited list of 64 bit Steam IDs to return player ban information for.
-
-```yaml
-Type: Int64[]
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### -OutputFormat
 Format of the output.
 Options are json (default), xml or vdf.
@@ -56,6 +42,36 @@ Required: False
 Position: 2
 Default value: Json
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SteamID64
+Comma-delimited list of 64 bit Steam IDs to return player ban information for.
+
+```yaml
+Type: Int64[]
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
