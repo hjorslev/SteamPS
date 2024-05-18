@@ -12,10 +12,6 @@ Find a Steam AppID by searching the name of the application.
 
 ## SYNTAX
 
-```
-Find-SteamAppID [-ApplicationName] <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
-```
-
 ## DESCRIPTION
 Find a Steam AppID by searching the name of the application.
 
@@ -40,47 +36,15 @@ Output is the AppID and name of the application.
 
 ## PARAMETERS
 
-### -ApplicationName
-Enter the name of the application.
-If multiple hits the user will be presented
-with an Out-GridView where he/she can choose the correct application.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: GameName
-
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### System.String. Find-SteamAppID accepts a string value.
+### System.String or System.Int32. Get-SteamApp accepts either a string value for the application name or an integer value for the application ID.
 ## OUTPUTS
 
-### System.String and Int. It returns the application name and application ID.
+### PSCustomObject. This function returns a custom object with the application name and application ID.
 ## NOTES
 Author: Frederik Hjorslev Nylander
 

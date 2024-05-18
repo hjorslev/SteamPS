@@ -13,8 +13,8 @@ Returns the friend list of any Steam user.
 ## SYNTAX
 
 ```
-Get-SteamFriendList [-SteamID64] <Int64> [[-Relationship] <String>] [[-OutputFormat] <String>]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Get-SteamFriendList [-SteamID64] <Int64> [[-Relationship] <String>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -39,22 +39,6 @@ Outputs the user's friends list, as an array of friends and converts it from
 Json to PSCustomObjects.
 
 ## PARAMETERS
-
-### -OutputFormat
-Format of the output.
-Options are json (default), xml or vdf.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
-Default value: Json
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -ProgressAction
 {{ Fill ProgressAction Description }}
@@ -110,11 +94,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ### System.Int64
 ## OUTPUTS
 
-### Returns a string formatted as JSON, XML, or VDF representing the user's friend list.
-### The friend list contains the following properties:
-### - steamid: 64-bit Steam ID of the friend.
-### - relationship: Relationship qualifier.
-### - friend_since: Unix timestamp of when the relationship was established.
+### PSCustomObject. It returns the following properties:
+### - SteamID64: The friend's 64-bit Steam ID.
+### - Relationship: The qualifier of the relationship.
+### - FriendSince: The Unix timestamp indicating when the relationship was established.
 ## NOTES
 Author: Frederik Hjorslev Nylander
 

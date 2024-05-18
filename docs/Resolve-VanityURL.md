@@ -13,8 +13,8 @@ Resolve a vanity URL (also named custom URL).
 ## SYNTAX
 
 ```
-Resolve-VanityURL [-VanityURL] <String> [[-UrlType] <Int32>] [[-OutputFormat] <String>]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Resolve-VanityURL [-VanityURL] <String[]> [[-UrlType] <Int32>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,22 +31,6 @@ Resolve-VanityURL -VanityURL hjorslev
 Returns a 64 bit Steam ID.
 
 ## PARAMETERS
-
-### -OutputFormat
-Format of the output.
-Options are json (default), xml or vdf.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
-Default value: Json
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -ProgressAction
 {{ Fill ProgressAction Description }}
@@ -87,7 +71,7 @@ hjorslev instead of
 "https://steamcommunity.com/id/hjorslev/"
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -103,10 +87,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### String.
+### The VanityURL parameter accepts string input.
 ## OUTPUTS
 
-### 64 bit Steam ID.
+### The cmdlet returns a custom object containing the VanityURL and its associated SteamID64.
 ## NOTES
 Author: Frederik Hjorslev Nylander
 

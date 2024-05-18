@@ -18,10 +18,10 @@ Update-SteamApp [-ApplicationName] <String> -Path <String> [-Credential <PSCrede
  [-Force] [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### AppID
+### ApplicationID
 ```
-Update-SteamApp [-AppID] <Int32> -Path <String> [-Credential <PSCredential>] [-Arguments <String>] [-Force]
- [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Update-SteamApp [-ApplicationID] <Int32> -Path <String> [-Credential <PSCredential>] [-Arguments <String>]
+ [-Force] [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -47,13 +47,13 @@ Here we use anonymous login because the particular application (ARK: Survival Ev
 
 ## PARAMETERS
 
-### -AppID
+### -ApplicationID
 Enter the application ID you wish to install.
 
 ```yaml
 Type: Int32
-Parameter Sets: AppID
-Aliases:
+Parameter Sets: ApplicationID
+Aliases: AppID
 
 Required: True
 Position: 1
