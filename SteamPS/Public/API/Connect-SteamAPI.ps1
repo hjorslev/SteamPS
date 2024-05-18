@@ -9,6 +9,7 @@ function Connect-SteamAPI {
 
     .EXAMPLE
     Connect-SteamAPI
+
     Prompts the user for a Steam Web API key and sets the specified input within
     the config file.
 

@@ -4,7 +4,7 @@
     Fetches basic profile information for a list of 64-bit Steam IDs.
 
     .DESCRIPTION
-    Fetches basic profile information for a list of 64-bit Steam IDs.
+    Fetches basic profile information from the Steam Community.
 
     .PARAMETER SteamID64
     Specifies a comma-separated list of 64-bit Steam IDs to fetch profile information for. Up to 100 Steam IDs can be requested.

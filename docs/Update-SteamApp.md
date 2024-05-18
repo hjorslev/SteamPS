@@ -1,6 +1,6 @@
 ---
 external help file: SteamPS-help.xml
-Module Name: steamps
+Module Name: SteamPS
 online version: https://hjorslev.github.io/SteamPS/Update-SteamApp.html
 schema: 2.0.0
 ---
@@ -15,13 +15,13 @@ Install or update a Steam application using SteamCMD.
 ### ApplicationName
 ```
 Update-SteamApp [-ApplicationName] <String> -Path <String> [-Credential <PSCredential>] [-Arguments <String>]
- [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Force] [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### AppID
+### ApplicationID
 ```
-Update-SteamApp [-AppID] <Int32> -Path <String> [-Credential <PSCredential>] [-Arguments <String>] [-Force]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+Update-SteamApp [-ApplicationID] <Int32> -Path <String> [-Credential <PSCredential>] [-Arguments <String>]
+ [-Force] [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -47,6 +47,21 @@ Here we use anonymous login because the particular application (ARK: Survival Ev
 
 ## PARAMETERS
 
+### -ApplicationID
+Enter the application ID you wish to install.
+
+```yaml
+Type: Int32
+Parameter Sets: ApplicationID
+Aliases: AppID
+
+Required: True
+Position: 1
+Default value: 0
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -ApplicationName
 Enter the name of the app to make a wildcard search for the application.
 
@@ -59,51 +74,6 @@ Required: True
 Position: 1
 Default value: None
 Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -AppID
-Enter the application ID you wish to install.
-
-```yaml
-Type: Int32
-Parameter Sets: AppID
-Aliases:
-
-Required: True
-Position: 1
-Default value: 0
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -Path
-Path to installation folder.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Credential
-If the app requires login to install or update, enter your Steam username and password.
-
-```yaml
-Type: PSCredential
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: [System.Management.Automation.PSCredential]::Empty
-Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -128,6 +98,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Credential
+If the app requires login to install or update, enter your Steam username and password.
+
+```yaml
+Type: PSCredential
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: [System.Management.Automation.PSCredential]::Empty
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Force
 The Force parameter allows the user to skip the "Should Continue" box.
 
@@ -143,14 +128,28 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
+### -Path
+Path to installation folder.
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: (All)
-Aliases: wi
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named
@@ -166,6 +165,22 @@ Prompts you for confirmation before running the cmdlet.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
 
 Required: False
 Position: Named

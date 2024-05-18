@@ -1,6 +1,6 @@
 ---
 external help file: SteamPS-help.xml
-Module Name: steamps
+Module Name: SteamPS
 online version: https://hjorslev.github.io/SteamPS/Resolve-VanityURL.html
 schema: 2.0.0
 ---
@@ -13,7 +13,8 @@ Resolve a vanity URL (also named custom URL).
 ## SYNTAX
 
 ```
-Resolve-VanityURL [-VanityURL] <String> [[-UrlType] <Int32>] [[-OutputFormat] <String>] [<CommonParameters>]
+Resolve-VanityURL [-VanityURL] <String[]> [[-UrlType] <Int32>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,20 +32,16 @@ Returns a 64 bit Steam ID.
 
 ## PARAMETERS
 
-### -VanityURL
-Enter the vanity URL (also named custom URL) to get a SteamID for.
-Do not enter
-the fully qualified URL, but just the ID e.g.
-hjorslev instead of
-"https://steamcommunity.com/id/hjorslev/"
+### -ProgressAction
+{{ Fill ProgressAction Description }}
 
 ```yaml
-Type: String
+Type: ActionPreference
 Parameter Sets: (All)
-Aliases:
+Aliases: proga
 
-Required: True
-Position: 1
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -66,18 +63,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -OutputFormat
-Format of the output.
-Options are json (default), xml or vdf.
+### -VanityURL
+Enter the vanity URL (also named custom URL) to get a SteamID for.
+Do not enter
+the fully qualified URL, but just the ID e.g.
+hjorslev instead of
+"https://steamcommunity.com/id/hjorslev/"
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: 3
-Default value: Json
+Required: True
+Position: 1
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -87,10 +87,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### String.
+### The VanityURL parameter accepts string input.
 ## OUTPUTS
 
-### 64 bit Steam ID.
+### The cmdlet returns a custom object containing the VanityURL and its associated SteamID64.
 ## NOTES
 Author: Frederik Hjorslev Nylander
 

@@ -29,25 +29,25 @@ for server information and more.
 
 ## Command Reference
 
-| Cmdlet                                                   | Description                                                         |
-| -------------------------------------------------------- | ------------------------------------------------------------------- |
-| [Connect-SteamAPI](docs/Connect-SteamAPI.md)             | Create or update the Steam Web API config file.                     |
-| [Disconnect-SteamAPI](docs/Disconnect-SteamAPI.md)          | Disconnects from the Steam API by removing the stored API key.      |
-| [Find-SteamAppID](docs/Find-SteamAppID.md)               | Find a Steam AppID by searching the name of the application.        |
-| [Get-SteamFriendList](docs/Get-SteamFriendList.md)       | Returns the friend list of any Steam user.                          |
-| [Get-SteamNews](docs/Get-SteamNews.md)                   | Returns the latest news of a game specified by its AppID.           |
-| [Get-SteamPlayerBan](docs/Get-SteamPlayerBan.md)         | Returns Community, VAC, and Economy ban statuses for given players. |
-| [Get-SteamPlayerSummary](docs/Get-SteamPlayerSummary.md) | Returns basic profile information for a list of 64-bit Steam IDs.   |
-| [Get-SteamServerInfo](docs/Get-SteamServerInfo.md)       | Query a running Steam based game server.                            |
-| [Install-SteamCMD](docs/Install-SteamCMD.md)             | Downloads and installs SteamCMD.                                    |
-| [Resolve-VanityURL](docs/Resolve-VanityURL.md)           | Resolve a vanity URL (also named custom URL).                       |
-| [Update-SteamApp](docs/Update-SteamApp.md)               | Install or update a Steam application using SteamCMD.               |
-| [Update-SteamServer](docs/Update-SteamServer.md)         | Update a Steam based game server through a workflow.                |
+| Cmdlet                                                   | Description                                                                                      |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| [Connect-SteamAPI](docs/Connect-SteamAPI.md)             | Create or update the Steam Web API config file.                                                  |
+| [Disconnect-SteamAPI](docs/Disconnect-SteamAPI.md)       | Disconnects from the Steam API by removing the stored API key.                                   |
+| [Get-SteamApp](docs/Get-SteamApp.md)                     | Retrieves the name and ID of a Steam application by searching the name or ID of the application. |
+| [Get-SteamFriendList](docs/Get-SteamFriendList.md)       | Returns the friend list of any Steam user.                                                       |
+| [Get-SteamNews](docs/Get-SteamNews.md)                   | Returns the latest news of a game.                                                               |
+| [Get-SteamPlayerBan](docs/Get-SteamPlayerBan.md)         | Returns Community, VAC, and Economy ban statuses for any given players.                              |
+| [Get-SteamPlayerSummary](docs/Get-SteamPlayerSummary.md) | Returns basic profile information for a list of 64-bit Steam IDs.                                |
+| [Get-SteamServerInfo](docs/Get-SteamServerInfo.md)       | Query a running Steam based game server.                                                         |
+| [Install-SteamCMD](docs/Install-SteamCMD.md)             | Downloads and installs SteamCMD.                                                                 |
+| [Resolve-VanityURL](docs/Resolve-VanityURL.md)           | Resolve a vanity URL (also named custom URL).                                                    |
+| [Update-SteamApp](docs/Update-SteamApp.md)               | Install or update a Steam application using SteamCMD.                                            |
+| [Update-SteamServer](docs/Update-SteamServer.md)         | Update a Steam based game server through a workflow.                                             |
 
 ## Prerequisites
 
 - Windows based OS
-- Windows PowerShell 5.1 / PowerShell 6+
+- Windows PowerShell 5.1 / PowerShell 7.
 
 You can find your version of PowerShell by using:
 
@@ -127,7 +127,7 @@ Update-SteamApp -ApplicationName 'Ground Branch Dedicated Server' -Path 'C:\Dedi
 In this example we install _ARK: SurvivalEvolved Dedicated Server_ by using its
 AppID. The AppID can be found by using a database such as
 [Steam Database](https://steamdb.info/) or by searching for the AppID with the cmdlet
-`Find-SteamAppID` e.g. `Find-SteamAppID -ApplicationName 'Counter-Strike'`.
+`Get-SteamApp` e.g. `Get-SteamApp -ApplicationName 'Counter-Strike'`.
 
 ```powershell
 Update-SteamApp -AppID 376030 -Path 'C:\DedicatedServers\ARK-SurvivalEvolved'

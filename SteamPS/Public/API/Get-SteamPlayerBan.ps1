@@ -4,7 +4,7 @@
     Fetches ban information for Steam players.
 
     .DESCRIPTION
-    This cmdlet fetches ban information for Steam players. The information includes whether the players are banned from the Steam Community, have VAC bans, the number of VAC bans, days since the last ban, number of game bans, and economy ban status.
+    This cmdlet fetches ban information about Steam players. The information includes whether the players are banned from the Steam Community, have VAC bans, the number of VAC bans, days since the last ban, number of game bans, and economy ban status.
 
     .PARAMETER SteamID64
     Specifies one or more 64-bit Steam IDs for which to fetch ban information. Enter the Steam IDs as a comma-separated list.
@@ -18,7 +18,7 @@
     int64[]: Specifies an array of 64-bit integers representing Steam IDs.
 
     .OUTPUTS
-    Returns objects with the following properties:
+    Returns a PSCustomObject with the following properties:
 
     - SteamID64: The player's 64-bit ID.
     - CommunityBanned: A boolean indicating whether the player is banned from the Steam Community.
