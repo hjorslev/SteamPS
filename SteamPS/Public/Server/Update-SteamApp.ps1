@@ -70,7 +70,7 @@ function Update-SteamApp {
         )]
         [ValidateScript({
             if ($null -eq (Get-SteamApp -ApplicationID $_)) {
-                throw "ApplicationID $_ couldn't be found."
+                    Write-Warning -Message "ApplicationID $_ couldn't be found in the Steam application list. Continuing anyway as the application might exist."
             }
             $true
         })]
