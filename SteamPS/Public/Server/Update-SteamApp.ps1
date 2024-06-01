@@ -34,7 +34,7 @@ function Update-SteamApp {
     .EXAMPLE
     Update-SteamApp -ApplicationName 'Arma 3' -Credential 'Toby' -Path 'C:\DedicatedServers\Arma3'
 
-    Because there are multiple hits when searching for Arma 3, the user will be promoted to select the right application.
+    Because there are multiple hits when searching for Arma 3, the user will be promted to select the right application.
 
     .EXAMPLE
     Update-SteamApp -AppID 376030 -Path 'C:\DedicatedServers\ARK-SurvivalEvolved'
