@@ -14,6 +14,7 @@
 
     .EXAMPLE
     Resolve-VanityURL -VanityURL user
+
     This example retrieves the SteamID64 linked to the vanity URL 'user'.
 
     .EXAMPLE

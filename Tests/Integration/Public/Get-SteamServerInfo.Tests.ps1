@@ -21,6 +21,7 @@
                     ExtraDataFlag = 177
                     IPAddress     = "135.239.211.40"
                     Port          = 27015
+                    Ping          = 65
                 }
             }
 
@@ -44,6 +45,7 @@
             $result.Version | Should -Be "1.0.0.0"
             $result.IPAddress | Should -Be "135.239.211.40"
             $result.Port | Should -Be 27015
+            $result.Ping | Should -Be 65
         }
     }
 

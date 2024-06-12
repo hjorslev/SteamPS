@@ -1,6 +1,6 @@
 ---
 external help file: SteamPS-help.xml
-Module Name: steamps
+Module Name: SteamPS
 online version: https://hjorslev.github.io/SteamPS/Install-SteamCMD.html
 schema: 2.0.0
 ---
@@ -13,7 +13,8 @@ Install SteamCMD.
 ## SYNTAX
 
 ```
-Install-SteamCMD [[-InstallPath] <String>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
+Install-SteamCMD [[-InstallPath] <String>] [-Force] [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -38,21 +39,6 @@ Installs SteamCMD in C:\SteamCMD.
 
 ## PARAMETERS
 
-### -InstallPath
-Specifiy the install location of SteamCMD.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: "$env:ProgramFiles"
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Force
 The Force parameter allows the user to skip the "Should Continue" box.
 
@@ -68,14 +54,28 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
+### -InstallPath
+Specifiy the install location of SteamCMD.
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: (All)
-Aliases: wi
+Aliases:
+
+Required: False
+Position: 1
+Default value: "$env:ProgramFiles"
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named
@@ -91,6 +91,22 @@ Prompts you for confirmation before running the cmdlet.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
 
 Required: False
 Position: Named

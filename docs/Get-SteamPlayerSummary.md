@@ -1,6 +1,6 @@
 ---
 external help file: SteamPS-help.xml
-Module Name: steamps
+Module Name: SteamPS
 online version: https://hjorslev.github.io/SteamPS/Get-SteamPlayerSummary.html
 schema: 2.0.0
 ---
@@ -13,7 +13,7 @@ Returns basic profile information for a list of 64-bit Steam IDs.
 ## SYNTAX
 
 ```
-Get-SteamPlayerSummary [-SteamID64] <Int64[]> [[-OutputFormat] <String>] [<CommonParameters>]
+Get-SteamPlayerSummary [-SteamID64] <Int64[]> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -27,6 +27,21 @@ Get-SteamPlayerSummary -SteamID64 76561197960435530, 76561197960434622
 ```
 
 ## PARAMETERS
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -SteamID64
 Comma-delimited list of 64 bit Steam IDs to return profile information for.
@@ -44,37 +59,19 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -OutputFormat
-Format of the output.
-Options are json (default), xml or vdf.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: Json
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### Array of int64.
+### int64[]: Specifies an array of 64-bit integers representing Steam IDs.
 ## OUTPUTS
 
-### Returns a string that is either formatted as json, xml or vdf.
-### Some data associated with a Steam account may be hidden if the user has their
-### profile visibility set to "Friends Only" or "Private". In that case, only
-### public data will be returned.
+### Returns a custom object with the properties listed below.
+### Some data associated with a Steam account may be hidden if the user has their profile visibility set to "Friends Only" or "Private". In that case, only public data will be returned.
 ### Public Data
-### - steamid: 64bit SteamID of the user
-### - personaname: The player's persona name (display name)
+### - steamid: 64-bit SteamID of the user.
+### - personaname: The player's persona name (display name).
 ### - profileurl: The full URL of the player's Steam Community profile.
 ### - avatar: The full URL of the player's 32x32px avatar. If the user hasn't configured an avatar, this will be the default ? avatar.
 ### - avatarmedium: The full URL of the player's 64x64px avatar. If the user hasn't configured an avatar, this will be the default ? avatar.

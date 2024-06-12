@@ -1,6 +1,6 @@
 ---
 external help file: SteamPS-help.xml
-Module Name: steamps
+Module Name: SteamPS
 online version: https://hjorslev.github.io/SteamPS/Get-SteamNews.html
 schema: 2.0.0
 ---
@@ -13,7 +13,7 @@ Returns the latest news of a game specified by its AppID.
 ## SYNTAX
 
 ```
-Get-SteamNews [-AppID] <Int32> [[-Count] <Int32>] [[-MaxLength] <Int32>] [[-OutputFormat] <String>]
+Get-SteamNews [-AppID] <Int32> [[-Count] <Int32>] [[-MaxLength] <Int32>] [-ProgressAction <ActionPreference>]
  [<CommonParameters>]
 ```
 
@@ -83,18 +83,17 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -OutputFormat
-Format of the output.
-Options are json (default), xml or vdf.
+### -ProgressAction
+{{ Fill ProgressAction Description }}
 
 ```yaml
-Type: String
+Type: ActionPreference
 Parameter Sets: (All)
-Aliases:
+Aliases: proga
 
 Required: False
-Position: 4
-Default value: Json
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -104,16 +103,21 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### int64
+### System.Int32
 ## OUTPUTS
 
-### Returns a string that is either formatted as json, xml or vdf.
-### An appnews object containing:
-### appid, the AppID of the game you want news of
-### newsitems, an array of news item information:
-### - An ID, title and url.
-### - A shortened excerpt of the contents (to maxlength characters), terminated by "..." if longer than maxlength.
-### - A comma-separated string of labels and UNIX timestamp.
+### Outputs an object containing:
+### - GID: The ID of the news item.
+### - Title: The title of the news item.
+### - Url: The URL of the news item.
+### - IsExternalUrl: A boolean indicating if the URL is external.
+### - Author: The author of the news item.
+### - Contents: The content of the news item.
+### - FeedLabel: The label of the news feed.
+### - Date: The date and time when the news item was published.
+### - FeedName: The name of the news feed.
+### - FeedType: The type of the news feed.
+### - AppID: The AppID of the game associated with the news item.
 ## NOTES
 Author: Frederik Hjorslelv Nylander
 
