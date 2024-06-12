@@ -132,12 +132,56 @@ jobs:
         flags: ${{ matrix.info.name }}
         token: ${{ secrets.CODECOV_TOKEN }}
 
+  docs:
+    name: 📄 Docs
+    runs-on: windows-latest
+    needs:
+    - build
+    steps:
+      - name: 🚚 Check out repository
+        uses: actions/checkout@v2
+
+      - name: ➕ Restore Built PowerShell Module
+        uses: actions/download-artifact@v4
+        with:
+          name: PSModule
+          path: output
+
+      - name: 📦 Import PowerShell Module
+        shell: pwsh
+        run: |
+          $destPath = "output\$($moduleName)\$($Version)\"
+              if (-not (Test-Path -LiteralPath $destPath)) {
+                  New-Item -Path $destPath -ItemType Directory | Out-Null
+              }
+          Get-ChildItem output/*.nupkg | Rename-Item -NewName { $_.Name -replace '.nupkg', '.zip' }
+
+          Expand-Archive -Path output/*.zip -DestinationPath $destPath -Force -ErrorAction Stop
+          Get-ChildItem -Path output -Recurse
+          Import-Module -Name "$destPath\SteamPS.psd1" -Force
+
+      - name: 📦 Update documentation
+        shell: pwsh
+        run: |
+          Install-Module -Name platyPS -Force
+          Update-MarkdownHelpModule -Path .\docs\ -Module $moduleName -AlphabeticParamsOrder -RefreshModulePage -UpdateInputOutput -ModulePagePath .\docs\index.md
+
+      - name: 📦 Commit and push changes
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add .
+          git commit -m "Update documentation"
+          git push
+
+
   publish:
     name: 🚀 Deploy
     if: startsWith(github.ref, 'refs/tags/v')
     needs:
     - build
     - test
+    - docs
     runs-on: windows-latest
     steps:
     - name: ➕ Restore Built PowerShell Module
