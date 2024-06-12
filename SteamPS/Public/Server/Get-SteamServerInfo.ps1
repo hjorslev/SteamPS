@@ -38,6 +38,7 @@
     ExtraDataFlag : 177
     IPAddress     : 185.15.73.207
     Port          : 27015
+    Ping          : 65
     ```
 
     .NOTES
@@ -72,13 +73,15 @@
         try {
             # Instantiate client and endpoint
             $Client = New-Object -TypeName Net.Sockets.UDPClient(0)
-            [void]$Client.Send($A2S_INFO, $A2S_INFO.Length, $IPAddress, $Port)
             $Client.Client.SendTimeout = $Timeout
             $Client.Client.ReceiveTimeout = $Timeout
             $IPEndpoint = New-Object -TypeName Net.IPEndpoint([Net.IPAddress]::Any, 0)
+            $Stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
+            [void]$Client.Send($A2S_INFO, $A2S_INFO.Length, $IPAddress, $Port)
 
             # The first 4 bytes are 255 which seems to be some sort of header.
             $ReceivedData = $Client.Receive([Ref]$IPEndpoint) | Select-Object -Skip 4
+            $Ping = $Stopwatch.ElapsedMilliseconds
             $Stream = [System.IO.BinaryReader][System.IO.MemoryStream][Byte[]]$ReceivedData
 
             # Challenge:
@@ -131,6 +134,7 @@
                 ExtraDataFlag = $Stream.ReadByte()
                 IPAddress     = $IPAddress
                 Port          = $Port
+                Ping          = $Ping
             } # PSCustomObject
         }
     } # Process
