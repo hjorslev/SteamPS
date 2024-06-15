@@ -1,34 +1,30 @@
 ﻿function Get-SteamPlayerSummary {
     <#
     .SYNOPSIS
-    Returns basic profile information for a list of 64-bit Steam IDs.
+    Fetches basic profile information for a list of 64-bit Steam IDs.
 
     .DESCRIPTION
-    Returns basic profile information for a list of 64-bit Steam IDs.
+    Fetches basic profile information from the Steam Community.
 
     .PARAMETER SteamID64
-    Comma-delimited list of 64 bit Steam IDs to return profile information for.
-    Up to 100 Steam IDs can be requested.
-
-    .PARAMETER OutputFormat
-    Format of the output. Options are json (default), xml or vdf.
+    Specifies a comma-separated list of 64-bit Steam IDs to fetch profile information for. Up to 100 Steam IDs can be requested.
 
     .EXAMPLE
     Get-SteamPlayerSummary -SteamID64 76561197960435530, 76561197960434622
 
+    This example fetches profile information for the players with the specified Steam IDs.
+
     .INPUTS
-    Array of int64.
+    int64[]: Specifies an array of 64-bit integers representing Steam IDs.
 
     .OUTPUTS
-    Returns a string that is either formatted as json, xml or vdf.
+    Returns a custom object with the properties listed below.
 
-    Some data associated with a Steam account may be hidden if the user has their
-    profile visibility set to "Friends Only" or "Private". In that case, only
-    public data will be returned.
+    Some data associated with a Steam account may be hidden if the user has their profile visibility set to "Friends Only" or "Private". In that case, only public data will be returned.
 
     Public Data
-    - steamid: 64bit SteamID of the user
-    - personaname: The player's persona name (display name)
+    - steamid: 64-bit SteamID of the user.
+    - personaname: The player's persona name (display name).
     - profileurl: The full URL of the player's Steam Community profile.
     - avatar: The full URL of the player's 32x32px avatar. If the user hasn't configured an avatar, this will be the default ? avatar.
     - avatarmedium: The full URL of the player's 64x64px avatar. If the user hasn't configured an avatar, this will be the default ? avatar.
@@ -63,12 +59,7 @@
         [Parameter(Mandatory = $true,
             HelpMessage = '64 bit Steam ID to return player summary for.',
             ValueFromPipelineByPropertyName = $true)]
-        [int64[]]$SteamID64,
-
-        [Parameter(Mandatory = $false,
-            HelpMessage = 'Format of the output. Options are json (default), xml or vdf.')]
-        [ValidateSet('json', 'xml', 'vdf')]
-        [string]$OutputFormat = 'json'
+        [int64[]]$SteamID64
     )
 
     begin {
@@ -76,10 +67,49 @@
     }
 
     process {
-        $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?format=$OutputFormat&key=$(Get-SteamAPIKey)&steamids=$($SteamID64 -join ',')" -UseBasicParsing
+        $Request = Invoke-RestMethod -Uri 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2' -UseBasicParsing -Body @{
+            key      = Get-SteamAPIKey
+            steamids = ($SteamID64 -join ',')
+        }
 
-        Write-Output -InputObject $Request.Content
-    }
+        if ($Request.response.players) {
+            foreach ($Item in $Request.response.players) {
+                [PSCustomObject]@{
+                    SteamID64                = $Item.steamid
+                    PersonaName              = $Item.personaname
+                    ProfileUrl               = $Item.profileurl
+                    Avatar                   = $Item.avatar
+                    AvatarMedium             = $Item.avatarmedium
+                    AvatarFull               = $Item.avatarfull
+                    AvatarHash               = $Item.avatarhash
+                    PersonaState             = [PersonaState]$Item.personastate
+                    CommunityVisibilityState = [CommunityVisibilityState]$Item.communityvisibilitystate
+                    ProfileState             = $Item.profilestate
+                    LastLogOff               = ((Get-Date "01.01.1970") + ([System.TimeSpan]::FromSeconds($Item.lastlogoff))).ToString("yyyy-MM-dd HH:mm:ss")
+                    CommentPermission        = $Item.commentpermission
+                    RealName                 = $Item.realname
+                    PrimaryClanID            = $Item.primaryclanid
+                    TimeCreated              = ((Get-Date "01.01.1970") + ([System.TimeSpan]::FromSeconds($Item.timecreated))).ToString("yyyy-MM-dd HH:mm:ss")
+                    AppID                   = $Item.gameid
+                    GameServerIP             = [ipaddress]$Item.gameserverip
+                    GameExtraInfo            = $Item.gameextrainfo
+                    PersonaStateFlags        = $Item.personastateflags
+                    LocCountryCode           = $Item.loccountrycode
+                    LocStateCode             = $Item.locstatecode
+                    LocCityID                = $Item.loccityid
+                }
+            }
+        } elseif ($Request.response.players.Length -eq 0) {
+            $Exception = [Exception]::new("SteamID $SteamID64 couldn't be found.")
+            $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                $Exception,
+                'NoPlayerFound',
+                [System.Management.Automation.ErrorCategory]::ObjectNotFound,
+                $Request
+            )
+            $PSCmdlet.WriteError($ErrorRecord)
+        }
+    } # Process
 
     end {
         Write-Verbose -Message "[END    ] Ending: $($MyInvocation.MyCommand)"

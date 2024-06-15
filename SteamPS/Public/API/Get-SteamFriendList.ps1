@@ -1,39 +1,30 @@
 ﻿function Get-SteamFriendList {
     <#
     .SYNOPSIS
-    Returns the friend list of any Steam user.
+    Fetches the friend list of the specified Steam user.
 
     .DESCRIPTION
-    Retrieves the friend list of a Steam user whose profile visibility is set to "Public".
+    This cmdlet fetches the friend list of a Steam user using the provided SteamID64. It retrieves data only from public profiles.
 
     .PARAMETER SteamID64
-    Specifies the 64-bit Steam ID of the user whose friend list will be retrieved.
+    The 64-bit Steam ID of the user whose friend list is to be fetched.
 
     .PARAMETER Relationship
-    Specifies the relationship type to filter the friend list. Possible values are 'all' or 'friend'. Default is 'friend'.
-
-    .PARAMETER OutputFormat
-    Specifies the format of the output. Options are 'json' (default), 'xml', or 'vdf'.
+    The relationship type used to filter the friend list. The possible values are 'all' or 'friend'. The default is 'friend'.
 
     .EXAMPLE
     Get-SteamFriendList -SteamID64 76561197960435530
 
-    Retrieves the friend list of the specified user.
-
-    .EXAMPLE
-    Get-SteamFriendList -SteamID64 76561197960435530 -OutputFormat xml
-
-    Retrieves the friend list of the specified user and outputs it in XML format.
+    This example fetches the friend list of the user with the specified SteamID64.
 
     .INPUTS
     System.Int64
 
     .OUTPUTS
-    Returns a string formatted as JSON, XML, or VDF representing the user's friend list.
-    The friend list contains the following properties:
-    - steamid: 64-bit Steam ID of the friend.
-    - relationship: Relationship qualifier.
-    - friend_since: Unix timestamp of when the relationship was established.
+    PSCustomObject. It returns the following properties:
+    - SteamID64: The friend's 64-bit Steam ID.
+    - Relationship: The qualifier of the relationship.
+    - FriendSince: The Unix timestamp indicating when the relationship was established.
 
     .NOTES
     Author: Frederik Hjorslev Nylander
@@ -52,12 +43,7 @@
         [Parameter(Mandatory = $false,
             HelpMessage = 'Specifies the relationship type to filter the friend list. Possible values are "all" or "friend". Default is "friend".')]
         [ValidateSet('all', 'friend')]
-        [string]$Relationship = 'friend',
-
-        [Parameter(Mandatory = $false,
-            HelpMessage = 'Specifies the format of the output. Options are "json" (default), "xml", or "vdf".')]
-        [ValidateSet('json', 'xml', 'vdf')]
-        [string]$OutputFormat = 'json'
+        [string]$Relationship = 'friend'
     )
 
     begin {
@@ -65,9 +51,30 @@
     }
 
     process {
-        $Request = Invoke-WebRequest -Uri "https://api.steampowered.com/ISteamUser/GetFriendList/v1/?key=$(Get-SteamAPIKey)&steamid=$SteamID64&relationship=$Relationship&format=$OutputFormat" -UseBasicParsing
+        $Request = Invoke-RestMethod -Uri 'https://api.steampowered.com/ISteamUser/GetFriendList/v1/' -UseBasicParsing -ErrorAction SilentlyContinue -Body @{
+            key          = Get-SteamAPIKey
+            steamid      = $SteamID64
+            relationship = $Relationship
+        }
 
-        Write-Output -InputObject $Request.Content
+        if ($Request) {
+            foreach ($Item in $Request.friendslist.friends) {
+                [PSCustomObject]@{
+                    SteamID64    = [int64]$Item.steamid
+                    Relationship = $Item.relationship
+                    FriendSince  = ((Get-Date "01.01.1970") + ([System.TimeSpan]::FromSeconds($Item.friend_since))).ToString("yyyy-MM-dd HH:mm:ss")
+                }
+            }
+        } elseif ($null -eq $Request) {
+            $Exception = [Exception]::new("No friend list found for $SteamID64. This might be because the profile is private.")
+            $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                $Exception,
+                'NoFriendsListFound',
+                [System.Management.Automation.ErrorCategory]::ObjectNotFound,
+                $Request
+            )
+            $PSCmdlet.WriteError($ErrorRecord)
+        }
     } # Process
 
     end {

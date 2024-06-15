@@ -89,7 +89,7 @@
 
         [Parameter(Mandatory = $false)]
         [Alias('LogLocation')]
-        [string]$LogPath = "C:\DedicatedServers\Logs",
+        [string]$LogPath = 'C:\DedicatedServers\Logs',
 
         [Parameter(Mandatory = $false)]
         [string]$DiscordWebhookUri,
@@ -103,13 +103,31 @@
 
     begin {
         if ($null -eq (Get-SteamPath)) {
-            throw 'SteamCMD could not be found in the env:Path. Have you executed Install-SteamCMD?'
+            $Exception = [Exception]::new('SteamCMD could not be found in the env:Path. Have you executed Install-SteamCMD?')
+            $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                $Exception,
+                'SteamCMDNotInstalled',
+                [System.Management.Automation.ErrorCategory]::NotInstalled,
+                (Test-Admin)
+            )
+            $PSCmdlet.ThrowTerminatingError($ErrorRecord)
+        }
+
+        if ((Test-Admin) -eq $false) {
+            $Exception = [Exception]::new('The current PowerShell session is not running as Administrator. Start PowerShell by using the Run as Administrator option, and then try running the script again.')
+            $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                $Exception,
+                'MissingUserPermissions',
+                [System.Management.Automation.ErrorCategory]::PermissionDenied,
+                (Test-Admin)
+            )
+            $PSCmdlet.ThrowTerminatingError($ErrorRecord)
         }
 
         # Log settings
         $PSFLoggingProvider = @{
             Name          = 'logfile'
-            InstanceName  = '<taskname>'
+            InstanceName  = "Update game server $ServiceName"
             FilePath      = "$LogPath\$ServiceName\$ServiceName-%Date%.csv"
             Enabled       = $true
             LogRotatePath = "$LogPath\$ServiceName\$ServiceName-*.csv"

@@ -1,6 +1,6 @@
 ---
 external help file: SteamPS-help.xml
-Module Name: steamps
+Module Name: SteamPS
 online version: https://hjorslev.github.io/SteamPS/Get-SteamFriendList.html
 schema: 2.0.0
 ---
@@ -13,7 +13,7 @@ Returns the friend list of any Steam user.
 ## SYNTAX
 
 ```
-Get-SteamFriendList [-SteamID64] <Int64> [[-Relationship] <String>] [[-OutputFormat] <String>]
+Get-SteamFriendList [-SteamID64] <Int64> [[-Relationship] <String>] [-ProgressAction <ActionPreference>]
  [<CommonParameters>]
 ```
 
@@ -40,18 +40,18 @@ Json to PSCustomObjects.
 
 ## PARAMETERS
 
-### -SteamID64
-64 bit Steam ID to return friend list for.
+### -ProgressAction
+{{ Fill ProgressAction Description }}
 
 ```yaml
-Type: Int64
+Type: ActionPreference
 Parameter Sets: (All)
-Aliases:
+Aliases: proga
 
-Required: True
-Position: 1
-Default value: 0
-Accept pipeline input: True (ByPropertyName)
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -71,19 +71,18 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -OutputFormat
-Format of the output.
-Options are json (default), xml or vdf.
+### -SteamID64
+64 bit Steam ID to return friend list for.
 
 ```yaml
-Type: String
+Type: Int64
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: 3
-Default value: Json
-Accept pipeline input: False
+Required: True
+Position: 1
+Default value: 0
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -92,16 +91,13 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### int64
+### System.Int64
 ## OUTPUTS
 
-### Returns a string that is either formatted as json, xml or vdf.
-### The user's friends list, as an array of friends. Nothing will be returned
-### if the profile is private.
-### In the array, the following three properties are returned:
-### - steamid: 64 bit Steam ID of the friend.
-### - relationship: Relationship qualifier.
-### - friend_since: Unix timestamp of the time when the relationship was created.
+### PSCustomObject. It returns the following properties:
+### - SteamID64: The friend's 64-bit Steam ID.
+### - Relationship: The qualifier of the relationship.
+### - FriendSince: The Unix timestamp indicating when the relationship was established.
 ## NOTES
 Author: Frederik Hjorslev Nylander
 
