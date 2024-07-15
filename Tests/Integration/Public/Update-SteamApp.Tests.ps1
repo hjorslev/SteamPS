@@ -4,7 +4,7 @@ Describe 'Update-SteamApp Tests' -Tag 'Integration' {
         . "$($SteamPSModulePath)\Private\Server\Add-EnvPath.ps1"
         Add-EnvPath -Path 'TestDrive:\Test\SteamCMD'
 
-        if  ((Test-Path -Path "$TestDrive\Test\SteamCMD\steamcmd.exe") -eq $false) {
+        if ((Test-Path -Path "$TestDrive\Test\SteamCMD\steamcmd.exe") -eq $false) {
             Install-SteamCMD -InstallPath 'TestDrive:\Test' -Force
         }
     }
@@ -20,9 +20,9 @@ Describe 'Update-SteamApp Tests' -Tag 'Integration' {
             Test-Path -Path "$TestDrive\GB-AppName\GroundBranchServer.exe" | Should -BeTrue
         }
 
-        It 'Passes custom argument and installs testing branch of Ground Branch Dedicated Server' {
-            Update-SteamApp -AppID 476400 -Path "$TestDrive\GB-TestingBranch" -Arguments "-beta testing" -Force
-            Test-Path -Path "$TestDrive\GB-TestingBranch\GroundBranchServer.exe" | Should -BeTrue
+        It 'Passes custom argument and installs prerelase branch of Counter-Strike: Source Dedicated Server' {
+            Update-SteamApp -AppID 232330 -Path "$TestDrive\CSS-prerelease" -Arguments "-beta prerelease" -Force
+            Test-Path -Path "$TestDrive\CSS-prerelease\srcds.exe" | Should -BeTrue
         }
     }
 
